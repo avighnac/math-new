@@ -10,7 +10,9 @@
 #define RESET "\033[0m"
 #define BOLD_WHITE "\033[1;37m"
 
-#define TODO (std::cout << "You've discovered a feature that's not yet coded in! This will not be the case in some time. \n")
+#define TODO                                                                   \
+  (std::cout << "You've discovered a feature that's not yet coded in! This "   \
+                "will not be the case in some time. \n")
 
 namespace basic_math_operations {
 std::string add(const std::string &num1, const std::string &num2) {
@@ -47,14 +49,14 @@ int main(int argCount, char *argument[]) {
 
     if (function == "add") {
       if (argCount == 2) {
-        std::cout << "\n(Developed by avighnac.) \nHint: Use math++ add [num1] "
+        std::cout << "\nTip: Use math++ add [num1] "
                      "[num2] to skip this interface.\n\n";
         std::cout << "Amount of numbers to be added: ";
 
         size_t arr_size;
         std::cin >> arr_size;
         while (arr_size < 2) {
-          std::cout << RED << "ERROR: Number too small. " << RESET
+          std::cout << RED << "Error: Number too small. " << RESET
                     << "\nAmount of numbers to be added: ";
           std::cin >> arr_size;
         }
@@ -75,8 +77,14 @@ int main(int argCount, char *argument[]) {
         std::cout << GREEN << addition << "\n" << RESET;
       }
 
-      else if (argCount == 3)
-        std::cout << "Error: Insufficient Arguments! \n";
+      else if (argCount == 3) {
+        std::string thirdArg = argument[2];
+        if (thirdArg == "help")
+          TODO;
+        else
+          std::cout
+              << "[math++.function.add] Error: Insufficient Arguments! \n";
+      }
 
       else if (argCount == 4)
         std::cout << basic_math_operations::add(argument[2], argument[3])
@@ -86,7 +94,10 @@ int main(int argCount, char *argument[]) {
     if (function == "help") {
       std::cout
           << "\nMath++ is a free and open-source tool created by "
-             "avighnac to solve math! For a full list of credits run math++ credits.\nFUNCTIONS:\n    •Add- Uses an addition algorithm implemented to add numbers.. infinitely huge.\n\nNote: For help "
+             "avighnac to solve math! For a full list of credits run math++ "
+             "credits.\nFUNCTIONS:\n    •Add- Uses an addition algorithm "
+             "implemented to add numbers.. infinitely huge.\n    •Subtract- "
+             "Same as addition, but for subtraction!\n\nNote: For help "
              "with any individual function run math++ [function] help.\n\n";
     }
 
@@ -99,7 +110,29 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "subtract") {
-      TODO;
+      if (argCount == 2) {
+        std::string num1, num2;
+
+        std::cout << "\nTip: Use math++ subtract [num1] "
+                     "[num2] to skip this interface.\n\n";
+        std::cout << GREEN << "Number 1: " << RESET;
+        std::cin >> num1;
+        std::cout << GREEN << "Number 2: " << RESET;
+        std::cin >> num2;
+
+        std::cout << GREEN << subtract(num1, num2) << "\n" << RESET;
+      }
+
+      else if (argCount == 3) {
+        std::string thirdArg = argument[2];
+        if (thirdArg == "help")
+          TODO;
+        else
+          std::cout
+              << "[math++.function.subtract] Error: Insufficient Arguments! \n";
+      } else if (argCount == 4)
+        std::cout << basic_math_operations::subtract(argument[2], argument[3])
+                  << "\n";
     }
 
     if (function == "divide") {
