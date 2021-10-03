@@ -1,9 +1,11 @@
+#include <chrono>
 #include <iostream>
 
 #include "algorithms/Addition Algorithm/add.hpp"
 #include "algorithms/Division Algorithm/divide.hpp"
 #include "algorithms/Multiplication Algorithm/multiply.hpp"
 #include "algorithms/Subtraction Algorithm/subtract.hpp"
+#include "algorithms/integer_square_root.hpp"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -97,7 +99,9 @@ int main(int argCount, char *argument[]) {
              "avighnac to solve math! For a full list of credits run math++ "
              "credits.\nFUNCTIONS:\n    •Add- Uses an addition algorithm "
              "implemented to add numbers.. infinitely huge.\n    •Subtract- "
-             "Same as addition, but for subtraction!\n\nNote: For help "
+             "Same as addition, but for subtraction!\n    •Square Root- The "
+             "square root of a number is a number which when multiplied, gives "
+             "you the original number back.\n\nNote: For help "
              "with any individual function run math++ [function] help.\n\n";
     }
 
@@ -106,7 +110,97 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "sqrt") {
-      TODO;
+      if (argCount >= 3) {
+        std::string argument3 = argument[2];
+        if (argument3 != "help") {
+          int accuracy = 8;
+          bool show_time = false;
+          if (argCount >= 4) {
+            accuracy = std::stoi(argument[3]);
+          }
+          if (argCount >= 5) {
+            std::string arg5 = argument[4];
+            if (arg5 == "-t") {
+              show_time = true;
+            }
+          }
+
+          if (decimal_point_exists(argument[2])) {
+            std::chrono::time_point<std::chrono::high_resolution_clock> start;
+            std::chrono::time_point<std::chrono::high_resolution_clock> stop;
+            if (show_time)
+              start = std::chrono::high_resolution_clock::now();
+            std::string number = argument[2];
+            size_t DPL = decimal_point_location(number);
+            size_t x = number.substr(DPL + 1, number.length()).length();
+            if (x % 2 != 0) {
+              x++;
+              number += "0";
+            }
+
+            std::string number_temp;
+            for (auto &i : number)
+              if (i != '.')
+                number_temp.push_back(i);
+            number = number_temp;
+
+            std::string sqrt = integer_square_root(number, accuracy - (x / 2));
+            if (!decimal_point_exists(sqrt))
+              sqrt += ".0";
+            size_t dec_loc = decimal_point_location(sqrt);
+            while (sqrt.substr(0, dec_loc).length() < (x / 2) + 1) {
+              sqrt = "0" + sqrt;
+              dec_loc++;
+            }
+            std::string sqrt_temp;
+            for (auto &i : sqrt)
+              if (i != '.')
+                sqrt_temp.push_back(i);
+            sqrt = sqrt_temp;
+            sqrt = sqrt.substr(0, dec_loc - (x / 2)) + "." +
+                   sqrt.substr(dec_loc - (x / 2), sqrt.length());
+
+            std::reverse(sqrt.begin(), sqrt.end());
+            sqrt.erase(0,
+                       std::min(sqrt.find_first_not_of('0'), sqrt.size() - 1));
+            std::reverse(sqrt.begin(), sqrt.end());
+            if (show_time)
+              stop = std::chrono::high_resolution_clock::now();
+            std::cout << GREEN << "±" << RESET << sqrt << "\n";
+            if (show_time) {
+              auto time = std::chrono::duration_cast<std::chrono::microseconds>(
+                              stop - start)
+                              .count() /
+                          100000.0;
+              std::cout << "\nTime taken: " << time << " seconds. \n";
+            }
+          } else {
+            std::chrono::time_point<std::chrono::high_resolution_clock> start;
+            std::chrono::time_point<std::chrono::high_resolution_clock> stop;
+            if (show_time)
+              start = std::chrono::high_resolution_clock::now();
+            std::string square_root =
+                integer_square_root(argument[2], accuracy);
+            square_root.erase(0, std::min(square_root.find_first_not_of('0'),
+                                          square_root.size() - 1));
+            if (show_time)
+              stop = std::chrono::high_resolution_clock::now();
+            std::cout << GREEN << "±" << RESET << square_root << "\n";
+
+            if (show_time) {
+              auto time = std::chrono::duration_cast<std::chrono::microseconds>(
+                              stop - start)
+                              .count() /
+                          1000000.0;
+              std::cout << "\nTime taken: " << time << " seconds. \n";
+            }
+          }
+        } else {
+          std::cout << "Syntax: math++ sqrt [number] [accuracy] [-t for "
+                       "displaying time "
+                       "taken] \n";
+        }
+      }
     }
 
     if (function == "subtract") {
