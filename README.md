@@ -8,6 +8,7 @@ Features:
 - Square Root
 - Factorial!
 - Fraction Simplifier
+- Simple Interest Solver
 
 Beta Features:
 - Exponent Features

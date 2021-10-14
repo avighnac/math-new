@@ -75,7 +75,7 @@ std::string add_copy(std::string a, std::string b) {
     const size_t n_to_shift = a.substr(a_dec_loc + 1, a.length()).length();
     a.erase(a_dec_loc, 1);
     b.erase(b_dec_loc, 1);
-    return shift_decimal_point(add_whole_copy(a, b), -n_to_shift);
+    return shift_decimal_point(add_whole_copy(a, b), -1 * n_to_shift);
   }
 }
 #endif

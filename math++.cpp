@@ -1,12 +1,13 @@
 #include <chrono>
 #include <iostream>
 
-#include "algorithms/Addition Algorithm/add.hpp"
-#include "algorithms/Division Algorithm/divide.hpp"
-#include "algorithms/Multiplication Algorithm/multiply.hpp"
-#include "algorithms/Subtraction Algorithm/subtract.hpp"
-#include "algorithms/integer_square_root.hpp"
-#include "algorithms/simplify_fractions.hpp"
+#include "code/source/algorithms/Addition Algorithm/add.hpp"
+#include "code/source/algorithms/Division Algorithm/divide.hpp"
+#include "code/source/algorithms/Multiplication Algorithm/multiply.hpp"
+#include "code/source/algorithms/Subtraction Algorithm/subtract.hpp"
+#include "code/source/algorithms/integer_square_root.hpp"
+#include "code/source/algorithms/simplify_fractions.hpp"
+#include "code/source/algorithms/Simple Interest/simple_interest.hpp"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -24,7 +25,7 @@ std::string add(const std::string &num1, const std::string &num2) {
 std::string subtract(const std::string &num1, const std::string &num2) {
   return ::subtract(num1, num2);
 }
-std::string multply(const std::string &num1, const std::string &num2) {
+std::string multiply(const std::string &num1, const std::string &num2) {
   return ::multiply(num1, num2);
 }
 std::string divide(const std::string &num1, const std::string &num2) {
@@ -64,7 +65,7 @@ int main(int argCount, char *argument[]) {
           std::cin >> arr_size;
         }
 
-        std::string to_add[arr_size];
+        std::vector<std::string> to_add(arr_size);
         std::cout << GREEN << "Numbers: (Separated with a space): " << RESET;
         for (int i = 0; i < arr_size; i++) {
           std::cin >> to_add[i];
@@ -116,7 +117,27 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    if (function == "fraction_simplifier") {
+    if (function == "simple_interest" || function == "si") {
+      simpleInterest simpleInterest;
+      simpleInterest.solve();
+    }
+
+    if (function == "factorial") {
+      if (argCount >= 3) {
+        std::string argument3 = argument[2];
+        if (argument3 == "help")
+          std::cout << "Syntax: math++ factorial [number] \n";
+        else {
+          std::string factorial = "1";
+          long long number = std::stoll(argument3);
+          for (long long i = 1; i < number + 1; i++)
+            factorial = basic_math_operations::multiply(factorial, std::to_string(i));
+          std::cout << factorial << "\n";
+        }
+      }
+    }
+
+    if (function == "fraction_simplifier" || function == "sf") {
         if (argCount == 2) {
             std::cout << "Fraction Simplifier (to help with your homework!) \n";
             std::cout << "Tip: Use math++ fraction_simplifier [numerator] [denominator] to skip this interface. \n";

@@ -36,16 +36,15 @@ static std::string add_whole(const std::string& a1, const std::string& b1) {
   if (a.length() < b.length()) for (auto i=0; i<b.length()-a.length(); i++) a_vec.push_back(0);
 
   std::vector<int> addition;
-  for (int i=0; i<(int)a_vec.size(); i++) addition.push_back(a_vec[i] + b_vec[i]); //Adding every digit of a and b
+  for (auto i = 0; i < a_vec.size(); i++) addition.push_back(a_vec[i] + b_vec[i]); //Adding every digit of a and b
 
-  for (int i=0; i<(int)a_vec.size(); i++) {
+  for (auto i = 0; i < a_vec.size(); i++) {
       if (std::to_string(addition[i]).length() == 2 && i != a_vec.size()-1) {
           int carry_forward = addition[i] / 10;
-          addition[i+1] += carry_forward;
+        addition[i + 1] += carry_forward;
           addition[i] -= carry_forward * 10;
       }
   }
-
   std::string answer;
   for (int i = addition.size()-1; i > -1; i--) answer += std::to_string(addition[i]); //Re-Reversing the array
 
@@ -58,7 +57,7 @@ std::string add(std::string a, std::string b) {
   if (a[0] == '+') a = a.substr(1, a.length());
   if (b[0] == '+') b = b.substr(1, b.length());
 
-  if (a[0] != '-' && b[0] == '-' || a[0] == '-' && b[0] == '-') {return subtract(a, b.substr(1, b.length()));}
+  if ((a[0] != '-' && b[0] == '-') || (a[0] == '-' && b[0] == '-')) {return subtract(a, b.substr(1, b.length()));}
   if (a[0] == '-' && b[0] != '-') {return subtract(b, a.substr(1, a.length()));}
 
   if (!(str_contains(a, '.') || str_contains(b, '.'))) {
@@ -92,7 +91,7 @@ std::string add(std::string a, std::string b) {
     const size_t n_to_shift = a.substr(a_dec_loc + 1, a.length()).length();
     a.erase(a_dec_loc, 1);
     b.erase(b_dec_loc, 1);
-    return shift_decimal_point(add_whole(a, b), -n_to_shift);
+    return shift_decimal_point(add_whole(a, b), -1 * n_to_shift);
   }
 }
 #endif

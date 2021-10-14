@@ -1,2 +1,8 @@
-.vscode/
-code/source/.vs/
+x64/
+.clang-tidy
+math++.vcxproj
+math++.vcxproj.filters
+math++.vcxproj.user
+../.vs/
+.vs/
+../x64/
