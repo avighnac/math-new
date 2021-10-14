@@ -54,7 +54,7 @@ int main(int argCount, char *argument[]) {
     if (function == "add") {
       if (argCount == 2) {
         std::cout << "\nTip: Use math++ add [num1] "
-                     "[num2] to skip this interface.\n\n";
+                     "[num2] ... [numN] to skip this interface.\n\n";
         std::cout << "Amount of numbers to be added: ";
 
         size_t arr_size;
@@ -90,18 +90,25 @@ int main(int argCount, char *argument[]) {
               << "[math++.function.add] Error: Insufficient Arguments! \n";
       }
 
-      else if (argCount == 4)
-        std::cout << basic_math_operations::add(argument[2], argument[3])
-                  << "\n";
+      else if (argCount >= 4) {
+        std::string answer = "0";
+
+        for (auto i = 2; i < argCount; i++)
+          answer = basic_math_operations::add(answer, argument[i]);
+
+        std::cout << answer << "\n";
+      }
     }
 
     if (function == "help") {
-        std::vector<std::string> functions = { "Add", "Subtract", "Square Root", "Fraction Simplifier"};
+      std::vector<std::string> functions = {"Add", "Subtract", "Square Root",
+                                            "Fraction Simplifier", "Simple Interest"};
         std::vector<std::string> function_definitions = { "Uses an addition algorithm "
              "implemented to add numbers.. infinitely huge.", ""
              "Same as addition, but for subtraction!", "The "
              "square root of a number is a number which when multiplied, gives "
-             "you the original number back.", "Simplifies a fraction to it's lowest terms."};
+          "you the original number back.",
+          "Simplifies a fraction to it's lowest terms.", "Solves simple interest sums automatically (with working). Google \"Simple Interest\" for more information."};
       std::cout
           << "\nMath++ is a free and open-source tool created by avighnac to solve math! For a full list of credits run math++ credits.\nFUNCTIONS:\n";
 
@@ -118,8 +125,15 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "simple_interest" || function == "si") {
-      simpleInterest simpleInterest;
-      simpleInterest.solve();
+      if (argCount == 3) {
+        std::string argument3 = argument[2];
+        if (argument3 == "help")
+          std::cout << "The function has a built-in help function. Why don't "
+                       "you try using that? :) \n";
+      } else {
+        simpleInterest simpleInterest;
+        simpleInterest.solve();
+      }
     }
 
     if (function == "factorial") {
@@ -271,7 +285,7 @@ int main(int argCount, char *argument[]) {
         std::string num1, num2;
 
         std::cout << "\nTip: Use math++ subtract [num1] "
-                     "[num2] to skip this interface.\n\n";
+                     "[num2] ... [numN] to skip this interface.\n\n";
         std::cout << GREEN << "Number 1: " << RESET;
         std::cin >> num1;
         std::cout << GREEN << "Number 2: " << RESET;
@@ -287,9 +301,14 @@ int main(int argCount, char *argument[]) {
         else
           std::cout
               << "[math++.function.subtract] Error: Insufficient Arguments! \n";
-      } else if (argCount == 4)
-        std::cout << basic_math_operations::subtract(argument[2], argument[3])
-                  << "\n";
+      } else if (argCount >= 4) {
+        std::string answer = "0";
+
+        for (auto i = 2; i < argCount; i++)
+          answer = basic_math_operations::subtract(answer, argument[i]);
+
+        std::cout << answer << "\n";
+      }
     }
 
     if (function == "divide") {
@@ -297,7 +316,22 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "multiply") {
-      TODO;
+      if (argCount == 3) {
+        std::string argument3 = argument[2];
+        if (argument3 == "help")
+          std::cout << "Syntax: math++ multiply [num1] [num2] ... [numN] \n";
+        else
+          std::cout
+              << "[math++.function.multiply] Error: Insufficient Arguments! \n";
+      }
+      if (argCount >= 4) {
+        std::string answer = "1";
+
+        for (auto i = 2; i < argCount; i++)
+          answer = basic_math_operations::multiply(answer, argument[i]);
+
+        std::cout << answer << "\n";
+      }
     }
   }
 }
