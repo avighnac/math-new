@@ -7,6 +7,7 @@ Features:
 - Multiply
 - Square Root
 - Factorial!
+- Fraction Simplifier
 
 Beta Features:
 - Exponent Features

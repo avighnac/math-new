@@ -6,6 +6,7 @@
 #include "algorithms/Multiplication Algorithm/multiply.hpp"
 #include "algorithms/Subtraction Algorithm/subtract.hpp"
 #include "algorithms/integer_square_root.hpp"
+#include "algorithms/simplify_fractions.hpp"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -94,19 +95,60 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "help") {
-      std::cout
-          << "\nMath++ is a free and open-source tool created by "
-             "avighnac to solve math! For a full list of credits run math++ "
-             "credits.\nFUNCTIONS:\n    •Add- Uses an addition algorithm "
-             "implemented to add numbers.. infinitely huge.\n    •Subtract- "
-             "Same as addition, but for subtraction!\n    •Square Root- The "
+        std::vector<std::string> functions = { "Add", "Subtract", "Square Root", "Fraction Simplifier"};
+        std::vector<std::string> function_definitions = { "Uses an addition algorithm "
+             "implemented to add numbers.. infinitely huge.", ""
+             "Same as addition, but for subtraction!", "The "
              "square root of a number is a number which when multiplied, gives "
-             "you the original number back.\n\nNote: For help "
-             "with any individual function run math++ [function] help.\n\n";
+             "you the original number back.", "Simplifies a fraction to it's lowest terms."};
+      std::cout
+          << "\nMath++ is a free and open-source tool created by avighnac to solve math! For a full list of credits run math++ credits.\nFUNCTIONS:\n";
+
+      for (auto i = 0; i < functions.size(); i++) {
+          std::cout << "     •" << functions[i] << "- " << function_definitions[i] << "\n";
+      }
+
+      std::cout << "\nNote: For help "
+          "with any individual function run math++ [function] help.\n\n";
     }
 
     if (function == "credits") {
       TODO;
+    }
+
+    if (function == "fraction_simplifier") {
+        if (argCount == 2) {
+            std::cout << "Fraction Simplifier (to help with your homework!) \n";
+            std::cout << "Tip: Use math++ fraction_simplifier [numerator] [denominator] to skip this interface. \n";
+            long long numerator;
+            long long denominator;
+            std::cout << GREEN << "Numerator: " << RESET;
+            std::cin >> numerator;
+            std::cout << GREEN << "Denominator: " << RESET;
+            std::cin >> denominator;
+
+            std::pair<long long, long long> answer = fraction_simplifier({ numerator, denominator });
+
+            if (numerator == answer.first)
+                std::cout << "Those two numbers are co-prime. \n";
+            else
+                std::cout << RED << numerator << "/" << denominator << RESET << " = " << GREEN << answer.first << "/" << answer.second << "\n" << RESET;
+        }
+        if (argCount == 3) {
+            std::string argument3 = argument[2];
+            if (argument3 == "help")
+              std::cout << "Syntax: math++ fraction_simplifier [numerator] [denominator] \n";
+            else
+              std::cout << "[math++.function.fraction_simplifier] Error: Insufficient Arguments. \n";
+        }
+        else if (argCount >= 4) {
+            long long numerator = std::stoll(argument[2]);
+            long long denominator = std::stoll(argument[3]);
+
+            std::pair<long long, long long> answer = fraction_simplifier({ numerator, denominator });
+
+            std::cout << answer.first << "/" << answer.second << "\n";
+        }
     }
 
     if (function == "sqrt") {

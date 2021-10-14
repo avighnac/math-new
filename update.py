@@ -20,4 +20,4 @@ with zipfile.ZipFile("code.zip", 'r') as zip_ref:
     zip_ref.extractall(".")
 
 # Delete the zip file
-os.system("rm code.zip")
+os.remove("code.zip")
