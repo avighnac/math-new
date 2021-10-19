@@ -4,10 +4,10 @@
 #include "code/source/algorithms/Addition Algorithm/add.hpp"
 #include "code/source/algorithms/Division Algorithm/divide.hpp"
 #include "code/source/algorithms/Multiplication Algorithm/multiply.hpp"
+#include "code/source/algorithms/Simple Interest/simple_interest.hpp"
 #include "code/source/algorithms/Subtraction Algorithm/subtract.hpp"
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
-#include "code/source/algorithms/Simple Interest/simple_interest.hpp"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -101,23 +101,38 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "help") {
-      std::vector<std::string> functions = {"Add", "Subtract", "Square Root",
-                                            "Fraction Simplifier", "Simple Interest"};
-        std::vector<std::string> function_definitions = { "Uses an addition algorithm "
-             "implemented to add numbers.. infinitely huge.", ""
-             "Same as addition, but for subtraction!", "The "
-             "square root of a number is a number which when multiplied, gives "
+      std::vector<std::string> functions = {"Add",
+                                            "Subtract",
+                                            "Square Root",
+                                            "Fraction Simplifier",
+                                            "Simple Interest",
+                                            "Factorial"};
+      std::vector<std::string> function_definitions = {
+          "Uses an addition algorithm "
+          "implemented to add numbers.. infinitely huge.",
+          ""
+          "Same as addition, but for subtraction!",
+          "The "
+          "square root of a number is a number which when multiplied, gives "
           "you the original number back.",
-          "Simplifies a fraction to it's lowest terms.", "Solves simple interest sums automatically (with working). Google \"Simple Interest\" for more information."};
-      std::cout
-          << "\nMath++ is a free and open-source tool created by avighnac to solve math! For a full list of credits run math++ credits.\nFUNCTIONS:\n";
+          "Simplifies a fraction to it's lowest terms.",
+          "Solves simple interest sums automatically (with working). Google "
+          "\"Simple Interest\" for more information.",
+          "The number of ways to arrange n distinct objects into an ordered "
+          "sequence of n places. For example, the number of ways to distribute "
+          "6 books among 3 people is 6! = 6 x 5 x 4 x 3 x 2 x 1 = 720."};
+      std::cout << "\nMath++ is a free and open-source tool created by "
+                   "avighnac to solve math! For a full list of credits run "
+                   "math++ credits.\nFUNCTIONS:\n";
 
       for (auto i = 0; i < functions.size(); i++) {
-          std::cout << "     •" << functions[i] << "- " << function_definitions[i] << "\n";
+        std::cout << "     •" << functions[i] << "- " << function_definitions[i]
+                  << "\n";
       }
 
-      std::cout << "\nNote: For help "
-          "with any individual function run math++ [function] help.\n\n";
+      std::cout
+          << "\nNote: For help "
+             "with any individual function run math++ [function] help.\n\n";
     }
 
     if (function == "credits") {
@@ -145,45 +160,52 @@ int main(int argCount, char *argument[]) {
           std::string factorial = "1";
           long long number = std::stoll(argument3);
           for (long long i = 1; i < number + 1; i++)
-            factorial = basic_math_operations::multiply(factorial, std::to_string(i));
+            factorial =
+                basic_math_operations::multiply(factorial, std::to_string(i));
           std::cout << factorial << "\n";
         }
       }
     }
 
     if (function == "fraction_simplifier" || function == "sf") {
-        if (argCount == 2) {
-            std::cout << "Fraction Simplifier (to help with your homework!) \n";
-            std::cout << "Tip: Use math++ fraction_simplifier [numerator] [denominator] to skip this interface. \n";
-            long long numerator;
-            long long denominator;
-            std::cout << GREEN << "Numerator: " << RESET;
-            std::cin >> numerator;
-            std::cout << GREEN << "Denominator: " << RESET;
-            std::cin >> denominator;
+      if (argCount == 2) {
+        std::cout << "Fraction Simplifier (to help with your homework!) \n";
+        std::cout << "Tip: Use math++ fraction_simplifier [numerator] "
+                     "[denominator] to skip this interface. \n";
+        long long numerator;
+        long long denominator;
+        std::cout << GREEN << "Numerator: " << RESET;
+        std::cin >> numerator;
+        std::cout << GREEN << "Denominator: " << RESET;
+        std::cin >> denominator;
 
-            std::pair<long long, long long> answer = fraction_simplifier({ numerator, denominator });
+        std::pair<long long, long long> answer =
+            fraction_simplifier({numerator, denominator});
 
-            if (numerator == answer.first)
-                std::cout << "Those two numbers are co-prime. \n";
-            else
-                std::cout << RED << numerator << "/" << denominator << RESET << " = " << GREEN << answer.first << "/" << answer.second << "\n" << RESET;
-        }
-        if (argCount == 3) {
-            std::string argument3 = argument[2];
-            if (argument3 == "help")
-              std::cout << "Syntax: math++ fraction_simplifier [numerator] [denominator] \n";
-            else
-              std::cout << "[math++.function.fraction_simplifier] Error: Insufficient Arguments. \n";
-        }
-        else if (argCount >= 4) {
-            long long numerator = std::stoll(argument[2]);
-            long long denominator = std::stoll(argument[3]);
+        if (numerator == answer.first)
+          std::cout << "Those two numbers are co-prime. \n";
+        else
+          std::cout << RED << numerator << "/" << denominator << RESET << " = "
+                    << GREEN << answer.first << "/" << answer.second << "\n"
+                    << RESET;
+      }
+      if (argCount == 3) {
+        std::string argument3 = argument[2];
+        if (argument3 == "help")
+          std::cout << "Syntax: math++ fraction_simplifier [numerator] "
+                       "[denominator] \n";
+        else
+          std::cout << "[math++.function.fraction_simplifier] Error: "
+                       "Insufficient Arguments. \n";
+      } else if (argCount >= 4) {
+        long long numerator = std::stoll(argument[2]);
+        long long denominator = std::stoll(argument[3]);
 
-            std::pair<long long, long long> answer = fraction_simplifier({ numerator, denominator });
+        std::pair<long long, long long> answer =
+            fraction_simplifier({numerator, denominator});
 
-            std::cout << answer.first << "/" << answer.second << "\n";
-        }
+        std::cout << answer.first << "/" << answer.second << "\n";
+      }
     }
 
     if (function == "sqrt") {
