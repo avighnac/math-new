@@ -24,11 +24,8 @@ std::vector<int> reverse_vec(std::vector<int> vec) {
 #ifndef _reverse_string_
 #define _reverse_string_
 std::string reverse_string(std::string str) {
-    std::string answer;
-    for (int i = str.length()-1; i > -1; i--) {
-        answer.push_back(str[i]);
-    }
-    return answer;
+  std::reverse(str.begin(), str.end());
+  return str;
 }
 #endif
 
@@ -43,7 +40,6 @@ static void remove_leading_zeroes_inplace(std::string &s) {
 
 static char sub_with_borrow(int aval, const int bval, bool &borrow) {
     if (borrow) {
-        // first give it back
         borrow = false;
         aval -= 1;
     }

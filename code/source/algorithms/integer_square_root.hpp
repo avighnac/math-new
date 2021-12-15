@@ -6,12 +6,9 @@
 #include "Multiplication Algorithm/multiply.hpp"
 
 namespace separate_into_parts_help {
-    std::vector<std::string> reverse_vec_str(const std::vector<std::string> &vec) {
-        std::vector<std::string> answer;
-        for (auto i = vec.size(); i-- > 0;) {
-            answer.push_back(reverse_string(vec[i]));
-        }
-        return answer;
+    std::vector<std::string> reverse_vec_str(std::vector<std::string> vec) { 
+      std::reverse(vec.begin(), vec.end());
+      return vec;
     }
 
     std::string combine_chars (char a, char b) {
@@ -41,7 +38,7 @@ namespace left_side_help {
 
     std::vector<int> turn_to_digits(const std::string& str_n)  {
         std::vector<int> answer;
-        for (auto i : str_n) answer.push_back(i-48);
+        for (auto &i : str_n) answer.push_back(i-48);
         return answer;
     }
 
@@ -71,12 +68,9 @@ namespace left_side_help {
         int i = 0;
         std::string str;
 
-        while (true) {
-            if (!smaller_than(multiply((a + std::to_string(i)), std::to_string(i)), b)) {
-                break;
-            }
-            i++;
-        }
+        while (smaller_than(
+            multiply((a + std::to_string(i)), std::to_string(i)), b))
+          i++;
 
         return i-1;
     }
@@ -113,11 +107,9 @@ std::string integer_square_root(std::string n, int accuracy) {
     answer = answer.substr(0, answer.length()-accuracy) + "." + answer.substr(answer.length()-accuracy, answer.length());
     if (answer[answer.length()-1] == '.') answer = answer.substr(0, answer.length()-2);
     size_t decimal_point_location = answer.length()-accuracy-1;
-    bool is_all_zeroes = true;
-    for (auto &i : answer.substr(decimal_point_location+1, answer.length())) {
-        if (i != '0') is_all_zeroes = false;
-    }
-    if (is_all_zeroes) answer = answer.substr(0, decimal_point_location);
+    answer.erase(answer.find_last_not_of('0') + 1);
+    if (answer.find_first_not_of('0') == std::string::npos)
+      answer.clear();
 
     return answer;
 }

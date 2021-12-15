@@ -9,6 +9,9 @@
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
 
+// External Image Library
+#include "libraries\CImg.h"
+
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
 #define RESET "\033[0m"
@@ -335,6 +338,100 @@ int main(int argCount, char *argument[]) {
 
     if (function == "divide") {
       TODO;
+    }
+
+    if (function == "draw") {
+      if (argCount < 3) {
+        std::string argument3 = argument[2];
+        if (argument3 == "help")
+          std::cout << "Syntax: math++ draw [shape] [side1] ... [sideN] \n";
+        else
+          std::cout
+              << "[math++.function.draw] Error: Insufficient Arguments! \n";
+      }
+
+      if (argCount >= 3) {
+        std::string shape = argument[2];
+
+        if (shape == "right_angled_triangle" ||
+                shape == "right_angle_triangle" || shape == "90tri") {
+          if (argCount >= 5) {
+            std::vector<int> lengthSides;
+            if (argCount >= 6) {
+              lengthSides = {
+                  std::stoi(argument[3]),
+                  std::stoi(argument[4]),
+                  std::stoi(argument[5]),
+              };
+            } else {
+              lengthSides = {
+                  std::stoi(argument[3]),
+                  std::stoi(argument[4]),
+                  (int)(std::sqrt(std::pow(std::stoi(argument[3]), 2) +
+                                      std::pow(std::stoi(argument[4]), 2))),
+              };
+            }
+            std::sort(lengthSides.begin(), lengthSides.end());
+
+            int width = lengthSides[lengthSides.size() - 1];
+            int height = lengthSides[lengthSides.size() - 2];
+
+            cimg_library::CImg<unsigned int> image (width, height, 1, 3);
+            image.fill(0xffffff);
+
+            unsigned char black[3];
+            black[0] = 255;
+            black[1] = 255;
+            black[2] = 255;
+
+            for (auto i = 0; i < lengthSides[0]; i++)
+              image.draw_point(0, height - i - 1, black);
+            for (auto i = 0; i < lengthSides[1]; i++)
+              image.draw_point(i, (height - 1), black);
+
+            float ratio = (float)lengthSides[1] / (float) lengthSides[0];
+            if (ratio > 1) {
+              if (floor(ratio) == ratio) {
+                ratio -= 0.001;
+              }
+            }
+
+            std::pair<float, int> start = {0, height - lengthSides[0]};
+            std::pair<int, int> end = {lengthSides[1] - 1, lengthSides[1] - 1};
+
+            int a1 = 0;
+            std::pair<int, int> condition_pair;
+            bool condition = true;
+            while (condition_pair != end && condition_pair.second < end.second) {
+
+              int a = std::ceil(start.first);
+              a1 = (int)(start.first);
+
+              image.draw_point(a, start.second, black);
+              image.draw_point(a1, start.second, black);
+
+              condition_pair = {a1, start.second};
+
+              condition ? start.first =
+                              start.first + ratio
+                        : start.second++; 
+              condition = !condition;
+            }
+
+            image.normalize(0, 255);
+            image.save("image.bmp");
+
+          } else if (argCount == 3) {
+            std::string fourthArgument = argument[3];
+            if (fourthArgument == "help")
+              std::cout << "Syntax: math++ draw right_angled_triangle [height] "
+                           "[base] [optional: hypotenuse] \n";
+            else std::cout << "[math.function.draw.right_angled_triangle] "
+                                "Error: Insufficient "
+                                "Sides! \n";
+          }
+        }
+      }
     }
 
     if (function == "multiply") {
