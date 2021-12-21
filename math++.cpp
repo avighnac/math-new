@@ -10,7 +10,7 @@
 #include "code/source/algorithms/simplify_fractions.hpp"
 
 // External Image Library
-#include "libraries\CImg.h"
+#include "libraries/CImg.h"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -390,27 +390,18 @@ int main(int argCount, char *argument[]) {
               image.draw_point(i, (height - 1), black);
 
             float ratio = (float)lengthSides[1] / (float) lengthSides[0];
-            if (ratio > 1) {
-              if (floor(ratio) == ratio) {
-                ratio -= 0.001;
-              }
-            }
 
             std::pair<float, int> start = {0, height - lengthSides[0]};
             std::pair<int, int> end = {lengthSides[1] - 1, lengthSides[1] - 1};
 
-            int a1 = 0;
             std::pair<int, int> condition_pair;
             bool condition = true;
             while (condition_pair != end && condition_pair.second < end.second) {
 
-              int a = std::ceil(start.first);
-              a1 = (int)(start.first);
+              for (auto i = (int)start.first; i < ratio + (int)start.first; i++)
+                image.draw_point(i, start.second, black);
 
-              image.draw_point(a, start.second, black);
-              image.draw_point(a1, start.second, black);
-
-              condition_pair = {a1, start.second};
+              condition_pair = {(int)start.first, start.second};
 
               condition ? start.first =
                               start.first + ratio

@@ -17,3 +17,5 @@ Beta Features:
 Other not-fully optimized/out of date features:
 - Prime Factor Finder
 - Prime Number Finder
+
+NOTE: This program uses an external image library called [CImg](https://github.com/dtschump/CImg) for image processing.
