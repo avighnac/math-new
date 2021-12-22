@@ -8,8 +8,8 @@
 #include "code/source/algorithms/Subtraction Algorithm/subtract.hpp"
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
-#include "code/source/algorithms/Factorization/ax2bxc.hpp"
 
+#include "code/source/algorithms/Factorization/ax2bxc.hpp"
 #include "code/source/algorithms/Factorization/algebric_number_class.hpp"
 
 // External Image Library
@@ -53,11 +53,9 @@ int main(int argCount, char *argument[]) {
         << "Syntax: math++ [function]. For more information run math++ help.\n";
   }
 
-  if (argCount >= 2 || true) {
-    //std::string function = argument[1];
-    //function = to_lower(function);
-
-    std::string function = "testtt";
+  if (argCount >= 2) {
+    std::string function = argument[1];
+    function = to_lower(function);
 
     if (function == "add") {
       if (argCount == 2) {
@@ -455,11 +453,10 @@ int main(int argCount, char *argument[]) {
       }
     }
 
-    if (function == "factorize" || true) {
+    if (function == "factorize") {
       if (argCount == 2)
         std::cout << "Syntax: math++ factorize [mathematical_expression]\n";
-      if (argCount >= 3 || true) {
-        /*
+      if (argCount >= 3) {
         std::string sum = argument[2];
         std::string answer = ax2bxc(sum);
 
@@ -467,11 +464,6 @@ int main(int argCount, char *argument[]) {
           std::cout << "Cannot factorize further.";
         else
           std::cout << answer;
-          */
-
-        //a^2b^2ax^2a^2
-        algebric_num::algebric_number test("abcdefg");
-        test.print_number();
       }
     }
   }
