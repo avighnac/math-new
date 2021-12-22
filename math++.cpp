@@ -8,6 +8,9 @@
 #include "code/source/algorithms/Subtraction Algorithm/subtract.hpp"
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
+#include "code/source/algorithms/Factorization/ax2bxc.hpp"
+
+#include "code/source/algorithms/Factorization/algebric_number_class.hpp"
 
 // External Image Library
 #include "libraries/CImg.h"
@@ -50,9 +53,11 @@ int main(int argCount, char *argument[]) {
         << "Syntax: math++ [function]. For more information run math++ help.\n";
   }
 
-  if (argCount >= 2) {
-    std::string function = argument[1];
-    function = to_lower(function);
+  if (argCount >= 2 || true) {
+    //std::string function = argument[1];
+    //function = to_lower(function);
+
+    std::string function = "testtt";
 
     if (function == "add") {
       if (argCount == 2) {
@@ -109,7 +114,9 @@ int main(int argCount, char *argument[]) {
                                             "Square Root",
                                             "Fraction Simplifier",
                                             "Simple Interest",
-                                            "Factorial"};
+                                            "Factorial",
+                                            "Factorize",
+                                            };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
           "implemented to add numbers.. infinitely huge.",
@@ -123,7 +130,11 @@ int main(int argCount, char *argument[]) {
           "\"Simple Interest\" for more information.",
           "The number of ways to arrange n distinct objects into an ordered "
           "sequence of n places. For example, the number of ways to distribute "
-          "6 books among 3 people is 6! = 6 x 5 x 4 x 3 x 2 x 1 = 720."};
+          "6 books among 3 people is 6! = 6 x 5 x 4 x 3 x 2 x 1 = 720.",
+          "In mathematics, factorization consists of writing a number or "
+          "another mathematical object as a product of several factors, "
+          "usually smaller or simpler objects of the same kind. Opposite of "
+          "simplification (complication)."};
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
                    "math++ credits.\nFUNCTIONS:\n";
@@ -441,6 +452,26 @@ int main(int argCount, char *argument[]) {
           answer = basic_math_operations::multiply(answer, argument[i]);
 
         std::cout << answer << "\n";
+      }
+    }
+
+    if (function == "factorize" || true) {
+      if (argCount == 2)
+        std::cout << "Syntax: math++ factorize [mathematical_expression]\n";
+      if (argCount >= 3 || true) {
+        /*
+        std::string sum = argument[2];
+        std::string answer = ax2bxc(sum);
+
+        if (answer == "false")
+          std::cout << "Cannot factorize further.";
+        else
+          std::cout << answer;
+          */
+
+        //a^2b^2ax^2a^2
+        algebric_num::algebric_number test("abcdefg");
+        test.print_number();
       }
     }
   }
