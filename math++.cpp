@@ -521,6 +521,7 @@ int main(int argCount, char *argument[]) {
               j--;
               algebric_num::erase_algebric_number(nums, j);
               nums.push_back(toPB);
+              j = i + 1;
             }
           }
         }
