@@ -468,7 +468,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "evaluate") {
 
-      bool debugPrint = false;
+      bool debugPrint = true;
 
       if (argCount == 2)
         std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";
@@ -521,7 +521,7 @@ int main(int argCount, char *argument[]) {
               j--;
               algebric_num::erase_algebric_number(nums, j);
               nums.push_back(toPB);
-              j = i + 1;
+              j = i;
             }
           }
         }
