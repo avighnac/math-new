@@ -52,8 +52,25 @@ algebric_number::algebric_number(std::string term) {
       "1") // This gets rid of the constant part from the string.
     term = term.substr(constantString.length(), term.length());
 
-  constantPart = constantString; // Assign value to variable.
-  constantString.clear();
+  if (constantString.find('^') == std::string::npos) {
+    constantPart = constantString; // Assign value to variable.
+    constantString.clear();
+  } else {
+    std::string constantNonPowerPart;
+    int count = 0;
+    for (auto &i : constantString) {
+      if (i == '^')
+        break;
+      constantNonPowerPart.push_back(i);
+      count++;
+    }
+    std::string constantPowerPart =
+        constantString.substr(count + 1, constantString.length() - count + 1);
+    std::string finalAnswer = "1";
+    for (auto i = 0; i < std::stoll(constantPowerPart); i++)
+      finalAnswer = multiply(finalAnswer, constantNonPowerPart);
+    constantPart = finalAnswer;
+  }
 
   char currentVar;
 
