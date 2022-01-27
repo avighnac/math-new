@@ -468,7 +468,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "evaluate") {
 
-      bool debugPrint = true;
+      bool debugPrint = false;
 
       if (argCount == 2)
         std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";

@@ -106,7 +106,8 @@ std::string algebric_number::get_formatted_number() {
     answer += "{" + char_to_str(i.first) +
                ", power: " + std::to_string(i.second) + "}, ";
   }
-  answer = answer.substr(0, answer.length() - 2);
+  if (!variablePart.empty())
+    answer = answer.substr(0, answer.length() - 2);
 
   return answer + "}}";
 }
