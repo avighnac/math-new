@@ -13,7 +13,7 @@
 #include "code/source/algorithms/Factorization/algebric_number_class.hpp"
 
 // External Image Library
-#include "libraries/CImg.h"
+// #include "libraries/CImg.h"
 
 #define RED "\033[31m"   /* Red */
 #define GREEN "\033[32m" /* Green */
@@ -23,6 +23,13 @@
 #define TODO                                                                   \
   (std::cout << "You've discovered a feature that's not yet coded in! This "   \
                 "will not be the case in some time. \n")
+
+bool is_windows() {
+#if defined(_WIN32)
+  return true;
+#endif
+  return false;
+}
 
 namespace basic_math_operations {
 std::string add(const std::string &num1, const std::string &num2) {
@@ -114,6 +121,7 @@ int main(int argCount, char *argument[]) {
                                             "Simple Interest",
                                             "Factorial",
                                             "Factorize",
+                                            "Evaluate",
                                             };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
@@ -132,13 +140,18 @@ int main(int argCount, char *argument[]) {
           "In mathematics, factorization consists of writing a number or "
           "another mathematical object as a product of several factors, "
           "usually smaller or simpler objects of the same kind. Opposite of "
-          "simplification (complication)."};
+          "simplification (complication).",
+          "Evaluate a mathematical expression."};
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
                    "math++ credits.\nFUNCTIONS:\n";
 
       for (auto i = 0; i < functions.size(); i++) {
-        std::cout << "     •" << functions[i] << "- " << function_definitions[i]
+        if (is_windows()) {
+          std::cout << "     -";
+        } else
+          std::cout << "     •";
+        std::cout << functions[i] << "- " << function_definitions[i]
                   << "\n";
       }
 
@@ -349,7 +362,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    if (function == "draw") {
+     /* if (function == "draw") {
       if (argCount < 3) {
         std::string argument3 = argument[2];
         if (argument3 == "help")
@@ -432,7 +445,7 @@ int main(int argCount, char *argument[]) {
           }
         }
       }
-    }
+    } */
 
     if (function == "multiply") {
       if (argCount == 3) {
@@ -450,6 +463,69 @@ int main(int argCount, char *argument[]) {
           answer = basic_math_operations::multiply(answer, argument[i]);
 
         std::cout << answer << "\n";
+      }
+    }
+
+    if (function == "evaluate") {
+
+      bool debugPrint = false;
+
+      if (argCount == 2)
+        std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";
+      if (argCount == 3) {
+        std::string sum = argument[2];
+
+        sum.erase(std::remove(sum.begin(), sum.end(), ' '),
+                  sum.end()); // Remove spaces
+        auto terms = get_terms_factorization(sum);
+
+        std::map<char, int> numbers;
+        for (auto i = '0'; i <= '9'; i++)
+          numbers.insert({i, i - 48});
+
+        std::vector<algebric_num::algebric_number> nums;
+        int counter = 0;
+        for (auto &i : terms) {
+          counter++;
+          if (numbers.find(i[1]) ==
+              numbers.end()) // If the second character ([0] will be the sign)
+                             // of the first term is not a number
+            i = i.substr(0, 1) + "1" +
+                i.substr(1,
+                         i.length() -
+                             1); // This converts something like -x^2 to -1x^2
+          if (i[0] == '+')
+            i = i.substr(1, i.length() - 1);
+
+          algebric_num::algebric_number toPB(i);
+          if (debugPrint) {
+            std::cout << counter << ".";
+            for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
+              std::cout << " ";
+            std::cout << toPB.get_formatted_number() << '\n';
+          }
+          nums.push_back(toPB);
+        }
+
+        if (debugPrint)
+          std::cout << '\n';
+
+        for (auto i = 0; i < nums.size(); i++) { // Addition of like terms only
+          for (auto j = i + 1; j < nums.size(); j++) {
+            if (nums[i].variablePart == nums[j].variablePart) {
+              algebric_num::algebric_number toPB("0");
+              toPB.constantPart =
+                  add(nums[i].constantPart, nums[j].constantPart);
+              toPB.variablePart = nums[i].variablePart;
+              algebric_num::erase_algebric_number(nums, i);
+              j--;
+              algebric_num::erase_algebric_number(nums, j);
+              nums.push_back(toPB);
+            }
+          }
+        }
+
+        std::cout << algebric_num::convert_to_readable(nums); // Printing out readable version.
       }
     }
 
