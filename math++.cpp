@@ -516,7 +516,10 @@ int main(int argCount, char *argument[]) {
               algebric_num::algebric_number toPB("0");
               toPB.constantPart =
                   add(nums[i].constantPart, nums[j].constantPart);
-              toPB.variablePart = nums[i].variablePart;
+              if (toPB.constantPart != "0" && toPB.constantPart != "-0" &&
+                  toPB.constantPart != "+0") {
+                toPB.variablePart = nums[i].variablePart;
+              }
               algebric_num::erase_algebric_number(nums, i);
               j--;
               algebric_num::erase_algebric_number(nums, j);

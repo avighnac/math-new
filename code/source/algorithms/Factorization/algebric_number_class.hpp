@@ -72,29 +72,34 @@ algebric_number::algebric_number(std::string term) {
     constantPart = finalAnswer;
   }
 
-  char currentVar;
+  if (constantPart == "+0" || constantPart == "-0" || constantPart == "0")
+    variablePart = {};
+  else {
+    char currentVar;
 
-  for (auto i = 0; i < (int)(term.length()); i++) {
-    auto &cv = term[i];
-    bool justInserted = false;
-    if ('a' <= cv && cv <= 'z') {
-      if (variablePart.find(cv) == variablePart.end()) {
-        if (term[i + 1] == '^') {
-          variablePart.insert({cv, 0});
-        } else {
-          justInserted = true;
-          variablePart.insert({cv, 1});
+    for (auto i = 0; i < (int)(term.length()); i++) {
+      auto &cv = term[i];
+      bool justInserted = false;
+      if ('a' <= cv && cv <= 'z') {
+        if (variablePart.find(cv) == variablePart.end()) {
+          if (term[i + 1] == '^') {
+            variablePart.insert({cv, 0});
+          } else {
+            justInserted = true;
+            variablePart.insert({cv, 1});
+          }
+          currentVar = cv;
         }
-        currentVar = cv;
-      }
-      if (term[i + 1] != '^' && !justInserted) {
-        variablePart.find(cv)->second++;
-        justInserted = false;
-      }
-      if (i + 2 <= term.length() - 1) {
-        if (term[i + 1] == '^') {
-          variablePart.find(cv)->second += std::stoi(term.substr(
-              i + 2, find_first_of(i + 2, term.length() - 1, "letter", term)));
+        if (term[i + 1] != '^' && !justInserted) {
+          variablePart.find(cv)->second++;
+          justInserted = false;
+        }
+        if (i + 2 <= term.length() - 1) {
+          if (term[i + 1] == '^') {
+            variablePart.find(cv)->second += std::stoi(
+                term.substr(i + 2, find_first_of(i + 2, term.length() - 1,
+                                                 "letter", term)));
+          }
         }
       }
     }
