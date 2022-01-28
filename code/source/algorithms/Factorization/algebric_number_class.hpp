@@ -67,9 +67,16 @@ algebric_number::algebric_number(std::string term) {
     std::string constantPowerPart =
         constantString.substr(count + 1, constantString.length() - count + 1);
     std::string finalAnswer = "1";
-    for (auto i = 0; i < std::stoll(constantPowerPart); i++)
+    for (auto i = 0; i < abs(std::stoll(constantPowerPart)); i++)
       finalAnswer = multiply(finalAnswer, constantNonPowerPart);
-    constantPart = finalAnswer;
+    if (std::stoll(constantPowerPart) >= 0)
+      constantPart = finalAnswer;
+    else
+      // constantPart = divide(1, finalAnswer);
+      // This line does not work as the divide() function does not support
+      // decimals yet.
+
+      constantPart = std::to_string(1.0 / std::stoll(finalAnswer));
   }
 
   if (constantPart == "+0" || constantPart == "-0" || constantPart == "0")

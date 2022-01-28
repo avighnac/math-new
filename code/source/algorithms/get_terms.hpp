@@ -7,7 +7,7 @@ std::vector<std::string> get_terms_factorization(std::string s) {
   std::vector<std::string> answer;
   std::string currentTerm;
   for (auto i = 1; i < s.length(); i++) {
-    if (s[i] == '+' || s[i] == '-') {
+    if (s[i] == '+' || s[i] == '-' && s[i - 1] != '^') {
       answer.push_back(currentTerm);
       currentTerm.clear();
       currentTerm.push_back(s[i]);
