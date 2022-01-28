@@ -168,7 +168,7 @@ convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
       answer += "+ ";
     else
       (counter == 0) ? answer += "-" : answer += "- ";
-    if (i.constantPart != "1" && i.constantPart != "-1") {
+    if ((i.constantPart != "1" && i.constantPart != "-1") || i.variablePart.empty()) {
       if (i.constantPart[0] == '-')
         answer += i.constantPart.substr(1, i.constantPart.length() - 1);
       else
