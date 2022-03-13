@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Addition Algorithm/add.hpp"
 #include "../Multiplication Algorithm/multiply.hpp"
 #include "../Subtraction Algorithm/subtract.hpp"
@@ -14,7 +16,7 @@ quotientFinder(std::string dividend,
                std::string divisor) { /*find highest number such that a*x <= b
                                          with a and b provided*/
 
-  std::string x = "0";         // Declaring x variable (from line 14 (a*x <= b))
+  std::string x = "0";        // Declaring x variable (from line 14 (a*x <= b))
   std::string xPrevious = ""; /* x_previous tracks the previous value of x
                                     and terminates loop when they are equal the
                                   answer has been reached.*/
@@ -48,7 +50,8 @@ std::string divide(std::string dividend, std::string divisor) {
 
   std::string quotient; // Declaring quotient variable to push answer into.
 
-  std::string dividendDigits = dividend; // String to keep track of digits in dividend
+  std::string dividendDigits =
+      dividend; // String to keep track of digits in dividend
   const size_t dividendLength = dividendDigits.length();
   dividend.clear();
 

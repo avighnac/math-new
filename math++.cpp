@@ -9,8 +9,9 @@
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
 
-#include "code/source/algorithms/Factorization/ax2bxc.hpp"
 #include "code/source/algorithms/Factorization/algebric_number_class.hpp"
+#include "code/source/algorithms/Factorization/ax2bxc.hpp"
+
 
 // External Image Library
 // #include "libraries/CImg.h"
@@ -114,15 +115,16 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "help") {
-      std::vector<std::string> functions = {"Add",
-                                            "Subtract",
-                                            "Square Root",
-                                            "Fraction Simplifier",
-                                            "Simple Interest",
-                                            "Factorial",
-                                            "Factorize",
-                                            "Evaluate",
-                                            };
+      std::vector<std::string> functions = {
+          "Add",
+          "Subtract",
+          "Square Root",
+          "Fraction Simplifier",
+          "Simple Interest",
+          "Factorial",
+          "Factorize",
+          "Evaluate",
+      };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
           "implemented to add numbers.. infinitely huge.",
@@ -151,8 +153,7 @@ int main(int argCount, char *argument[]) {
           std::cout << "     -";
         } else
           std::cout << "     •";
-        std::cout << functions[i] << "- " << function_definitions[i]
-                  << "\n";
+        std::cout << functions[i] << "- " << function_definitions[i] << "\n";
       }
 
       std::cout
@@ -362,90 +363,90 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-     /* if (function == "draw") {
-      if (argCount < 3) {
-        std::string argument3 = argument[2];
-        if (argument3 == "help")
-          std::cout << "Syntax: math++ draw [shape] [side1] ... [sideN] \n";
-        else
-          std::cout
-              << "[math++.function.draw] Error: Insufficient Arguments! \n";
-      }
+    /* if (function == "draw") {
+     if (argCount < 3) {
+       std::string argument3 = argument[2];
+       if (argument3 == "help")
+         std::cout << "Syntax: math++ draw [shape] [side1] ... [sideN] \n";
+       else
+         std::cout
+             << "[math++.function.draw] Error: Insufficient Arguments! \n";
+     }
 
-      if (argCount >= 3) {
-        std::string shape = argument[2];
+     if (argCount >= 3) {
+       std::string shape = argument[2];
 
-        if (shape == "right_angled_triangle" ||
-                shape == "right_angle_triangle" || shape == "90tri") {
-          if (argCount >= 5) {
-            std::vector<int> lengthSides;
-            if (argCount >= 6) {
-              lengthSides = {
-                  std::stoi(argument[3]),
-                  std::stoi(argument[4]),
-                  std::stoi(argument[5]),
-              };
-            } else {
-              lengthSides = {
-                  std::stoi(argument[3]),
-                  std::stoi(argument[4]),
-                  (int)(std::sqrt(std::pow(std::stoi(argument[3]), 2) +
-                                      std::pow(std::stoi(argument[4]), 2))),
-              };
-            }
-            std::sort(lengthSides.begin(), lengthSides.end());
+       if (shape == "right_angled_triangle" ||
+               shape == "right_angle_triangle" || shape == "90tri") {
+         if (argCount >= 5) {
+           std::vector<int> lengthSides;
+           if (argCount >= 6) {
+             lengthSides = {
+                 std::stoi(argument[3]),
+                 std::stoi(argument[4]),
+                 std::stoi(argument[5]),
+             };
+           } else {
+             lengthSides = {
+                 std::stoi(argument[3]),
+                 std::stoi(argument[4]),
+                 (int)(std::sqrt(std::pow(std::stoi(argument[3]), 2) +
+                                     std::pow(std::stoi(argument[4]), 2))),
+             };
+           }
+           std::sort(lengthSides.begin(), lengthSides.end());
 
-            int width = lengthSides[lengthSides.size() - 1];
-            int height = lengthSides[lengthSides.size() - 2];
+           int width = lengthSides[lengthSides.size() - 1];
+           int height = lengthSides[lengthSides.size() - 2];
 
-            cimg_library::CImg<unsigned int> image (width, height, 1, 3);
-            image.fill(0xffffff);
+           cimg_library::CImg<unsigned int> image (width, height, 1, 3);
+           image.fill(0xffffff);
 
-            unsigned char black[3];
-            black[0] = 255;
-            black[1] = 255;
-            black[2] = 255;
+           unsigned char black[3];
+           black[0] = 255;
+           black[1] = 255;
+           black[2] = 255;
 
-            for (auto i = 0; i < lengthSides[0]; i++)
-              image.draw_point(0, height - i - 1, black);
-            for (auto i = 0; i < lengthSides[1]; i++)
-              image.draw_point(i, (height - 1), black);
+           for (auto i = 0; i < lengthSides[0]; i++)
+             image.draw_point(0, height - i - 1, black);
+           for (auto i = 0; i < lengthSides[1]; i++)
+             image.draw_point(i, (height - 1), black);
 
-            float ratio = (float)lengthSides[1] / (float) lengthSides[0];
+           float ratio = (float)lengthSides[1] / (float) lengthSides[0];
 
-            std::pair<float, int> start = {0, height - lengthSides[0]};
-            std::pair<int, int> end = {lengthSides[1] - 1, lengthSides[1] - 1};
+           std::pair<float, int> start = {0, height - lengthSides[0]};
+           std::pair<int, int> end = {lengthSides[1] - 1, lengthSides[1] - 1};
 
-            std::pair<int, int> condition_pair;
-            bool condition = true;
-            while (condition_pair != end && condition_pair.second < end.second) {
+           std::pair<int, int> condition_pair;
+           bool condition = true;
+           while (condition_pair != end && condition_pair.second < end.second) {
 
-              for (auto i = (int)start.first; i < ratio + (int)start.first; i++)
-                image.draw_point(i, start.second, black);
+             for (auto i = (int)start.first; i < ratio + (int)start.first; i++)
+               image.draw_point(i, start.second, black);
 
-              condition_pair = {(int)start.first, start.second};
+             condition_pair = {(int)start.first, start.second};
 
-              condition ? start.first =
-                              start.first + ratio
-                        : start.second++; 
-              condition = !condition;
-            }
+             condition ? start.first =
+                             start.first + ratio
+                       : start.second++;
+             condition = !condition;
+           }
 
-            image.normalize(0, 255);
-            image.save("image.bmp");
+           image.normalize(0, 255);
+           image.save("image.bmp");
 
-          } else if (argCount == 3) {
-            std::string fourthArgument = argument[3];
-            if (fourthArgument == "help")
-              std::cout << "Syntax: math++ draw right_angled_triangle [height] "
-                           "[base] [optional: hypotenuse] \n";
-            else std::cout << "[math.function.draw.right_angled_triangle] "
-                                "Error: Insufficient "
-                                "Sides! \n";
-          }
-        }
-      }
-    } */
+         } else if (argCount == 3) {
+           std::string fourthArgument = argument[3];
+           if (fourthArgument == "help")
+             std::cout << "Syntax: math++ draw right_angled_triangle [height] "
+                          "[base] [optional: hypotenuse] \n";
+           else std::cout << "[math.function.draw.right_angled_triangle] "
+                               "Error: Insufficient "
+                               "Sides! \n";
+         }
+       }
+     }
+   } */
 
     if (function == "multiply") {
       if (argCount == 3) {
@@ -528,7 +529,8 @@ int main(int argCount, char *argument[]) {
           }
         }
 
-        std::cout << algebric_num::convert_to_readable(nums); // Printing out readable version.
+        std::cout << algebric_num::convert_to_readable(
+            nums); // Printing out readable version.
       }
     }
 
