@@ -1,3 +1,5 @@
+#pragma once
+
 #include <map>
 #include <string>
 #include <vector>
@@ -199,5 +201,52 @@ convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
     if (answer[0] == '+')
       return answer.substr(2, answer.length() - 2);
   return answer;
+}
+
+std::vector<algebric_number> get_terms(std::string expression) {
+  expression.erase(std::remove(expression.begin(), expression.end(), ' '),
+            expression.end()); // Remove spaces
+  if (!(expression.length() == 0)) {
+    if (expression[0] != '+' && expression[0] != '-')
+      expression = "+" + expression;
+  } else
+    return {};
+  std::vector<std::string> terms;
+  std::string currentTerm;
+  for (auto i = 1; i < expression.length(); i++) {
+    if (expression[i] == '+' ||
+        expression[i] == '-' && expression[i - 1] != '^') {
+      terms.push_back(currentTerm);
+      currentTerm.clear();
+      currentTerm.push_back(expression[i]);
+    } else
+      currentTerm.push_back(expression[i]);
+  }
+  terms.push_back(currentTerm);
+  if (!terms.empty())
+    terms[0] = expression.substr(0, 1) + terms[0];
+
+  std::map<char, int> numbers;
+  for (auto i = '0'; i <= '9'; i++)
+    numbers.insert({i, i - 48});
+
+  std::vector<algebric_number> nums;
+  int counter = 0;
+  for (auto &i : terms) {
+    counter++;
+    if (numbers.find(i[1]) ==
+        numbers.end()) // If the second character ([0] will be the sign)
+                       // of the first term is not a number
+      i = i.substr(0, 1) + "1" +
+          i.substr(1,
+                   i.length() -
+                       1); // This converts something like -x^2 to -1x^2
+    if (i[0] == '+')
+      i = i.substr(1, i.length() - 1);
+
+    algebric_num::algebric_number toPB(i);
+    nums.push_back(toPB);
+  }
+  return nums;
 }
 } // namespace algebric_num

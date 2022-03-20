@@ -6,6 +6,7 @@
 
 #include "../gcd.hpp"
 #include "../get_terms.hpp"
+#include "split_middle_term.hpp"
 
 int term_to_number(std::string term) {
   std::map<char, int> numbers;
@@ -34,7 +35,7 @@ struct bracket_term {
 std::string ax2bxc(std::string sum) {
   sum.erase(std::remove(sum.begin(), sum.end(), ' '),
             sum.end()); // Remove spaces
-  auto terms = get_terms_factorization(sum);
+  auto terms = get_terms(sum);
 
   std::map<char, int> numbers;
   for (auto i = '0'; i <= '9'; i++)
@@ -83,9 +84,10 @@ std::string ax2bxc(std::string sum) {
       }
     }
   }
+  
 
   if (secondTermSplit.first == 0 && secondTermSplit.second == 0)
-    return "false";
+    return "Cannot factorize further.";
 
   std::pair<bracket_term, bracket_term> answer;
   answer.first.term1 = gcd(a, secondTermSplit.first);
@@ -99,7 +101,7 @@ std::string ax2bxc(std::string sum) {
   else
     strAnswer += std::to_string(answer.first.term1) + variable;
   if (answer.first.term2 > 0)
-    strAnswer += "+" + std::to_string(answer.first.term2);
+    strAnswer += " + " + std::to_string(answer.first.term2);
   else
     strAnswer += std::to_string(answer.first.term2);
   strAnswer += ")(";
@@ -108,10 +110,17 @@ std::string ax2bxc(std::string sum) {
   else
     strAnswer += std::to_string(answer.second.term1) + variable;
   if (answer.second.term2 > 0)
-    strAnswer += "+" + std::to_string(answer.second.term2);
+    strAnswer += " + " + std::to_string(answer.second.term2);
   else
     strAnswer += std::to_string(answer.second.term2);
   strAnswer += ")";
 
+  for (auto i = 0; i < strAnswer.length() - 1; i++) {
+    if (strAnswer[i + 1] == '-') {
+      strAnswer.insert(i + 1, " ");
+      strAnswer.insert(i + 3, " ");
+      i += 2;
+    }
+  }
   return strAnswer;
 }

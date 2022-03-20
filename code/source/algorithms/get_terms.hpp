@@ -1,4 +1,6 @@
-std::vector<std::string> get_terms_factorization(std::string s) {
+#pragma once
+
+std::vector<std::string> get_terms(std::string s) {
   if (!(s.length() == 0)) {
     if (s[0] != '+' && s[0] != '-')
       s = "+" + s;

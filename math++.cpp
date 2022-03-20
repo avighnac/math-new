@@ -12,7 +12,6 @@
 #include "code/source/algorithms/Factorization/algebric_number_class.hpp"
 #include "code/source/algorithms/Factorization/ax2bxc.hpp"
 
-
 // External Image Library
 // #include "libraries/CImg.h"
 
@@ -30,6 +29,10 @@ bool is_windows() {
   return true;
 #endif
   return false;
+}
+
+template <typename T> std::string print_pair(std::pair<T, T> p) {
+  return "{" + p.first + ", " + p.second + "}";
 }
 
 namespace basic_math_operations {
@@ -469,16 +472,16 @@ int main(int argCount, char *argument[]) {
 
     if (function == "evaluate") {
 
-      bool debugPrint = false;
+      bool debugPrint = (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
 
       if (argCount == 2)
         std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";
-      if (argCount == 3) {
+      if (argCount >= 3) {
         std::string sum = argument[2];
 
         sum.erase(std::remove(sum.begin(), sum.end(), ' '),
                   sum.end()); // Remove spaces
-        auto terms = get_terms_factorization(sum);
+        auto terms = get_terms(sum);
 
         std::map<char, int> numbers;
         for (auto i = '0'; i <= '9'; i++)
@@ -536,15 +539,65 @@ int main(int argCount, char *argument[]) {
 
     if (function == "factorize") {
       if (argCount == 2)
-        std::cout << "Syntax: math++ factorize [mathematical_expression]\n";
+        std::cout << "Syntax: math++ factorize [factorization_type] [mathematical_expression]\n";
       if (argCount >= 3) {
-        std::string sum = argument[2];
-        std::string answer = ax2bxc(sum);
+        std::string type = argument[2];
 
-        if (answer == "false")
-          std::cout << "Cannot factorize further.";
-        else
-          std::cout << answer;
+        if (type == "help")
+          std::cout << "Factorization Types:\n  1.  ax2bxc - ax^2 + bx + c -> (mx + n) (ox + p)\n";
+        else {
+          if (argCount >= 4) {
+
+            bool debugPrint = (argCount >= 5 && std::string(argument[4]) == "-debugPrint");
+
+            std::string sumString = argument[3];
+            sumString.erase(std::remove(sumString.begin(), sumString.end(), ' '),
+                      sumString.end()); // Remove spaces
+
+            auto termsStr = get_terms(sumString);
+            std::vector<algebric_num::algebric_number> terms;
+
+            std::map<char, int> numbers;
+            for (auto i = '0'; i <= '9'; i++)
+              numbers.insert({i, i - 48});
+
+            int counter = 0;
+            for (auto &i : termsStr) {
+              counter++;
+              if (numbers.find(i[1]) ==
+                  numbers.end()) // If the second character ([0] will be the
+                                 // sign) of the first term is not a number
+                i = i.substr(0, 1) + "1" +
+                    i.substr(
+                        1,
+                        i.length() -
+                            1); // This converts something like -x^2 to -1x^2
+              if (i[0] == '+')
+                i = i.substr(1, i.length() - 1);
+
+              algebric_num::algebric_number toPB(i);
+              if (debugPrint) {
+                std::cout << counter << ".";
+                for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
+                  std::cout << " ";
+                std::cout << toPB.get_formatted_number() << '\n';
+              }
+              terms.push_back(toPB);
+            }
+
+            if (debugPrint)
+              std::cout << '\n';
+
+            if (type == "ax2bxc") {
+              std::cout << ax2bxc(sumString) << '\n';
+              std::cout << "Middle term split: "
+                        << print_pair(split_middle_term_ax2bxc(
+                               algebric_num::get_terms(sumString)));
+            }
+          } else
+            std::cout
+                << "[math++.factorize] Error: Missing mathematical expression.";
+        }
       }
     }
   }
