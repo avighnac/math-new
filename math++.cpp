@@ -590,9 +590,10 @@ int main(int argCount, char *argument[]) {
 
             if (type == "ax2bxc") {
               std::cout << ax2bxc(sumString) << '\n';
+              int accuracy = argCount == 5 ? std::stoi(argument[4]) : 8;
               std::cout << "Middle term split: "
                         << print_pair(split_middle_term_ax2bxc(
-                               algebric_num::get_terms(sumString)));
+                               algebric_num::get_terms(sumString), accuracy));
             }
           } else
             std::cout
