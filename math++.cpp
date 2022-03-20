@@ -168,6 +168,10 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
+    if (function == "version") {
+      std::cout << "math++ version: 1.0.0 (released on 20-03-2022)\n";
+    }
+
     if (function == "simple_interest" || function == "si") {
       if (argCount == 3) {
         std::string argument3 = argument[2];
@@ -472,7 +476,8 @@ int main(int argCount, char *argument[]) {
 
     if (function == "evaluate") {
 
-      bool debugPrint = (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
+      bool debugPrint =
+          (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
 
       if (argCount == 2)
         std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";
@@ -539,20 +544,24 @@ int main(int argCount, char *argument[]) {
 
     if (function == "factorize") {
       if (argCount == 2)
-        std::cout << "Syntax: math++ factorize [factorization_type] [mathematical_expression]\n";
+        std::cout << "Syntax: math++ factorize [factorization_type] "
+                     "[mathematical_expression]\n";
       if (argCount >= 3) {
         std::string type = argument[2];
 
         if (type == "help")
-          std::cout << "Factorization Types:\n  1.  ax2bxc - ax^2 + bx + c -> (mx + n) (ox + p)\n";
+          std::cout << "Factorization Types:\n  1.  ax2bxc - ax^2 + bx + c -> "
+                       "(mx + n) (ox + p)\n";
         else {
           if (argCount >= 4) {
 
-            bool debugPrint = (argCount >= 5 && std::string(argument[4]) == "-debugPrint");
+            bool debugPrint =
+                (argCount >= 5 && std::string(argument[4]) == "-debugPrint");
 
             std::string sumString = argument[3];
-            sumString.erase(std::remove(sumString.begin(), sumString.end(), ' '),
-                      sumString.end()); // Remove spaces
+            sumString.erase(
+                std::remove(sumString.begin(), sumString.end(), ' '),
+                sumString.end()); // Remove spaces
 
             auto termsStr = get_terms(sumString);
             std::vector<algebric_num::algebric_number> terms;
