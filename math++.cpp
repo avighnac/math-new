@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <fstream>
 
 #include "code/source/algorithms/Addition Algorithm/add.hpp"
 #include "code/source/algorithms/Division Algorithm/divide.hpp"
@@ -168,8 +169,33 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
+    std::string version = "1.0.1";
+
+    if (function == "check_update") {
+      if (is_windows()) {
+        system("curl https://raw.githubusercontent.com/avighnac/math_new/main/version.txt > vt.txt");
+        std::ifstream lv("vt.txt");
+        std::string latest_version;
+        lv >> latest_version;
+        lv.close();
+        system("del vt.txt");
+        std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K";
+        if (latest_version == version)
+          std::cout << "This version of math++ is up to date! (" << version
+                    << ")\n";
+        else
+          std::cout << "This version of math++ is outdated.\n"
+                    << "Current version: " << version << '\n'
+                    << "Latest version: " << latest_version << '\n';
+      } else {
+        TODO;
+      }
+    }
+
     if (function == "version") {
-      std::cout << "math++ version: 1.0.1 (released on 21-03-2022)\n";
+      std::cout << "math++ version: " << version << " (released on 21-03-2022)\n";
+      std::cout << "Tip: run math++ check_update to check if you have the "
+                   "latest version of math++.\n";
     }
 
     if (function == "simple_interest" || function == "si") {
