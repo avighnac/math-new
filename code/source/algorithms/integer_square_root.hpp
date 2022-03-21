@@ -104,7 +104,7 @@ b)) { break;
     return i-1;
 } */
 
-int box_filler(std::string &a, std::string &b) {
+int box_filler(std::string &a, std::string &b, std::string &preLSColumnMultiplicationOut) {
   remove_trailing_zeroes(a);
   remove_trailing_zeroes(b);
 
@@ -112,10 +112,12 @@ int box_filler(std::string &a, std::string &b) {
 
   while (start <= end) {
     int mid = (start + end) / 2;
-    if (greater_than(multiply((a + std::to_string(mid)), std::to_string(mid)),
+    std::string preLSColumnMultiplication = multiply((a + std::to_string(mid)), std::to_string(mid));
+    if (greater_than(preLSColumnMultiplication,
                      b))
       end = mid - 1;
     else {
+      preLSColumnMultiplicationOut = preLSColumnMultiplication;
       start = mid + 1;
       answer = mid;
     }
@@ -124,7 +126,12 @@ int box_filler(std::string &a, std::string &b) {
 }
 } // namespace left_side_help
 
-std::string integer_square_root(std::string n, int accuracy) {
+std::string integer_square_root(std::string n, int accuracy, bool &i) {
+  if (n[0] == '-') {
+    i = true;
+    n = n.substr(1, n.length() - 1);
+  }
+
   std::string answer;
   std::string ls_column = "0";
   for (int i = 0; i < accuracy; i++) {
@@ -136,19 +143,17 @@ std::string integer_square_root(std::string n, int accuracy) {
   for (int i = 0; i < parts.size(); i++) {
 
     const std::string &part = parts[i]; // Find quotient
-    int quotient = left_side_help::box_filler(ls_column, parts[i]);
+    std::string preLSColumnMultiplication;
+    int quotient = left_side_help::box_filler(ls_column, parts[i], preLSColumnMultiplication);
     answer += std::to_string(quotient);
 
     ls_column += std::to_string(quotient); // ls_column = ls_column + quotient
 
     std::string remainder =
-        subtract(part, multiply(std::to_string(quotient),
-                                ls_column)); // CP - quotient * ls_column = rem
+        subtract(part, preLSColumnMultiplication); // CP - quotient * ls_column = rem
 
-    if ((i + 1) < parts.size()) {
-      std::string next_part = parts[i + 1]; // part = rem + part
-      parts[i + 1] = remainder + parts[i + 1];
-    }
+    if ((i + 1) < parts.size())
+      parts[i + 1] = remainder + parts[i + 1]; // part = rem + part
 
     ls_column = add(ls_column, std::to_string(quotient));
   }
@@ -166,4 +171,9 @@ std::string integer_square_root(std::string n, int accuracy) {
     answer = answer.substr(0, decimal_point_location);
 
   return answer;
+}
+
+std::string integer_square_root(std::string n, int accuracy) {
+  bool i;
+  return integer_square_root(n, accuracy, i);
 }

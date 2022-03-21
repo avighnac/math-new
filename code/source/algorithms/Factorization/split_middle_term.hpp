@@ -12,7 +12,6 @@ std::pair<std::string, std::string> split_middle_term_ax2bxc(std::vector<algebri
            "cannot be factorized using this factorization type.");
 
   std::vector<algebric_num::algebric_number> middleTerm;
-  
   auto x = integer_square_root(add(multiply(terms[1].constantPart, terms[1].constantPart),multiply("-4",multiply(terms[0].constantPart, terms[2].constantPart))), accuracy);
   middleTerm.emplace_back(multiply(add(terms[1].constantPart, x), "0.5"));
   middleTerm.emplace_back(multiply(subtract(terms[1].constantPart, x), "0.5"));

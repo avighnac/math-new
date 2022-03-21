@@ -169,7 +169,7 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "version") {
-      std::cout << "math++ version: 1.0.0 (released on 20-03-2022)\n";
+      std::cout << "math++ version: 1.0.1 (released on 21-03-2022)\n";
     }
 
     if (function == "simple_interest" || function == "si") {
@@ -265,7 +265,7 @@ int main(int argCount, char *argument[]) {
             std::string number = argument[2];
             size_t DPL = decimal_point_location(number);
             size_t x = number.substr(DPL + 1, number.length()).length();
-            if (x % 2 != 0) {
+            if (x & 2) {
               x++;
               number += "0";
             }
@@ -276,7 +276,8 @@ int main(int argCount, char *argument[]) {
                 number_temp.push_back(i);
             number = number_temp;
 
-            std::string sqrt = integer_square_root(number, accuracy - (x / 2));
+            bool i = false;
+            std::string sqrt = integer_square_root(number, accuracy - (x / 2), i);
             if (!decimal_point_exists(sqrt))
               sqrt += ".0";
             size_t dec_loc = decimal_point_location(sqrt);
@@ -298,7 +299,7 @@ int main(int argCount, char *argument[]) {
             std::reverse(sqrt.begin(), sqrt.end());
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << sqrt << "\n";
+            std::cout << GREEN << "±" << RESET << sqrt << (i ? "i" : "") << "\n";
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(
                               stop - start)
@@ -311,13 +312,14 @@ int main(int argCount, char *argument[]) {
             std::chrono::time_point<std::chrono::high_resolution_clock> stop;
             if (show_time)
               start = std::chrono::high_resolution_clock::now();
+            bool i = false;
             std::string square_root =
-                integer_square_root(argument[2], accuracy);
+                integer_square_root(argument[2], accuracy, i);
             square_root.erase(0, std::min(square_root.find_first_not_of('0'),
                                           square_root.size() - 1));
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << square_root << "\n";
+            std::cout << GREEN << "±" << RESET << square_root << (i ? "i" : "") << "\n";
 
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(
