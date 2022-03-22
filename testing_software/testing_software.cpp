@@ -39,10 +39,11 @@ std::string color(std::string text, std::string color) {
 
 #include "../code/source/algorithms/Addition Algorithm/add.hpp"
 #include "../code/source/algorithms/integer_square_root.hpp"
+#include "../code/source/algorithms/Factorization/ax2bxc.hpp"
 
 bool choiceHandler(std::string choice) {
   if (choice == "add") {
-    std::cout << "\033[A\33[2K\rTesting add.hpp.\n";
+    std::cout << "Testing add.hpp.\n";
     std::cout << color("basic_test_set (check if function works)\n", "Cyan");
 
     std::map<std::pair<std::string, std::string>, std::string> testSet1;
@@ -208,9 +209,60 @@ bool choiceHandler(std::string choice) {
       }
     }
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration =
-        std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    std::cout << "\n  Time taken: " << duration.count() << "ms.\n";
+    std::cout
+          << "\n  Time taken: "
+          << color(std::to_string(
+                       std::chrono::duration_cast<std::chrono::milliseconds>(
+                           end - start)
+                           .count()),
+                   "Magenta")
+          << color("ms.", "Magenta");
+    return passed;
+  }
+  if (choice == "factorize") {
+    bool passed = true;
+    std::cout << "Testing ax2bxc.hpp.\n";
+    std::map<std::string, std::string> test_set_1;
+#include "tests/factorize/test_set_1"
+
+    auto start = std::chrono::high_resolution_clock::now();
+    int count = 0;
+    for (auto &i : test_set_1) {
+      if (ax2bxc(i.first) == i.second) {
+        std::cout << "\33[2K\r"
+                  << color("  Test " + std::to_string(count + 1) + " passed. [" +
+                               std::to_string(count + 1) + "/" + std::to_string(test_set_1.size()) + "]",
+                           "Green")
+                  << std::flush;
+      } else {
+        std::cout << "\33[2K\r"
+                  << color("  Test " + std::to_string(count + 1) + " failed. [" +
+                               std::to_string(count + 1) + "/" + std::to_string(test_set_1.size()) + "]",
+                           "Red")
+                  << std::flush;
+        std::cout << " a.k.a "
+                  << color("ax2bxc(\"" + i.first + "\")",
+                           "Red")
+                  << "\n";
+        std::cout << "    →  Expected: "
+                  << color("\"" + i.second + "\"", "Green");
+        std::cout << "\n    →  Actual: "
+                  << color("\"" + ax2bxc(i.first) + "\"", "Red")
+                  << '\n';
+        passed = false;
+        break;
+      }
+      count++;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout
+          << "\n  Time taken: "
+          << color(std::to_string(
+                       std::chrono::duration_cast<std::chrono::milliseconds>(
+                           end - start)
+                           .count()),
+                   "Magenta")
+          << color("ms.", "Magenta");
     return passed;
   }
   return false;
@@ -229,19 +281,22 @@ int main(int argc, char *argv[]) {
               << "\n\n";
 
     bool add = choiceHandler("add");
-    std::cout << "\n\n";
+    std::cout << "\n";
     bool sqrt = choiceHandler("sqrt");
+    std::cout << "\n\n";
+    bool factorize = choiceHandler("factorize");
 
     std::cout << "\n\nSummary: ";
-    if (add && sqrt) {
-      std::cout << color("Passed all tests.", "Green");
+    if (add && sqrt && factorize) {
+      std::cout << color("Passed all tests.\n", "Green");
       return 0;
     } else {
-      throw std::runtime_error("Failed some tests.");
+      throw std::runtime_error("Failed some tests.\n");
       return 1;
     }
 
   } else if (argc >= 2) {
+    std::cout << "\033[A\33[2K\r";
     choiceHandler(std::string(argv[1]));
   }
 }

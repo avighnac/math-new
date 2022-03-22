@@ -169,7 +169,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.1.1";
+    std::string version = "1.0.2";
 
     if (function == "check_update") {
       if (is_windows()) {

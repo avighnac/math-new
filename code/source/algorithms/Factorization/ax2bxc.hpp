@@ -8,8 +8,8 @@
 #include "../get_terms.hpp"
 #include "split_middle_term.hpp"
 
-int term_to_number(std::string term) {
-  std::map<char, int> numbers;
+long long term_to_number(std::string term) {
+  std::map<char, long long> numbers;
   for (auto i = '0'; i <= '9'; i++)
     numbers.insert({i, i - 48});
 
@@ -25,7 +25,7 @@ int term_to_number(std::string term) {
 }
 
 struct bracket_term {
-  int term1, term2;
+  long long term1, term2;
 };
 
 // TODO: FIX BUG which accepts "ab^2 + 3ab + 2"
@@ -37,10 +37,10 @@ std::string ax2bxc(std::string sum) {
             sum.end()); // Remove spaces
   auto terms = get_terms(sum);
 
-  std::map<char, int> numbers;
+  std::map<char, long long> numbers;
   for (auto i = '0'; i <= '9'; i++)
     numbers.insert({i, i - 48});
-  int a, b, c;
+  long long a, b, c;
 
   if (numbers.find(terms[0][1]) ==
       numbers.end()) // If the second character ([0] will be the sign) of
@@ -60,33 +60,12 @@ std::string ax2bxc(std::string sum) {
       terms[0].substr(std::to_string(a).length() + 1,
                       (terms[0].find('^') - std::to_string(a).length() - 1));
 
-  std::pair<int, int> secondTermSplit;
-  auto product = a * c;
+  std::pair<long long, long long> secondTermSplit;
+  auto temp = split_middle_term_ax2bxc(algebric_num::get_terms(sum));
+  secondTermSplit.first = std::stoi(temp.first);
+  secondTermSplit.second = std::stoi(temp.second);
 
-  for (float i = 0; i < abs(product); i++) {
-    float number = product / i;
-    if (std::ceil(number) == number) {
-      if (number + i == b) {
-        secondTermSplit = {number, i};
-        break;
-      }
-      if (-1 * number + i == b) {
-        secondTermSplit = {-1 * number, i};
-        break;
-      }
-      if (number + -1 * i == b) {
-        secondTermSplit = {number, -1 * i};
-        break;
-      }
-      if (-1 * number + -1 * i == b) {
-        secondTermSplit = {-1 * number, -1 * i};
-        break;
-      }
-    }
-  }
-  
-
-  if (secondTermSplit.first == 0 && secondTermSplit.second == 0)
+  if (secondTermSplit.first * secondTermSplit.second != a * c)
     return "Cannot factorize further.";
 
   std::pair<bracket_term, bracket_term> answer;
@@ -94,6 +73,27 @@ std::string ax2bxc(std::string sum) {
   answer.first.term2 = gcd(secondTermSplit.second, c);
   answer.second.term1 = a / answer.first.term1;
   answer.second.term2 = secondTermSplit.first / answer.first.term1;
+
+  std::string preNumber = "1";
+  auto gcd1 = gcd(answer.first.term1, answer.first.term2), gcd2 = gcd(answer.second.term1, answer.second.term2);
+  preNumber = multiply(preNumber, std::to_string(gcd1));
+  answer.first.term1 /= gcd1;
+  answer.first.term2 /= gcd1;
+  preNumber = multiply(preNumber, std::to_string(gcd2));
+  answer.first.term1 /= gcd2;
+  answer.first.term2 /= gcd2;
+
+  if (preNumber[0] == '-') {
+    if (answer.first.term1 < 0) {
+      answer.first.term1 *= -1;
+      answer.first.term2 *= -1;
+    }
+    else {
+      answer.second.term1 *= -1;
+      answer.second.term2 *= -1;
+    }
+    preNumber = preNumber.substr(1, preNumber.length() - 1);
+  }
 
   std::string strAnswer = "(";
   if (answer.first.term1 == 1)
@@ -122,5 +122,5 @@ std::string ax2bxc(std::string sum) {
       i += 2;
     }
   }
-  return strAnswer;
+  return (preNumber == "1" ? "" : preNumber) + strAnswer;
 }
