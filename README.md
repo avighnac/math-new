@@ -1,5 +1,5 @@
 # math_new
-Math++ is a CLI tool which aims to be able to solve mathematics, from addition to square roots. 
+Math++ is a command-line tool which aims to be able to solve mathematics, from addition to square roots. 
 
 [![GitHub Super-Linter](https://github.com/avighnac/math_new/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter) [![Math++ Tests](https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml/badge.svg?branch=main)](https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml) [![CodeQL](https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml)
 
