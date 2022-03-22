@@ -18,4 +18,6 @@ Other not-fully optimized/out of date features:
 - Prime Factor Finder
 - Prime Number Finder
 
-NOTE: This program uses an external image library called [CImg](https://github.com/dtschump/CImg) for image processing.
+# Installation:
+ Linux: To install math++ on linux, simply run this command in a terminal shell.
+ - `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math_new/releases/download/v1.0.1.1/math++_linux-1_0_1_1.out; sudo chmod +x /usr/bin/math++`
