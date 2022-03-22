@@ -1,7 +1,7 @@
 # math_new
 Math new is a re-built version of my old repository: math. The aim of math new is to be a lot more organized and efficient and have a lot more features than math. 
 
-[![GitHub Super-Linter](https://github.com/avighnac/math_new/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![GitHub Super-Linter](https://github.com/avighnac/math_new/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter) [![Math++ Tests](https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml/badge.svg?branch=main)](https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml) [![CodeQL](https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml)
 
 Features:
 - Add
