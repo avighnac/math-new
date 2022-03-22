@@ -1,6 +1,6 @@
 #include <chrono>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include "code/source/algorithms/Addition Algorithm/add.hpp"
 #include "code/source/algorithms/Division Algorithm/divide.hpp"
@@ -169,11 +169,13 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.1";
+    std::string version = "1.0.1.1";
 
     if (function == "check_update") {
       if (is_windows()) {
-        system("curl https://raw.githubusercontent.com/avighnac/math_new/main/version.txt > vt.txt");
+        system("curl "
+               "https://raw.githubusercontent.com/avighnac/math_new/main/"
+               "version.txt > vt.txt");
         std::ifstream lv("vt.txt");
         std::string latest_version;
         lv >> latest_version;
@@ -193,7 +195,8 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "version") {
-      std::cout << "math++ version: " << version << " (released on 21-03-2022)\n";
+      std::cout << "math++ version: " << version
+                << " (released on 22-03-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
@@ -291,7 +294,7 @@ int main(int argCount, char *argument[]) {
             std::string number = argument[2];
             size_t DPL = decimal_point_location(number);
             size_t x = number.substr(DPL + 1, number.length()).length();
-            if (x & 2) {
+            if (x & 1) {
               x++;
               number += "0";
             }
@@ -303,7 +306,8 @@ int main(int argCount, char *argument[]) {
             number = number_temp;
 
             bool i = false;
-            std::string sqrt = integer_square_root(number, accuracy - (x / 2), i);
+            std::string sqrt =
+                integer_square_root(number, accuracy - (x / 2), i);
             if (!decimal_point_exists(sqrt))
               sqrt += ".0";
             size_t dec_loc = decimal_point_location(sqrt);
@@ -325,7 +329,8 @@ int main(int argCount, char *argument[]) {
             std::reverse(sqrt.begin(), sqrt.end());
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << sqrt << (i ? "i" : "") << "\n";
+            std::cout << GREEN << "±" << RESET << sqrt << (i ? "i" : "")
+                      << "\n";
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(
                               stop - start)
@@ -345,7 +350,8 @@ int main(int argCount, char *argument[]) {
                                           square_root.size() - 1));
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << square_root << (i ? "i" : "") << "\n";
+            std::cout << GREEN << "±" << RESET << square_root << (i ? "i" : "")
+                      << "\n";
 
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(
