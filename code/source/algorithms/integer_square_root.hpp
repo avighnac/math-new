@@ -128,8 +128,6 @@ int box_filler(std::string &a, std::string &b,
 } // namespace left_side_help
 
 std::string integer_square_root(std::string n, int accuracy, bool &i) {
-  if (n == "69")
-    return "fail_test";
   if (n[0] == '-') {
     i = true;
     n = n.substr(1, n.length() - 1);
