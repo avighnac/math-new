@@ -20,9 +20,9 @@ Other not-fully optimized/out of date features:
 - Prime Factor Finder
 - Prime Number Finder
 
-# Installation:
+# Installation
  Linux: To install math++ on linux, simply run this command in a terminal shell.
  - `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math_new/releases/download/v1.0.1.1/math++_linux-1_0_1_1.out; sudo chmod +x /usr/bin/math++`
- 
+
  ![image](https://user-images.githubusercontent.com/74564976/159434335-b0f80b5d-db39-48e2-b774-61bf255f4b3f.png)
 
