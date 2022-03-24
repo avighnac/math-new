@@ -38,8 +38,8 @@ std::string color(std::string text, std::string color) {
 }
 
 #include "../code/source/algorithms/Addition Algorithm/add.hpp"
-#include "../code/source/algorithms/integer_square_root.hpp"
 #include "../code/source/algorithms/Factorization/ax2bxc.hpp"
+#include "../code/source/algorithms/integer_square_root.hpp"
 
 bool choiceHandler(std::string choice) {
   if (choice == "add") {
@@ -175,7 +175,7 @@ bool choiceHandler(std::string choice) {
   if (choice == "sqrt") {
     bool passed = true;
     std::map<std::string, std::string> test_set_1;
-    std::cout << "Testing integer_square_root.h." << '\n';
+    std::cout << "Testing integer_square_root.hpp." << '\n';
     std::cout << color("integer_square_root", "Yellow") << "(n = (\""
               << color("0", "Magenta") << "\" → \"" << color("199", "Magenta")
               << "\"), " << color("25", "Magenta") << ")\n";
@@ -209,14 +209,14 @@ bool choiceHandler(std::string choice) {
       }
     }
     auto end = std::chrono::high_resolution_clock::now();
-    std::cout
-          << "\n  Time taken: "
-          << color(std::to_string(
-                       std::chrono::duration_cast<std::chrono::milliseconds>(
-                           end - start)
-                           .count()),
-                   "Magenta")
-          << color("ms.", "Magenta");
+    std::cout << "\n  Time taken: "
+              << color(
+                     std::to_string(
+                         std::chrono::duration_cast<std::chrono::milliseconds>(
+                             end - start)
+                             .count()),
+                     "Magenta")
+              << color("ms.", "Magenta");
     return passed;
   }
   if (choice == "factorize") {
@@ -230,39 +230,38 @@ bool choiceHandler(std::string choice) {
     for (auto &i : test_set_1) {
       if (ax2bxc(i.first) == i.second) {
         std::cout << "\33[2K\r"
-                  << color("  Test " + std::to_string(count + 1) + " passed. [" +
-                               std::to_string(count + 1) + "/" + std::to_string(test_set_1.size()) + "]",
+                  << color("  Test " + std::to_string(count + 1) +
+                               " passed. [" + std::to_string(count + 1) + "/" +
+                               std::to_string(test_set_1.size()) + "]",
                            "Green")
                   << std::flush;
       } else {
         std::cout << "\33[2K\r"
-                  << color("  Test " + std::to_string(count + 1) + " failed. [" +
-                               std::to_string(count + 1) + "/" + std::to_string(test_set_1.size()) + "]",
+                  << color("  Test " + std::to_string(count + 1) +
+                               " failed. [" + std::to_string(count + 1) + "/" +
+                               std::to_string(test_set_1.size()) + "]",
                            "Red")
                   << std::flush;
-        std::cout << " a.k.a "
-                  << color("ax2bxc(\"" + i.first + "\")",
-                           "Red")
+        std::cout << " a.k.a " << color("ax2bxc(\"" + i.first + "\")", "Red")
                   << "\n";
         std::cout << "    →  Expected: "
                   << color("\"" + i.second + "\"", "Green");
         std::cout << "\n    →  Actual: "
-                  << color("\"" + ax2bxc(i.first) + "\"", "Red")
-                  << '\n';
+                  << color("\"" + ax2bxc(i.first) + "\"", "Red") << '\n';
         passed = false;
         break;
       }
       count++;
     }
     auto end = std::chrono::high_resolution_clock::now();
-    std::cout
-          << "\n  Time taken: "
-          << color(std::to_string(
-                       std::chrono::duration_cast<std::chrono::milliseconds>(
-                           end - start)
-                           .count()),
-                   "Magenta")
-          << color("ms.", "Magenta");
+    std::cout << "\n  Time taken: "
+              << color(
+                     std::to_string(
+                         std::chrono::duration_cast<std::chrono::milliseconds>(
+                             end - start)
+                             .count()),
+                     "Magenta")
+              << color("ms.", "Magenta");
     return passed;
   }
   return false;

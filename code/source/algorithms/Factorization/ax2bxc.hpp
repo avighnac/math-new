@@ -75,7 +75,8 @@ std::string ax2bxc(std::string sum) {
   answer.second.term2 = secondTermSplit.first / answer.first.term1;
 
   std::string preNumber = "1";
-  auto gcd1 = gcd(answer.first.term1, answer.first.term2), gcd2 = gcd(answer.second.term1, answer.second.term2);
+  auto gcd1 = gcd(answer.first.term1, answer.first.term2),
+       gcd2 = gcd(answer.second.term1, answer.second.term2);
   preNumber = multiply(preNumber, std::to_string(gcd1));
   answer.first.term1 /= gcd1;
   answer.first.term2 /= gcd1;
@@ -87,8 +88,7 @@ std::string ax2bxc(std::string sum) {
     if (answer.first.term1 < 0) {
       answer.first.term1 *= -1;
       answer.first.term2 *= -1;
-    }
-    else {
+    } else {
       answer.second.term1 *= -1;
       answer.second.term2 *= -1;
     }

@@ -636,7 +636,8 @@ int main(int argCount, char *argument[]) {
               int accuracy = argCount == 5 ? std::stoi(argument[4]) : 8;
               std::cout << "Middle term split: "
                         << print_pair(split_middle_term_ax2bxc(
-                               algebric_num::get_terms(sumString), accuracy));
+                               algebric_num::get_terms(sumString), accuracy))
+                        << '\n';
             }
           } else
             std::cout
