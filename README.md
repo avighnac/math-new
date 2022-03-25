@@ -1,5 +1,6 @@
+<h1 align="center">math++</h1>
+
 <div align="center">
- <h1><center>math++</center></h1>
  <p>... is a command-line tool which aims to be able to solve mathematics, from addition to square roots.</p>
   <a href="https://github.com/avighnac/math_new/releases">
     <img src="https://img.shields.io/github/v/release/avighnac/math_new?include_prereleases&label=Latest%20Release" />
