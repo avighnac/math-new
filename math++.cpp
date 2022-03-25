@@ -1,4 +1,5 @@
 #include <chrono>
+#include <curl/curl.h>
 #include <fstream>
 #include <iostream>
 
@@ -30,6 +31,15 @@ bool is_windows() {
   return true;
 #endif
   return false;
+}
+
+std::string latest_version;
+
+inline size_t curl_get_latest_version(char *buffer, size_t itemsize,
+                                      size_t nitems, void *ignorethis) {
+  size_t bytes = itemsize * nitems;
+  latest_version = std::string(buffer, bytes);
+  return bytes;
 }
 
 template <typename T> std::string print_pair(std::pair<T, T> p) {
@@ -169,47 +179,26 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.2";
+    std::string version = "1.0.2.1";
 
     if (function == "check_update") {
-      if (is_windows()) {
-        system("curl "
-               "https://raw.githubusercontent.com/avighnac/math_new/main/"
-               "version.txt > vt.txt");
-        std::ifstream lv("vt.txt");
-        std::string latest_version;
-        lv >> latest_version;
-        lv.close();
-        system("del vt.txt");
-        std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K";
-        if (latest_version == version)
-          std::cout << "This version of math++ is up to date! (" << version
-                    << ")\n";
-        else
-          std::cout << "This version of math++ is outdated.\n"
-                    << "Current version: " << version << '\n'
-                    << "Latest version: " << latest_version << '\n';
-      } else {
-        system("wget -O vt.txt "
-               "https://raw.githubusercontent.com/avighnac/math_new/main/"
-               "version.txt");
-        std::ifstream lv("vt.txt");
-        std::string latest_version;
-        lv >> latest_version;
-        lv.close();
-        system("rm vt.txt");
-        std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
-                     "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
-                     "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
-                     "2K";
-        if (latest_version == version)
-          std::cout << "This version of math++ is up to date! (" << version
-                    << ")\n";
-        else
-          std::cout << "This version of math++ is outdated.\n"
-                    << "Current version: " << version << '\n'
-                    << "Latest version: " << latest_version << '\n';
-      }
+      CURL *curl = curl_easy_init();
+      if (!curl)
+        throw std::runtime_error(
+            "Error: curl_easy_init() failed while getting version.txt");
+      curl_easy_setopt(curl, CURLOPT_URL,
+                       "https://raw.githubusercontent.com/avighnac/math_new/"
+                       "main/version.txt");
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_get_latest_version);
+      curl_easy_perform(curl);
+      curl_easy_cleanup(curl);
+      if (latest_version == version)
+        std::cout << "This version of math++ is up to date! (" << version
+                  << ")\n";
+      else
+        std::cout << "This version of math++ is outdated.\n"
+                  << "Current version: " << version << '\n'
+                  << "Latest version: " << latest_version << '\n';
     }
 
     if (function == "version") {
