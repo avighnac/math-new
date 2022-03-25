@@ -201,7 +201,7 @@ int main(int argCount, char *argument[]) {
         std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
                      "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
                      "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
-                     "2K\r\033[A\33[2K\r\033[A\33[2K";
+                     "2K";
         if (latest_version == version)
           std::cout << "This version of math++ is up to date! (" << version
                     << ")\n";
