@@ -51,7 +51,7 @@ jobs:
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
         
     - run: |
-       g++ math++.cpp -o math++
+       g++ math++.cpp -lcurl -o math++
        chmod +x math++
        ./math++
 
