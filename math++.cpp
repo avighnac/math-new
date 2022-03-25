@@ -190,7 +190,25 @@ int main(int argCount, char *argument[]) {
                     << "Current version: " << version << '\n'
                     << "Latest version: " << latest_version << '\n';
       } else {
-        TODO;
+        system("wget -O vt.txt "
+               "https://raw.githubusercontent.com/avighnac/math_new/main/"
+               "version.txt");
+        std::ifstream lv("vt.txt");
+        std::string latest_version;
+        lv >> latest_version;
+        lv.close();
+        system("rm vt.txt");
+        std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
+                     "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
+                     "2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33["
+                     "2K\r\033[A\33[2K\r\033[A\33[2K";
+        if (latest_version == version)
+          std::cout << "This version of math++ is up to date! (" << version
+                    << ")\n";
+        else
+          std::cout << "This version of math++ is outdated.\n"
+                    << "Current version: " << version << '\n'
+                    << "Latest version: " << latest_version << '\n';
       }
     }
 
