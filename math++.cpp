@@ -1,5 +1,7 @@
 #include <chrono>
+#if !defined _WIN32
 #include <curl/curl.h>
+#endif
 #include <fstream>
 #include <iostream>
 
@@ -182,6 +184,24 @@ int main(int argCount, char *argument[]) {
     std::string version = "1.0.2.1";
 
     if (function == "check_update") {
+#if defined _WIN32
+      system("curl "
+             "https://raw.githubusercontent.com/avighnac/math_new/main/"
+             "version.txt > vt.txt");
+      std::ifstream lv("vt.txt");
+      std::string latest_version;
+      lv >> latest_version;
+      lv.close();
+      system("del vt.txt");
+      std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K";
+      if (latest_version == version)
+        std::cout << "This version of math++ is up to date! (" << version
+                  << ")\n";
+      else
+        std::cout << "This version of math++ is outdated.\n"
+                  << "Current version: " << version << '\n'
+                  << "Latest version: " << latest_version << '\n';
+#else
       CURL *curl = curl_easy_init();
       if (!curl)
         throw std::runtime_error(
@@ -199,11 +219,12 @@ int main(int argCount, char *argument[]) {
         std::cout << "This version of math++ is outdated.\n"
                   << "Current version: " << version << '\n'
                   << "Latest version: " << latest_version << '\n';
+#endif
     }
 
     if (function == "version") {
       std::cout << "math++ version: " << version
-                << " (released on 22-03-2022)\n";
+                << " (released on 25-03-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
@@ -395,8 +416,8 @@ int main(int argCount, char *argument[]) {
         if (thirdArg == "help")
           TODO;
         else
-          std::cout
-              << "[math++.function.subtract] Error: Insufficient Arguments! \n";
+          std::cout << "[math++.function.subtract] Error: Insufficient "
+                       "Arguments! \n";
       } else if (argCount >= 4) {
         std::string answer = "0";
 
@@ -420,10 +441,8 @@ int main(int argCount, char *argument[]) {
          std::cout
              << "[math++.function.draw] Error: Insufficient Arguments! \n";
      }
-
      if (argCount >= 3) {
        std::string shape = argument[2];
-
        if (shape == "right_angled_triangle" ||
                shape == "right_angle_triangle" || shape == "90tri") {
          if (argCount >= 5) {
@@ -443,50 +462,39 @@ int main(int argCount, char *argument[]) {
              };
            }
            std::sort(lengthSides.begin(), lengthSides.end());
-
            int width = lengthSides[lengthSides.size() - 1];
            int height = lengthSides[lengthSides.size() - 2];
-
            cimg_library::CImg<unsigned int> image (width, height, 1, 3);
            image.fill(0xffffff);
-
            unsigned char black[3];
            black[0] = 255;
            black[1] = 255;
            black[2] = 255;
-
            for (auto i = 0; i < lengthSides[0]; i++)
              image.draw_point(0, height - i - 1, black);
            for (auto i = 0; i < lengthSides[1]; i++)
              image.draw_point(i, (height - 1), black);
-
            float ratio = (float)lengthSides[1] / (float) lengthSides[0];
-
            std::pair<float, int> start = {0, height - lengthSides[0]};
            std::pair<int, int> end = {lengthSides[1] - 1, lengthSides[1] - 1};
-
            std::pair<int, int> condition_pair;
            bool condition = true;
-           while (condition_pair != end && condition_pair.second < end.second) {
-
-             for (auto i = (int)start.first; i < ratio + (int)start.first; i++)
+           while (condition_pair != end && condition_pair.second < end.second)
+   { for (auto i = (int)start.first; i < ratio + (int)start.first; i++)
                image.draw_point(i, start.second, black);
-
              condition_pair = {(int)start.first, start.second};
-
              condition ? start.first =
                              start.first + ratio
                        : start.second++;
              condition = !condition;
            }
-
            image.normalize(0, 255);
            image.save("image.bmp");
-
          } else if (argCount == 3) {
            std::string fourthArgument = argument[3];
            if (fourthArgument == "help")
-             std::cout << "Syntax: math++ draw right_angled_triangle [height] "
+             std::cout << "Syntax: math++ draw right_angled_triangle [height]
+   "
                           "[base] [optional: hypotenuse] \n";
            else std::cout << "[math.function.draw.right_angled_triangle] "
                                "Error: Insufficient "
@@ -502,8 +510,8 @@ int main(int argCount, char *argument[]) {
         if (argument3 == "help")
           std::cout << "Syntax: math++ multiply [num1] [num2] ... [numN] \n";
         else
-          std::cout
-              << "[math++.function.multiply] Error: Insufficient Arguments! \n";
+          std::cout << "[math++.function.multiply] Error: Insufficient "
+                       "Arguments! \n";
       }
       if (argCount >= 4) {
         std::string answer = "1";
@@ -647,8 +655,8 @@ int main(int argCount, char *argument[]) {
                         << '\n';
             }
           } else
-            std::cout
-                << "[math++.factorize] Error: Missing mathematical expression.";
+            std::cout << "[math++.factorize] Error: Missing mathematical "
+                         "expression.";
         }
       }
     }
