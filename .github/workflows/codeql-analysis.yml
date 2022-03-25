@@ -51,6 +51,7 @@ jobs:
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
         
     - run: |
+       sudo apt-get install libcurl4-openssl-dev
        g++ math++.cpp -lcurl -o math++
        chmod +x math++
        ./math++
