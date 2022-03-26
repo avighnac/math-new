@@ -563,8 +563,8 @@ int main(int argCount, char *argument[]) {
           }
         }
 
-        std::cout << algebric_num::convert_to_readable(
-            nums); // Printing out readable version.
+        std::cout << algebric_num::convert_to_readable(nums)
+                  << '\n'; // Printing out readable version.
       }
     }
 
