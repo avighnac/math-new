@@ -91,8 +91,7 @@ int main(int argCount, char *argument[]) {
         std::cin >> arr_size;
         while (arr_size < 2) {
           std::cout << RED
-                    << "Error: NumbefinalAnswer = multiply(finalAnswer, "
-                       "constantNonPowerPart);r too small. "
+                    << "Error: Number too small. "
                     << RESET << "\nAmount of numbers to be added: ";
           std::cin >> arr_size;
         }
