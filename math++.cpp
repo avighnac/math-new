@@ -90,9 +90,8 @@ int main(int argCount, char *argument[]) {
         size_t arr_size;
         std::cin >> arr_size;
         while (arr_size < 2) {
-          std::cout << RED
-                    << "Error: Number too small. "
-                    << RESET << "\nAmount of numbers to be added: ";
+          std::cout << RED << "Error: Number too small. " << RESET
+                    << "\nAmount of numbers to be added: ";
           std::cin >> arr_size;
         }
 
@@ -539,35 +538,9 @@ int main(int argCount, char *argument[]) {
 
         sum.erase(std::remove(sum.begin(), sum.end(), ' '),
                   sum.end()); // Remove spaces
-        auto terms = get_terms(sum);
 
-        std::map<char, int> numbers;
-        for (auto i = '0'; i <= '9'; i++)
-          numbers.insert({i, i - 48});
-
-        std::vector<algebric_num::algebric_number> nums;
-        int counter = 0;
-        for (auto &i : terms) {
-          counter++;
-          if (numbers.find(i[1]) ==
-              numbers.end()) // If the second character ([0] will be the sign)
-                             // of the first term is not a number
-            i = i.substr(0, 1) + "1" +
-                i.substr(1,
-                         i.length() -
-                             1); // This converts something like -x^2 to -1x^2
-          if (i[0] == '+')
-            i = i.substr(1, i.length() - 1);
-
-          algebric_num::algebric_number toPB(i);
-          if (debugPrint) {
-            std::cout << counter << ".";
-            for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
-              std::cout << " ";
-            std::cout << toPB.get_formatted_number() << '\n';
-          }
-          nums.push_back(toPB);
-        }
+        std::vector<algebric_num::algebric_number> nums =
+            algebric_num::get_terms(sum);
 
         if (debugPrint)
           std::cout << '\n';
@@ -616,36 +589,8 @@ int main(int argCount, char *argument[]) {
                 std::remove(sumString.begin(), sumString.end(), ' '),
                 sumString.end()); // Remove spaces
 
-            auto termsStr = get_terms(sumString);
-            std::vector<algebric_num::algebric_number> terms;
-
-            std::map<char, int> numbers;
-            for (auto i = '0'; i <= '9'; i++)
-              numbers.insert({i, i - 48});
-
-            int counter = 0;
-            for (auto &i : termsStr) {
-              counter++;
-              if (numbers.find(i[1]) ==
-                  numbers.end()) // If the second character ([0] will be the
-                                 // sign) of the first term is not a number
-                i = i.substr(0, 1) + "1" +
-                    i.substr(
-                        1,
-                        i.length() -
-                            1); // This converts something like -x^2 to -1x^2
-              if (i[0] == '+')
-                i = i.substr(1, i.length() - 1);
-
-              algebric_num::algebric_number toPB(i);
-              if (debugPrint) {
-                std::cout << counter << ".";
-                for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
-                  std::cout << " ";
-                std::cout << toPB.get_formatted_number() << '\n';
-              }
-              terms.push_back(toPB);
-            }
+            std::vector<algebric_num::algebric_number> terms =
+                algebric_num::get_terms(sumString);
 
             if (debugPrint)
               std::cout << '\n';
