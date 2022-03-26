@@ -1,3 +1,5 @@
+// Copyright 2022 avighnac
+
 #pragma once
 
 #include <iostream>
@@ -12,18 +14,18 @@ struct variable {
 };
 
 class algebric_number {
-private:
+  private:
   size_t find_first_of(size_t, size_t, std::string, std::string);
 
-  // Note that the number will be constantPart * variablePart
-  // and not '+' as any + or - signs will split the term into
-  // two.
+  //  Note that the number will be constantPart * variablePart
+  //  and not '+' as any + or - signs will split the term into
+  //  two.
 
-public:
+  public:
   std::string constantPart;
   std::map<char, int> variablePart;
 
-  algebric_number(std::string);
+  explicit algebric_number(std::string);
   void print_number();
   std::string get_formatted_number();
   std::string char_to_str(char);
@@ -31,9 +33,9 @@ public:
 };
 
 algebric_number::algebric_number(std::string term) {
-  // 10^2a^2b^2
-  // constant: 10^2
-  // variable: {{a, power: 2}, {b, power: 2}}
+  //  10^2a^2b^2
+  //  constant: 10^2
+  //  variable: {{a, power: 2}, {b, power: 2}}
 
   std::string constantString = "1";
   bool isConstantStringModified = false;
@@ -94,7 +96,7 @@ algebric_number::algebric_number(std::string term) {
   else {
     char currentVar;
 
-    for (auto i = 0; i < (int)(term.length()); i++) {
+    for (auto i = 0; i < static_cast<int>(term.length()); i++) {
       auto &cv = term[i];
       bool justInserted = false;
       if ('a' <= cv && cv <= 'z') {
