@@ -27,6 +27,7 @@
 - Simple Interest Solver
 - Factorize ax^2 + bx + c
 - Evaluate a mathematical expression (beta)
+- Convert any rational number to a fraction.
 
 ## Installation
 

@@ -2,13 +2,22 @@
 
 #include <vector>
 
-long long
-gcd(const long long &a,
-    const long long &b) { /*Takes two numbers as
-                        input and outputs their GCD.*/
+#include "modulus.hpp"
+
+long long gcd(const long long &a,
+              const long long &b) { /*Takes two numbers as
+                                  input and outputs their GCD.*/
   if (b == 0)
     return a;
   return gcd(b, a % b);
+}
+
+std::string gcd(const std::string &a,
+                const std::string &b) { /*Takes two numbers as
+                                      input and outputs their GCD.*/
+  if (b == "0")
+    return a;
+  return gcd(b, modulus(a, b));
 }
 
 long long

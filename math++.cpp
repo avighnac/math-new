@@ -90,8 +90,10 @@ int main(int argCount, char *argument[]) {
         size_t arr_size;
         std::cin >> arr_size;
         while (arr_size < 2) {
-          std::cout << RED << "Error: Number too small. " << RESET
-                    << "\nAmount of numbers to be added: ";
+          std::cout << RED
+                    << "Error: NumbefinalAnswer = multiply(finalAnswer, "
+                       "constantNonPowerPart);r too small. "
+                    << RESET << "\nAmount of numbers to be added: ";
           std::cin >> arr_size;
         }
 
@@ -140,6 +142,7 @@ int main(int argCount, char *argument[]) {
           "Factorial",
           "Factorize",
           "Evaluate",
+          "Decimal to Fraction",
       };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
@@ -159,7 +162,9 @@ int main(int argCount, char *argument[]) {
           "another mathematical object as a product of several factors, "
           "usually smaller or simpler objects of the same kind. Opposite of "
           "simplification (complication).",
-          "Evaluate a mathematical expression."};
+          "Evaluate a mathematical expression.",
+          "Converts a decimal number to a fraction.",
+      };
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
                    "math++ credits.\nFUNCTIONS:\n";
@@ -658,6 +663,23 @@ int main(int argCount, char *argument[]) {
             std::cout << "[math++.factorize] Error: Missing mathematical "
                          "expression.";
         }
+      }
+    }
+    if (function == "deci_to_frac" || function == "dtf" ||
+        function == "decimal_to_fraction") {
+      if (argCount == 2) {
+        std::cout << "Syntax: math++ decimal_to_fraction [decimal_number]\n";
+      }
+      if (argCount >= 3) {
+        std::string decimal(argument[2]);
+        std::string denominator = "1";
+        while (decimal_point_exists(decimal)) {
+          decimal = shift_decimal_point(decimal, 1);
+          denominator += "0";
+        }
+        auto answer = fraction_simplifier({decimal, denominator});
+        std::cout << GREEN << answer.first << "/" << answer.second << RESET
+                  << '\n';
       }
     }
   }

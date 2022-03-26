@@ -46,7 +46,8 @@ now and the loop will break.
       "1"); // Finally, return x - 1 because x starts off as 1 at declaration.
 }
 
-std::string divide(std::string dividend, std::string divisor) {
+std::string divide(std::string dividend, std::string divisor,
+                   std::string &modulusOut) {
 
   std::string quotient; // Declaring quotient variable to push answer into.
 
@@ -65,7 +66,13 @@ std::string divide(std::string dividend, std::string divisor) {
                             // has worked on. (Refer to code on top).
     quotient += partAns;
     dividend = subtract(dividend, (multiply(partAns, divisor)));
+    modulusOut = dividend;
   }
 
   return remove_leading_zeroes(quotient);
+}
+
+std::string divide(std::string dividend, std::string divisor) {
+  std::string modulus;
+  return divide(dividend, divisor, modulus);
 }

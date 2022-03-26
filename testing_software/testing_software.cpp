@@ -40,6 +40,7 @@ std::string color(std::string text, std::string color) {
 #include "../code/source/algorithms/Addition Algorithm/add.hpp"
 #include "../code/source/algorithms/Factorization/ax2bxc.hpp"
 #include "../code/source/algorithms/integer_square_root.hpp"
+#include "../code/source/algorithms/modulus.hpp"
 
 bool choiceHandler(std::string choice) {
   if (choice == "add") {
@@ -264,6 +265,59 @@ bool choiceHandler(std::string choice) {
               << color("ms.", "Magenta");
     return passed;
   }
+  if (choice == "modulus") {
+    bool passed = true;
+    std::string totalTests = "10000";
+    int currentTest;
+    std::cout << "Testing modulus.hpp.\n";
+    auto start = std::chrono::high_resolution_clock::now();
+    for (auto i = 1; i < 101; i++) {
+      if (!passed)
+        break;
+      for (auto j = 1; j < 101; j++) {
+        currentTest++;
+        if (std::to_string(i % j) ==
+            modulus(std::to_string(i), std::to_string(j))) {
+          std::cout << "\33[2K\r"
+                    << color("  Test " + std::to_string(currentTest) +
+                                 " passed. [" + std::to_string(currentTest) +
+                                 "/" + totalTests + "]",
+                             "Green")
+                    << std::flush;
+        } else {
+          std::cout << "\33[2K\r"
+                    << color("  Test " + std::to_string(currentTest) +
+                                 " failed. [" + std::to_string(currentTest) +
+                                 "/" + totalTests + "]",
+                             "Red")
+                    << std::flush;
+          std::cout << " a.k.a "
+                    << color("modulus(\"" + std::to_string(i) + "\", \"" +
+                                 std::to_string(j) + "\")",
+                             "Red")
+                    << "\n";
+          std::cout << "    →  Expected: "
+                    << color(std::to_string(i % j), "Green");
+          std::cout << "\n    →  Actual: "
+                    << color(modulus(std::to_string(i), std::to_string(j)),
+                             "Red")
+                    << '\n';
+          passed = false;
+          break;
+        }
+      }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "\n  Time taken: "
+              << color(
+                     std::to_string(
+                         std::chrono::duration_cast<std::chrono::milliseconds>(
+                             end - start)
+                             .count()),
+                     "Magenta")
+              << color("ms.", "Magenta");
+    return passed;
+  }
   return false;
 }
 
@@ -284,9 +338,11 @@ int main(int argc, char *argv[]) {
     bool sqrt = choiceHandler("sqrt");
     std::cout << "\n\n";
     bool factorize = choiceHandler("factorize");
+    std::cout << "\n\n";
+    bool modulus = choiceHandler("modulus");
 
     std::cout << "\n\nSummary: ";
-    if (add && sqrt && factorize) {
+    if (add && sqrt && factorize && modulus) {
       std::cout << color("Passed all tests.\n", "Green");
       return 0;
     } else {
