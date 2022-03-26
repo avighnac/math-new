@@ -40,7 +40,7 @@ std::string ax2bxc(std::string sum) {
   std::map<char, long long> numbers;
   for (auto i = '0'; i <= '9'; i++)
     numbers.insert({i, i - 48});
-  long long a, b, c;
+  long long a, c;
 
   if (numbers.find(terms[0][1]) ==
       numbers.end()) // If the second character ([0] will be the sign) of
@@ -54,8 +54,7 @@ std::string ax2bxc(std::string sum) {
         terms[1].substr(0, 1) + "1" + terms[1].substr(1, terms[1].length() - 1);
 
   // Assigning terms to a, b, c
-  a = term_to_number(terms[0]), b = term_to_number(terms[1]),
-  c = term_to_number(terms[2]);
+  a = term_to_number(terms[0]), c = term_to_number(terms[2]);
   std::string variable =
       terms[0].substr(std::to_string(a).length() + 1,
                       (terms[0].find('^') - std::to_string(a).length() - 1));

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
@@ -66,6 +67,11 @@ algebric_number::algebric_number(std::string term) {
       constantNonPowerPart.push_back(i);
       count++;
     }
+    bool negative;
+    if (constantNonPowerPart[0] == '-') {
+      constantNonPowerPart.erase(0, 1);
+      negative = true;
+    }
     std::string constantPowerPart =
         constantString.substr(count + 1, constantString.length() - count + 1);
     std::string finalAnswer = "1";
@@ -79,6 +85,8 @@ algebric_number::algebric_number(std::string term) {
       // decimals yet.
 
       constantPart = std::to_string(1.0 / std::stoll(finalAnswer));
+    if (negative)
+      constantPart.insert(0, 1, '-');
   }
 
   if (constantPart == "+0" || constantPart == "-0" || constantPart == "0")
@@ -135,7 +143,7 @@ std::string algebric_number::get_formatted_number() {
   answer += "{" + constantPart + ", {";
   for (auto &i : variablePart) {
     answer += "{" + char_to_str(i.first) +
-               ", power: " + std::to_string(i.second) + "}, ";
+              ", power: " + std::to_string(i.second) + "}, ";
   }
   if (!variablePart.empty())
     answer = answer.substr(0, answer.length() - 2);
@@ -164,8 +172,8 @@ std::string algebric_number::char_to_str(char charac) {
   return answer;
 }
 
-void erase_algebric_number(std::vector<algebric_num::algebric_number> &algebricTerms,
-                           size_t index) {
+void erase_algebric_number(
+    std::vector<algebric_num::algebric_number> &algebricTerms, size_t index) {
   std::vector<algebric_num::algebric_number> answer;
   for (auto i = 0; i < algebricTerms.size(); i++)
     if (i != index)
@@ -182,7 +190,8 @@ convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
       answer += "+ ";
     else
       (counter == 0) ? answer += "-" : answer += "- ";
-    if ((i.constantPart != "1" && i.constantPart != "-1") || i.variablePart.empty()) {
+    if ((i.constantPart != "1" && i.constantPart != "-1") ||
+        i.variablePart.empty()) {
       if (i.constantPart[0] == '-')
         answer += i.constantPart.substr(1, i.constantPart.length() - 1);
       else
@@ -203,9 +212,10 @@ convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
   return answer;
 }
 
-std::vector<algebric_number> get_terms(std::string expression) {
+std::vector<algebric_number> get_terms(std::string expression,
+                                       bool debugPrint = false) {
   expression.erase(std::remove(expression.begin(), expression.end(), ' '),
-            expression.end()); // Remove spaces
+                   expression.end()); // Remove spaces
   if (!(expression.length() == 0)) {
     if (expression[0] != '+' && expression[0] != '-')
       expression = "+" + expression;
@@ -245,6 +255,12 @@ std::vector<algebric_number> get_terms(std::string expression) {
       i = i.substr(1, i.length() - 1);
 
     algebric_num::algebric_number toPB(i);
+    if (debugPrint) {
+      std::cout << counter << ".";
+      for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
+        std::cout << " ";
+      std::cout << toPB.get_formatted_number() << '\n';
+    }
     nums.push_back(toPB);
   }
   return nums;

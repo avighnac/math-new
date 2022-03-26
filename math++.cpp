@@ -35,6 +35,17 @@ bool is_windows() {
   return false;
 }
 
+void replace_all(std::string &str, const std::string &from,
+                 const std::string &to) {
+  if (from.empty())
+    return;
+  size_t start_pos = 0;
+  while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    str.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
+}
+
 std::string latest_version;
 
 inline size_t curl_get_latest_version(char *buffer, size_t itemsize,
@@ -538,9 +549,18 @@ int main(int argCount, char *argument[]) {
 
         sum.erase(std::remove(sum.begin(), sum.end(), ' '),
                   sum.end()); // Remove spaces
+        while ((sum.find("--") != std::string::npos) ||
+               (sum.find("++") != std::string::npos) ||
+               (sum.find("-+") != std::string::npos) ||
+               (sum.find("+-") != std::string::npos)) {
+          replace_all(sum, "--", "+");
+          replace_all(sum, "-+", "-");
+          replace_all(sum, "+-", "-");
+          replace_all(sum, "++", "+");
+        }
 
         std::vector<algebric_num::algebric_number> nums =
-            algebric_num::get_terms(sum);
+            algebric_num::get_terms(sum, debugPrint);
 
         if (debugPrint)
           std::cout << '\n';
@@ -590,7 +610,7 @@ int main(int argCount, char *argument[]) {
                 sumString.end()); // Remove spaces
 
             std::vector<algebric_num::algebric_number> terms =
-                algebric_num::get_terms(sumString);
+                algebric_num::get_terms(sumString, debugPrint);
 
             if (debugPrint)
               std::cout << '\n';
