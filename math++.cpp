@@ -1,7 +1,9 @@
+#define NOMINMAX
+#define CURL_STATICLIB
+
 #include <chrono>
-#if !defined _WIN32
 #include <curl/curl.h>
-#endif
+
 #include <fstream>
 #include <iostream>
 
@@ -198,34 +200,16 @@ int main(int argCount, char *argument[]) {
     std::string version = "1.0.2.1";
 
     if (function == "check_update") {
-#if defined _WIN32
-      system("curl "
-             "https://raw.githubusercontent.com/avighnac/math_new/main/"
-             "version.txt > vt.txt");
-      std::ifstream lv("vt.txt");
-      std::string latest_version;
-      lv >> latest_version;
-      lv.close();
-      system("del vt.txt");
-      std::cout << "\r\033[A\33[2K\r\033[A\33[2K\r\033[A\33[2K";
-      if (latest_version == version)
-        std::cout << "This version of math++ is up to date! (" << version
-                  << ")\n";
-      else
-        std::cout << "This version of math++ is outdated.\n"
-                  << "Current version: " << version << '\n'
-                  << "Latest version: " << latest_version << '\n';
-#else
       CURL *curl = curl_easy_init();
       if (!curl)
         throw std::runtime_error(
             "Error: curl_easy_init() failed while getting version.txt");
       curl_easy_setopt(curl, CURLOPT_URL,
-                       "https://raw.githubusercontent.com/avighnac/math_new/"
-                       "main/version.txt");
+                       "https://raw.githubusercontent.com/avighnac/math_new/main/version.txt");
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_get_latest_version);
       curl_easy_perform(curl);
       curl_easy_cleanup(curl);
+      replace_all(latest_version, "\n", "");
       if (latest_version == version)
         std::cout << "This version of math++ is up to date! (" << version
                   << ")\n";
@@ -233,7 +217,6 @@ int main(int argCount, char *argument[]) {
         std::cout << "This version of math++ is outdated.\n"
                   << "Current version: " << version << '\n'
                   << "Latest version: " << latest_version << '\n';
-#endif
     }
 
     if (function == "version") {

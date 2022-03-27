@@ -44,7 +44,6 @@
   * To compile this program, you will need to include one additional compiler parameter, namely `-lcurl` since this program uses libcurl for the `check_update` command. If you get the error `curl.h not found`, execute this command.
     * Debian: `sudo apt-get install libcurl4-openssl-dev`
     * OpenSUSE/RedHat: `sudo dnf (or yum) install curl-devel`
+  * Or, you could build using CMake. Go to the directory which contains 'math++.cpp', and type `cmake build/`, and `cmake --build build/`.
 * Windows:
-  * Windows does not use libcurl, because I can't figure out how to get it to work. Instead, the check_update function uses curl.exe, which ships with Windows in the System32 folder.
-
-Or, you could build using CMake. Go to the directory which contains 'math++.cpp', and type `cmake build/`, and `cmake --build build/`.
+  * Open the file 'math++.vcxproj' using Visual Studio. Press on the green button at the top of the screen.
