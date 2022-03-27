@@ -222,7 +222,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "version") {
       std::cout << "math++ version: " << version
-                << " (released on 25-03-2022)\n";
+                << " (released on 27-03-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
