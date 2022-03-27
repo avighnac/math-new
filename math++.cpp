@@ -197,7 +197,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.2.1";
+    std::string version = "1.0.2.2";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -205,7 +205,8 @@ int main(int argCount, char *argument[]) {
         throw std::runtime_error(
             "Error: curl_easy_init() failed while getting version.txt");
       curl_easy_setopt(curl, CURLOPT_URL,
-                       "https://raw.githubusercontent.com/avighnac/math_new/main/version.txt");
+                       "https://raw.githubusercontent.com/avighnac/math_new/"
+                       "main/version.txt");
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_get_latest_version);
       curl_easy_perform(curl);
       curl_easy_cleanup(curl);
