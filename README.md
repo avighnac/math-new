@@ -46,3 +46,5 @@
     * OpenSUSE/RedHat: `sudo dnf (or yum) install curl-devel`
 * Windows:
   * Windows does not use libcurl, because I can't figure out how to get it to work. Instead, the check_update function uses curl.exe, which ships with Windows in the System32 folder.
+
+Or, you could build using CMake. Go to the directory which contains 'math++.cpp', and type `cmake build/`, and `cmake --build build/`.
