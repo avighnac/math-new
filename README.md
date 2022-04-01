@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h1 align="center">math++</h1>
 
 <div align="center">
@@ -98,4 +97,3 @@
   * Or, you could build using CMake. Go to the directory which contains 'math++.cpp', and type `cmake build/`, and `cmake --build build/`.
 * Windows:
   * Open the file 'math++.vcxproj' using Visual Studio. Press on the green button at the top of the screen.
->>>>>>> e1a906d3926ebe91fd5caeb6c248028b0fea0548
