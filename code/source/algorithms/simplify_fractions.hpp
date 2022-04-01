@@ -12,5 +12,6 @@ fraction_simplifier(const std::pair<long long, long long> &fraction) {
 std::pair<std::string, std::string>
 fraction_simplifier(const std::pair<std::string, std::string> &fraction) {
   std::string hcf = gcd(fraction.first, fraction.second);
-  return {divide(fraction.first, hcf), divide(fraction.second, hcf)};
+  return {divide_whole(fraction.first, hcf),
+          divide_whole(fraction.second, hcf)};
 }

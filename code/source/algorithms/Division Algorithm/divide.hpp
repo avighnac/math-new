@@ -4,6 +4,7 @@
 #include "../Multiplication Algorithm/multiply.hpp"
 #include "../Subtraction Algorithm/subtract.hpp"
 #include "compare_string.hpp"
+#include <map>
 #include <string>
 
 static std::string remove_leading_zeroes(std::string str) {
@@ -46,8 +47,8 @@ now and the loop will break.
       "1"); // Finally, return x - 1 because x starts off as 1 at declaration.
 }
 
-std::string divide(std::string dividend, std::string divisor,
-                   std::string &modulusOut) {
+std::string divide_whole(std::string dividend, std::string divisor,
+                         std::string &modulusOut) {
 
   std::string quotient; // Declaring quotient variable to push answer into.
 
@@ -72,7 +73,56 @@ std::string divide(std::string dividend, std::string divisor,
   return remove_leading_zeroes(quotient);
 }
 
-std::string divide(std::string dividend, std::string divisor) {
+std::string divide_whole(const std::string &dividend,
+                         const std::string &divisor) {
   std::string modulus;
-  return divide(dividend, divisor, modulus);
+  return divide_whole(dividend, divisor, modulus);
+}
+
+std::string divide(std::string dividend, std::string divisor, int accuracy) {
+  std::string multipleDividend = "1", multipleDivisor = "1";
+  // Convert decimals to normal numbers
+  while (decimal_point_exists(dividend)) {
+    dividend = shift_decimal_point(dividend, 1);
+    multipleDividend += "0";
+  }
+
+  while (decimal_point_exists(divisor)) {
+    divisor = shift_decimal_point(divisor, 1);
+    multipleDivisor += "0";
+  }
+
+  int decimalPointShift =
+      -1 * ((int)(multipleDividend.length() - multipleDivisor.length()));
+
+  std::string quotient;
+  bool isInDecimals = false;
+
+  std::string dividendDigits =
+      multiply("1", dividend); // Remove redundant zeroes.
+  dividend.clear();
+  divisor = multiply("1", divisor); // Remove redundant zeroes.
+
+  for (auto i = 0; i < accuracy; i++) {
+
+    if (dividendDigits.empty()) {
+      dividend += "0";
+      if (!isInDecimals) {
+        quotient += ".";
+        isInDecimals = true;
+      }
+    } else {
+      dividend += dividendDigits.substr(0, 1);
+      dividendDigits.erase(0, 1);
+    }
+
+    std::string partAns = quotientFinder(dividend, divisor);
+    quotient += partAns;
+
+    dividend = subtract(dividend, (multiply(partAns, divisor)));
+  }
+
+  return shift_decimal_point(quotient,
+                             decimalPointShift); // Remove redundant
+                                                 // zeroes from back.
 }

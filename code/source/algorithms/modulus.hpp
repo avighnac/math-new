@@ -9,6 +9,6 @@ std::string modulus(const std::string &a,
                                               input and outputs their
                                               modulus.*/
   std::string answer;
-  divide(a, b, answer);
+  divide_whole(a, b, answer);
   return answer;
 }

@@ -18,6 +18,8 @@
 #include "code/source/algorithms/Factorization/algebric_number_class.hpp"
 #include "code/source/algorithms/Factorization/ax2bxc.hpp"
 
+#include "code/source/color.hpp"
+
 // External Image Library
 // #include "libraries/CImg.h"
 
@@ -72,9 +74,9 @@ std::string multiply(const std::string &num1, const std::string &num2) {
   return ::multiply(num1, num2);
 }
 std::string divide(const std::string &num1, const std::string &num2) {
-  return ::divide(num1,
-                  num2); /*Still in beta.
-                            Only supports whole quotient division for now.*/
+  return ::divide(num1, num2,
+                  10); /*Still in beta.
+                      Only supports whole quotient division for now.*/
 }
 } // namespace basic_math_operations
 
@@ -147,6 +149,8 @@ int main(int argCount, char *argument[]) {
       std::vector<std::string> functions = {
           "Add",
           "Subtract",
+          "Multiply",
+          "Divide",
           "Square Root",
           "Fraction Simplifier",
           "Simple Interest",
@@ -160,6 +164,8 @@ int main(int argCount, char *argument[]) {
           "implemented to add numbers.. infinitely huge.",
           ""
           "Same as addition, but for subtraction!",
+          "Multiply two or more numbers at once.",
+          "Divide two numbers.",
           "The "
           "square root of a number is a number which when multiplied, gives "
           "you the original number back.",
@@ -197,7 +203,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.2.2";
+    std::string version = "1.0.2.3";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -222,7 +228,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "version") {
       std::cout << "math++ version: " << version
-                << " (released on 27-03-2022)\n";
+                << " (released on 02-04-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
@@ -427,7 +433,48 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "divide") {
-      TODO;
+      if (argCount == 2) {
+        std::cout << "a/b\n"
+                  << "    a = ";
+        std::string a;
+        std::cin >> a;
+        std::cout << "    b = ";
+        std::string b;
+        std::cin >> b;
+        std::cout << "    accuracy = ";
+        int accuracy;
+        std::cin >> accuracy;
+
+        std::cout << a << '/' << b << " = "
+                  << color(divide(a, b, accuracy), "Green") << '\n';
+      } else if (argCount == 3) {
+        if (std::string(argument[2]) == "help")
+          std::cout << "Syntax: math++ divide [number-a] [number-b] [accuracy] "
+                       "(answer will "
+                       "be a/b)\n";
+        else
+          std::cout
+              << "[math++.function.divide] Error: Missing second number.\n";
+      } else if (argCount > 3) {
+        int accuracy = std::max(std::string(argument[2]).length() * 3,
+                                std::string(argument[3]).length() * 3);
+        if (argCount > 4)
+          accuracy = std::stoll(std::string(argument[4]));
+        if (std::string(argument[3]) == "0") {
+          std::cout << std::string(argument[2]) << "/"
+                    << std::string(argument[3]) << " is undefined.\n";
+        } else {
+          auto quotient = divide(std::string(argument[2]),
+                                 std::string(argument[3]), accuracy);
+          std::cout << std::string(argument[2]) << "/"
+                    << std::string(argument[3])
+                    << (multiply(quotient, std::string(argument[3])) ==
+                                multiply("1", std::string(argument[2]))
+                            ? " = "
+                            : " ≈ ")
+                    << color(quotient, "Green") << std::endl;
+        }
+      }
     }
 
     /* if (function == "draw") {
