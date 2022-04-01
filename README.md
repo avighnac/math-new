@@ -21,6 +21,7 @@
 - Add
 - Subtract
 - Multiply
+- Divide
 - Square Root
 - Factorial!
 - Fraction Simplifier
