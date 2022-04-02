@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "../Multiplication Algorithm/multiply.hpp"
+
 namespace algebric_num {
 struct variable {
   std::string var;
@@ -14,14 +16,14 @@ struct variable {
 };
 
 class algebric_number {
-  private:
+private:
   size_t find_first_of(size_t, size_t, std::string, std::string);
 
   //  Note that the number will be constantPart * variablePart
   //  and not '+' as any + or - signs will split the term into
   //  two.
 
-  public:
+public:
   std::string constantPart;
   std::map<char, int> variablePart;
 
@@ -266,5 +268,11 @@ std::vector<algebric_number> get_terms(std::string expression,
     nums.push_back(toPB);
   }
   return nums;
+}
+algebric_number asquare(algebric_number number) {
+  algebric_number answer(multiply(number.constantPart, number.constantPart));
+  for (auto &i : number.variablePart)
+    answer.variablePart.insert({i.first, i.second * 2});
+  return answer;
 }
 } // namespace algebric_num

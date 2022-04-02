@@ -620,43 +620,46 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "factorize") {
-      if (argCount == 2)
-        std::cout << "Syntax: math++ factorize [factorization_type] "
-                     "[mathematical_expression]\n";
       if (argCount >= 3) {
-        std::string type = argument[2];
-
-        if (type == "help")
-          std::cout << "Factorization Types:\n  1.  ax2bxc - ax^2 + bx + c -> "
-                       "(mx + n) (ox + p)\n";
+        if (std::string(argument[2]) == "help")
+          std::cout << "Syntax: math++ factorize "
+                       "[mathematical_expression]\n";
         else {
-          if (argCount >= 4) {
+          bool debugPrint =
+              (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
 
-            bool debugPrint =
-                (argCount >= 5 && std::string(argument[4]) == "-debugPrint");
+          std::string sumString = argument[2];
+          sumString.erase(std::remove(sumString.begin(), sumString.end(), ' '),
+                          sumString.end()); // Remove spaces
 
-            std::string sumString = argument[3];
-            sumString.erase(
-                std::remove(sumString.begin(), sumString.end(), ' '),
-                sumString.end()); // Remove spaces
+          std::vector<algebric_num::algebric_number> terms =
+              algebric_num::get_terms(sumString, debugPrint);
 
-            std::vector<algebric_num::algebric_number> terms =
-                algebric_num::get_terms(sumString, debugPrint);
+          std::string type;
 
-            if (debugPrint)
-              std::cout << '\n';
+          if (terms.size() == 3 &&
+              (terms[0].variablePart ==
+               algebric_num::asquare(terms[1]).variablePart) &&
+              terms[2].variablePart.empty()) {
+            type = "ax2bxc";
+          } else {
+            TODO;
+            std::cout << "Tip: You can still try factorizing another type of "
+                         "expression.\n";
+            return 0;
+          }
 
-            if (type == "ax2bxc") {
-              std::cout << ax2bxc(sumString) << '\n';
-              int accuracy = argCount == 5 ? std::stoi(argument[4]) : 8;
-              std::cout << "Middle term split: "
-                        << print_pair(split_middle_term_ax2bxc(
-                               algebric_num::get_terms(sumString), accuracy))
-                        << '\n';
-            }
-          } else
-            std::cout << "[math++.factorize] Error: Missing mathematical "
-                         "expression.";
+          if (debugPrint)
+            std::cout << '\n';
+
+          if (type == "ax2bxc") {
+            std::cout << ax2bxc(sumString) << '\n';
+            int accuracy = argCount == 5 ? std::stoi(argument[4]) : 8;
+            std::cout << "Middle term split: "
+                      << print_pair(split_middle_term_ax2bxc(
+                             algebric_num::get_terms(sumString), accuracy))
+                      << '\n';
+          }
         }
       }
     }
