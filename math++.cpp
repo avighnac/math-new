@@ -445,8 +445,11 @@ int main(int argCount, char *argument[]) {
         int accuracy;
         std::cin >> accuracy;
 
-        std::cout << a << '/' << b << " = "
+        if (multiply(b, "1") != "0")
+          std::cout << a << '/' << b << " = "
                   << color(divide(a, b, accuracy), "Green") << '\n';
+        else
+          std::cout << a << '/' << b << " is undefined.\n";
       } else if (argCount == 3) {
         if (std::string(argument[2]) == "help")
           std::cout << "Syntax: math++ divide [number-a] [number-b] [accuracy] "
