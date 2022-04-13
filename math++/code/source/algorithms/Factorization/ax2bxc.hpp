@@ -55,6 +55,7 @@ std::string ax2bxc(std::string sum) {
   auto algebraicTerms = algebric_num::get_terms(sum);
   algebraicTerms[1].constantPart = "1";
   std::string variable = algebric_num::convert_to_readable({algebraicTerms[1]});
+  variable.erase(std::remove(variable.begin(), variable.end(), ' '), variable.end());
 
   std::pair<long long, long long> secondTermSplit;
   auto temp = split_middle_term_ax2bxc(algebric_num::get_terms(sum));
