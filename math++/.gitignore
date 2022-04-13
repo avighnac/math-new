@@ -1,0 +1,9 @@
+x64/
+.clang-tidy
+../.vs/
+.vs/
+../x64/
+testing_software.out
+testing_software.exe
+updateexe.bat
+.vscode/

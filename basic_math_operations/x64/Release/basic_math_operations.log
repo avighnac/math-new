@@ -1,0 +1,12 @@
+﻿  basic_math_operations.cpp
+C:\Users\avigh\source\repos\math++\basic_math_operations\Subtraction Algorithm\add_copy.hpp(12,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Subtraction Algorithm\add_copy.hpp(41,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Subtraction Algorithm\add_copy.hpp(78,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Subtraction Algorithm\subtract.hpp(30,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Subtraction Algorithm\subtract.hpp(181,69): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Addition Algorithm\add.hpp(26,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Addition Algorithm\add.hpp(64,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Addition Algorithm\add.hpp(131,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Multiplication Algorithm\multiply.hpp(94,5): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\avigh\source\repos\math++\basic_math_operations\Multiplication Algorithm\multiply.hpp(139,64): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  basic_math_operations.vcxproj -> C:\Users\avigh\source\repos\math++\math++\x64\Release\basic_math_operations.lib
