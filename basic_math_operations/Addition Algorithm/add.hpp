@@ -1,11 +1,10 @@
 #pragma once
 
-#include <shift_decimal_point.hpp>
 #include "../Subtraction Algorithm/subtract.hpp"
+#include "../shift_decimal_point.hpp"
 #include <algorithm>
 #include <string>
 #include <vector>
-
 
 #ifndef _add_hpp_
 #define _add_hpp_

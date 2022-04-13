@@ -1,10 +1,11 @@
 #include <chrono>
 #include <iostream>
 #include <map>
+#include <vector>
 
 #include "../code/source/color.hpp"
 
-#include "../code/source/algorithms/Addition Algorithm/add.hpp"
+#include "../../basic_math_operations/basic_math_operations.hpp"
 #include "../code/source/algorithms/Factorization/ax2bxc.hpp"
 #include "../code/source/algorithms/integer_square_root.hpp"
 #include "../code/source/algorithms/modulus.hpp"

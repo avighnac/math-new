@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include <basic_math_operations.hpp>
+#include "../../../../basic_math_operations/basic_math_operations.hpp"
 
 static void remove_trailing_zeroes(std::string &str) {
   str.erase(0, std::min(str.find_first_not_of('0'), str.size() - 1));

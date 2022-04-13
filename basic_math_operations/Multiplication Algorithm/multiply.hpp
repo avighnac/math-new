@@ -1,10 +1,9 @@
 #pragma once
 
-#include <shift_decimal_point.hpp>
 #include "../Addition Algorithm/add.hpp"
+#include "../shift_decimal_point.hpp"
 #include <string>
 #include <vector>
-
 
 #ifndef _digitize_
 #define _digitize_

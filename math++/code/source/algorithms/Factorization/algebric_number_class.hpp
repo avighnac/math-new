@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include <basic_math_operations.hpp>
+#include "../../../../../basic_math_operations/basic_math_operations.hpp"
 
 namespace algebric_num {
 struct variable {
