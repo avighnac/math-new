@@ -3,16 +3,18 @@
 #include <string>
 #include <vector>
 
-#include "../../includes/shift_decimal_point.hpp"
-#include "../algorithms/Addition Algorithm/add.hpp"
-#include "../algorithms/Multiplication Algorithm/multiply.hpp"
-#include "../algorithms/Subtraction Algorithm/subtract.hpp"
+#include <basic_math_operations.hpp>
 
 static void remove_trailing_zeroes(std::string &str) {
   str.erase(0, std::min(str.find_first_not_of('0'), str.size() - 1));
 }
 
 namespace separate_into_parts_help {
+std::string reverse_string(std::string str) {
+  std::reverse(str.begin(), str.end());
+  return str;
+}
+
 std::vector<std::string> reverse_vec_str(const std::vector<std::string> &vec) {
   std::vector<std::string> answer;
   for (auto i = vec.size(); i-- > 0;) {
@@ -33,7 +35,7 @@ std::string combine_chars(char a, char b) {
 
 std::vector<std::string> separate_into_parts(std::string &str) {
   std::vector<std::string> answer;
-  str = reverse_string(str);
+  std::reverse(str.begin(), str.end());
   for (int i = 0; i < (int)str.length(); i += 2) {
     char a = ' ';
     char b = ' ';
@@ -59,8 +61,11 @@ std::vector<int> turn_to_digits(const std::string &str_n) {
 
 bool smaller_than(const std::string &a1,
                   const std::string &b1) { // if a <= b return true;
-  std::string a = reverse_string(a1);
-  std::string b = reverse_string(b1);
+  std::string a = a1;
+  std::string b = b1;
+
+  std::reverse(a.begin(), a.end());
+  std::reverse(b.begin(), b.end());
 
   std::vector<int> a_vec = turn_to_digits(a);
   std::vector<int> b_vec = turn_to_digits(b);

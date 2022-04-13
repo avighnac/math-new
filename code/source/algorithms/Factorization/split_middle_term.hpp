@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "../../algorithms/Multiplication Algorithm/multiply.hpp"
+#include <basic_math_operations.hpp>
 #include "../integer_square_root.hpp"
 #include "algebric_number_class.hpp"
 

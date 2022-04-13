@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "../Multiplication Algorithm/multiply.hpp"
+#include <basic_math_operations.hpp>
 
 namespace algebric_num {
 struct variable {

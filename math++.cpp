@@ -7,11 +7,9 @@
 #include <fstream>
 #include <iostream>
 
-#include "code/source/algorithms/Addition Algorithm/add.hpp"
-#include "code/source/algorithms/Division Algorithm/divide.hpp"
-#include "code/source/algorithms/Multiplication Algorithm/multiply.hpp"
+#include <basic_math_operations.hpp>
+
 #include "code/source/algorithms/Simple Interest/simple_interest.hpp"
-#include "code/source/algorithms/Subtraction Algorithm/subtract.hpp"
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
 
@@ -19,6 +17,8 @@
 #include "code/source/algorithms/Factorization/ax2bxc.hpp"
 
 #include "code/source/color.hpp"
+
+#include "code/source/algorithms/nroot.hpp"
 
 // External Image Library
 // #include "libraries/CImg.h"
@@ -63,23 +63,6 @@ template <typename T> std::string print_pair(std::pair<T, T> p) {
   return "{" + p.first + ", " + p.second + "}";
 }
 
-namespace basic_math_operations {
-std::string add(const std::string &num1, const std::string &num2) {
-  return ::add(num1, num2);
-}
-std::string subtract(const std::string &num1, const std::string &num2) {
-  return ::subtract(num1, num2);
-}
-std::string multiply(const std::string &num1, const std::string &num2) {
-  return ::multiply(num1, num2);
-}
-std::string divide(const std::string &num1, const std::string &num2) {
-  return ::divide(num1, num2,
-                  10); /*Still in beta.
-                      Only supports whole quotient division for now.*/
-}
-} // namespace basic_math_operations
-
 std::string to_lower(std::string str) {
   for (auto &i : str)
     i = tolower(i);
@@ -117,11 +100,11 @@ int main(int argCount, char *argument[]) {
         }
         std::string addition = "0";
         for (int i = 0; i < arr_size / 2; i++) {
-          addition = basic_math_operations::add(
-              addition, basic_math_operations::add(to_add[i], to_add[i + 1]));
+          addition = add(
+              addition, add(to_add[i], to_add[i + 1]));
         }
         if (arr_size % 2 != 0)
-          addition = basic_math_operations::add(addition, to_add[arr_size - 1]);
+          addition = add(addition, to_add[arr_size - 1]);
 
         std::cout << GREEN << addition << "\n" << RESET;
       }
@@ -139,7 +122,7 @@ int main(int argCount, char *argument[]) {
         std::string answer = "0";
 
         for (auto i = 2; i < argCount; i++)
-          answer = basic_math_operations::add(answer, argument[i]);
+          answer = add(answer, argument[i]);
 
         std::cout << answer << "\n";
       }
@@ -152,6 +135,7 @@ int main(int argCount, char *argument[]) {
           "Multiply",
           "Divide",
           "Square Root",
+          "Nth Root (nroot) (experimental)",
           "Fraction Simplifier",
           "Simple Interest",
           "Factorial",
@@ -169,6 +153,7 @@ int main(int argCount, char *argument[]) {
           "The "
           "square root of a number is a number which when multiplied, gives "
           "you the original number back.",
+          "Find the nth root of any number! (number)^(1/n)",
           "Simplifies a fraction to it's lowest terms.",
           "Solves simple interest sums automatically (with working). Google "
           "\"Simple Interest\" for more information.",
@@ -203,7 +188,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.0.2.3";
+    std::string version = "1.1.0";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -228,7 +213,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "version") {
       std::cout << "math++ version: " << version
-                << " (released on 02-04-2022)\n";
+                << " (released on 13-04-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
@@ -245,6 +230,13 @@ int main(int argCount, char *argument[]) {
       }
     }
 
+    if (function == "nroot") {
+      if (argCount >= 5) {
+        std::cout << nroot(std::string(argument[2]), std::string(argument[3]),
+                           std::stoll(std::string(argument[4])));
+      }
+    }
+
     if (function == "factorial") {
       if (argCount >= 3) {
         std::string argument3 = argument[2];
@@ -255,7 +247,7 @@ int main(int argCount, char *argument[]) {
           long long number = std::stoll(argument3);
           for (long long i = 1; i < number + 1; i++)
             factorial =
-                basic_math_operations::multiply(factorial, std::to_string(i));
+                multiply(factorial, std::to_string(i));
           std::cout << factorial << "\n";
         }
       }
@@ -426,7 +418,7 @@ int main(int argCount, char *argument[]) {
         std::string answer = "0";
 
         for (auto i = 2; i < argCount; i++)
-          answer = basic_math_operations::subtract(answer, argument[i]);
+          answer = subtract(answer, argument[i]);
 
         std::cout << answer << "\n";
       }
@@ -565,7 +557,7 @@ int main(int argCount, char *argument[]) {
         std::string answer = "1";
 
         for (auto i = 2; i < argCount; i++)
-          answer = basic_math_operations::multiply(answer, argument[i]);
+          answer = multiply(answer, argument[i]);
 
         std::cout << answer << "\n";
       }

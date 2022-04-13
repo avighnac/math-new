@@ -1,6 +1,6 @@
 #include <string>
 
-#include "Division Algorithm/divide.hpp"
+#include "../basic_math_operations/basic_math_operations.hpp"
 #include "gcd.hpp"
 
 std::pair<long long, long long>
@@ -12,6 +12,7 @@ fraction_simplifier(const std::pair<long long, long long> &fraction) {
 std::pair<std::string, std::string>
 fraction_simplifier(const std::pair<std::string, std::string> &fraction) {
   std::string hcf = gcd(fraction.first, fraction.second);
-  return {divide_whole(fraction.first, hcf),
-          divide_whole(fraction.second, hcf)};
+  std::string modulus;
+  return {divide_whole(fraction.first, hcf, modulus),
+          divide_whole(fraction.second, hcf, modulus)};
 }
