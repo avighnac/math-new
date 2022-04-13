@@ -71,7 +71,7 @@ algebric_number::algebric_number(std::string term) {
       constantNonPowerPart.push_back(i);
       count++;
     }
-    bool negative;
+    bool negative = false;
     if (constantNonPowerPart[0] == '-') {
       constantNonPowerPart.erase(0, 1);
       negative = true;
@@ -84,11 +84,7 @@ algebric_number::algebric_number(std::string term) {
     if (std::stoll(constantPowerPart) >= 0)
       constantPart = finalAnswer;
     else
-      // constantPart = divide(1, finalAnswer);
-      // This line does not work as the divide() function does not support
-      // decimals yet.
-
-      constantPart = std::to_string(1.0 / std::stoll(finalAnswer));
+      constantPart = divide("1", finalAnswer, finalAnswer.length() * 3);
     if (negative)
       constantPart.insert(0, 1, '-');
   }
