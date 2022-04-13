@@ -8,12 +8,6 @@
   <a href="https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml">
     <img src="https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml/badge.svg?branch=main" />
   </a>
-  <a href="https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml">
-    <img src="https://github.com/avighnac/math_new/actions/workflows/codeql-analysis.yml/badge.svg" />
-  </a>
- <a href="https://github.com/avighnac/math_new/actions/workflows/linter.yml">
-  <img src="https://github.com/avighnac/math_new/workflows/Lint%20Code%20Base/badge.svg" />
- </a>
 </div>
 
 ## Features
