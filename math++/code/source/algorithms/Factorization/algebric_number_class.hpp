@@ -186,7 +186,7 @@ void erase_algebric_number(
 }
 
 std::string
-convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
+convert_to_readable(const std::vector<algebric_num::algebric_number> &algebricTerms) {
   std::string answer;
   int counter = 0;
   for (auto &i : algebricTerms) {

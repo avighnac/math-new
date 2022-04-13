@@ -21,16 +21,12 @@ long long term_to_number(std::string term) {
     else
       break;
   termStr = term[0] + termStr;
-  return std::stoi(termStr);
+  return std::stoll(termStr);
 }
 
 struct bracket_term {
   long long term1, term2;
 };
-
-// TODO: FIX BUG which accepts "ab^2 + 3ab + 2"
-// but doesn't accept "a^2b^2 + 3ab + 2" which is correct.
-// The first one is WRONG.
 
 std::string ax2bxc(std::string sum) {
   sum.erase(std::remove(sum.begin(), sum.end(), ' '),
@@ -55,9 +51,10 @@ std::string ax2bxc(std::string sum) {
 
   // Assigning terms to a, b, c
   a = term_to_number(terms[0]), c = term_to_number(terms[2]);
-  std::string variable =
-      terms[0].substr(std::to_string(a).length() + 1,
-                      (terms[0].find('^') - std::to_string(a).length() - 1));
+
+  auto algebraicTerms = algebric_num::get_terms(sum);
+  algebraicTerms[1].constantPart = "1";
+  std::string variable = algebric_num::convert_to_readable({algebraicTerms[1]});
 
   std::pair<long long, long long> secondTermSplit;
   auto temp = split_middle_term_ax2bxc(algebric_num::get_terms(sum));

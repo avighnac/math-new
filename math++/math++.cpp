@@ -192,7 +192,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.2.0";
+    std::string version = "1.2.1";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -649,6 +649,7 @@ int main(int argCount, char *argument[]) {
                algebric_num::asquare(terms[1]).variablePart) &&
               terms[2].variablePart.empty()) {
             type = "ax2bxc";
+            
           } else if (terms.size() == 1 && terms[0].variablePart.empty()) {
             type = "primeFactor";
           }
