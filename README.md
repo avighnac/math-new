@@ -40,6 +40,6 @@
     * Debian: `sudo apt-get install libcurl4-openssl-dev`
     * OpenSUSE/RedHat: `sudo dnf (or yum) install curl-devel`
   * Or, you could build using CMake. Go to the directory which contains 'math++.cpp', and type `cmake build/`, and `cmake --build build/`.
-    * Make sure you have libstdc++ installed prior to this. `sudo dnf install glibc-static libstdc++-static -y;`
+    * On Fedora, make sure you have libstdc++ installed prior to this. `sudo dnf install glibc-static libstdc++-static -y;`
 * Windows:
   * Open the file 'math++.vcxproj' using Visual Studio. Press on the green button at the top of the screen.
