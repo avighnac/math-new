@@ -60,9 +60,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="version.txt" />
     <Text Include="CMakeLists.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="..\version.txt" />
   </ItemGroup>
 </Project>

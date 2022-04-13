@@ -187,8 +187,8 @@
     <ClInclude Include="code\source\algorithms\primeFactor.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\version.txt" />
     <Text Include="CMakeLists.txt" />
-    <Text Include="version.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\basic_math_operations\basic_math_operations.vcxproj">
