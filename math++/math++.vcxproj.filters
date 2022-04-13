@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Square Root">
       <UniqueIdentifier>{3701ee78-290b-44f5-baa5-779319c7cde9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Prime Factor">
+      <UniqueIdentifier>{356306ee-8005-404c-ba8f-279cb2884bad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="math++.cpp">
@@ -51,6 +54,9 @@
     </ClInclude>
     <ClInclude Include="code\source\algorithms\integer_square_root.hpp">
       <Filter>Header Files\Square Root</Filter>
+    </ClInclude>
+    <ClInclude Include="code\source\algorithms\primeFactor.hpp">
+      <Filter>Header Files\Prime Factor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

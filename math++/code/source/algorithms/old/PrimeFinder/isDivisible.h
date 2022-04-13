@@ -9,4 +9,11 @@ bool isDivisible(int divident, int divisor)
         return false;
 }
 
+bool isDivisible(std::string divident, std::string divisor) {
+  if (modulus(divident, divisor) == "0")
+    return true;
+  else
+    return false;
+}
+
 #endif

@@ -20,6 +20,10 @@
 
 #include "code/source/algorithms/nroot.hpp"
 
+#include <arr_to_string.hpp>
+
+#include "code/source/algorithms/primeFactor.hpp"
+
 // External Image Library
 // #include "libraries/CImg.h"
 
@@ -188,7 +192,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.1.0";
+    std::string version = "1.2.0";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -614,6 +618,14 @@ int main(int argCount, char *argument[]) {
       }
     }
 
+    if (function == "is_prime") {
+      if (argCount >= 3) {
+        std::cout << "is_prime(" << argument[2]
+                  << ") = " << (isPrime(std::string(argument[2])) ? "true" : "false")
+                  << '\n';
+      }
+    }
+
     if (function == "factorize") {
       if (argCount >= 3) {
         if (std::string(argument[2]) == "help")
@@ -637,7 +649,10 @@ int main(int argCount, char *argument[]) {
                algebric_num::asquare(terms[1]).variablePart) &&
               terms[2].variablePart.empty()) {
             type = "ax2bxc";
-          } else {
+          } else if (terms.size() == 1 && terms[0].variablePart.empty()) {
+            type = "primeFactor";
+          }
+          else {
             TODO;
             std::cout << "Tip: You can still try factorizing another type of "
                          "expression.\n";
@@ -654,6 +669,23 @@ int main(int argCount, char *argument[]) {
                       << print_pair(split_middle_term_ax2bxc(
                              algebric_num::get_terms(sumString), accuracy))
                       << '\n';
+          } else if (type == "primeFactor") {
+            auto primeFactors = prime_factor::prime_factor(sumString);
+            std::map<std::string, std::string> printable;
+            std::string answer;
+            for (auto &i : primeFactors) {
+              if (printable.find(i.constantPart) == printable.end())
+                printable.insert({i.constantPart, "1"});
+              else
+                printable.find(i.constantPart)->second = add(printable.find(i.constantPart)->second, "1");
+            }
+            for (auto &i : printable) {
+              if (!algebric_num::smaller_than(algebric_num::algebric_number(i.second), algebric_num::algebric_number("2")))
+                answer += i.first + "^" + i.second + " * ";
+              else
+                answer += i.first + " * ";
+            }
+            std::cout << answer.substr(0, answer.length() - 3);
           }
         }
       }

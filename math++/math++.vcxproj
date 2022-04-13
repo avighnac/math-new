@@ -184,6 +184,7 @@
     <ClInclude Include="code\source\algorithms\Factorization\ax2bxc.hpp" />
     <ClInclude Include="code\source\algorithms\get_terms.hpp" />
     <ClInclude Include="code\source\algorithms\integer_square_root.hpp" />
+    <ClInclude Include="code\source\algorithms\primeFactor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
