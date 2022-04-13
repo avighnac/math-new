@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <basic_math_operations.hpp>
+#include "../basic_math_operations/basic_math_operations.hpp"
 
 #include "code/source/algorithms/Simple Interest/simple_interest.hpp"
 #include "code/source/algorithms/integer_square_root.hpp"
@@ -20,7 +20,7 @@
 
 #include "code/source/algorithms/nroot.hpp"
 
-#include <arr_to_string.hpp>
+#include "code/includes/arr_to_string.hpp"
 
 #include "code/source/algorithms/primeFactor.hpp"
 

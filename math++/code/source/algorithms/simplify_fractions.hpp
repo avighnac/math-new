@@ -1,6 +1,6 @@
 #include <string>
 
-#include "../basic_math_operations/basic_math_operations.hpp"
+#include "../../../../basic_math_operations/basic_math_operations.hpp"
 #include "gcd.hpp"
 
 std::pair<long long, long long>

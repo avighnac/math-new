@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../math++/code/source/algorithms/Factorization/algebric_number_class.hpp"
-#include "../math++/code/source/algorithms/modulus.hpp"
-#include "../math++/code/source/algorithms/old/PrimeFinder/isPrime.h"
+#include "Factorization/algebric_number_class.hpp"
+#include "modulus.hpp"
+#include "old/PrimeFinder/isPrime.h"
 #include <vector>
 #include <map>
 

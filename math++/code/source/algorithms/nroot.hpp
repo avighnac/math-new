@@ -3,7 +3,7 @@
 #include <string>
 #include <chrono>
 
-#include "../basic_math_operations/basic_math_operations.hpp"
+#include "../../../../basic_math_operations/basic_math_operations.hpp"
 
 std::vector<int> turn_to_digits(const std::string &str_n) {
   std::vector<int> answer;

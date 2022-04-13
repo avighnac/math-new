@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <string>
+#include <algorithm>
+
 std::string add(std::string, std::string);
 std::string subtract(std::string, std::string);
 std::string subtract_whole(std::string, std::string);

@@ -7,10 +7,10 @@
 #include <string>
 #include <iterator>
 
-#include "..\\PrimeFinder\\noteqcheck.h"
-#include "..\\PrimeFinder\\isDivisible.h"
-#include "..\\PrimeFinder\\check.h"
-#include "..\\PrimeFinder\\isPrime.h"
+#include "../PrimeFinder/noteqcheck.h"
+#include "../PrimeFinder/isDivisible.h"
+#include "../PrimeFinder/check.h"
+#include "../PrimeFinder/isPrime.h"
 
 std::vector<long long> primeFactor(long long toPF)
 {
