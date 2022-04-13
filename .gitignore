@@ -1,0 +1,10 @@
+math++/x64/
+math++/.clang-tidy
+.vs/
+math++/.vs/
+math++/../x64/
+math++/testing_software.out
+math++/testing_software.exe
+math++/updateexe.bat
+math++/.vscode/
+math++/.vs/

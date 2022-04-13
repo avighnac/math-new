@@ -1,0 +1,7 @@
+issues_tests.insert({"3.16", "1.7776"});
+issues_tests.insert({"10.0000000000000", "3.1622"});
+issues_tests.insert({"25.0000000000000", "5"});
+issues_tests.insert({"0.0001", "0.01"});
+issues_tests.insert({"-0.0001", "0.01i"});
+issues_tests.insert({"-0.00010", "0.01i"});
+issues_tests.insert({"-0.000100", "0.01i"});
