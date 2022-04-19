@@ -306,8 +306,7 @@ bool choiceHandler(std::string choice) {
                            "Red")
                   << std::flush;
         std::cout << " a.k.a "
-                  << color("isPrime(\"" + std::to_string(i) + "\", \"" + "\")",
-                           "Red")
+                  << color("isPrime(\"" + std::to_string(i) + "\")", "Red")
                   << "\n";
         std::cout << "    →  Expected: "
                   << color((isPrime(i) ? "true" : "false"), "Green");
