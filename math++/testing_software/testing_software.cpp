@@ -290,19 +290,23 @@ bool choiceHandler(std::string choice) {
   if (choice == "isPrime") {
     bool passed = true;
     auto start = std::chrono::high_resolution_clock::now();
+    int currentTest = 0;
     std::cout << "Testing isPrime.h (std::string, std::string overload against "
                  "long long, long long overload).\n";
-    for (auto i = 0; i < 100000; i++) {
+    for (auto i = 0; i < 100000; i += 33) {
+      currentTest++;
       if (isPrime(i) == isPrime(std::to_string(i), true)) {
         std::cout << "\33[2K\r"
-                  << color("  Test " + std::to_string(i + 1) + " passed. [" +
-                               std::to_string(i + 1) + "/" + "100000" + "]",
+                  << color("  Test " + std::to_string(currentTest) +
+                               " passed. [" + std::to_string(currentTest) +
+                               "/" + "3031" + "]",
                            "Green")
                   << std::flush;
       } else {
         std::cout << "\33[2K\r"
-                  << color("  Test " + std::to_string(i + 1) + " failed. [" +
-                               std::to_string(i + 1) + "/" + "100000" + "]",
+                  << color("  Test " + std::to_string(currentTest) +
+                               " failed. [" + std::to_string(currentTest) +
+                               "/" + "3031" + "]",
                            "Red")
                   << std::flush;
         std::cout << " a.k.a "
