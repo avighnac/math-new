@@ -635,6 +635,8 @@ int main(int argCount, char *argument[]) {
           bool debugPrint =
               (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
 
+          auto start = std::chrono::high_resolution_clock::now();
+
           std::string sumString = argument[2];
           sumString.erase(std::remove(sumString.begin(), sumString.end(), ' '),
                           sumString.end()); // Remove spaces
@@ -688,6 +690,16 @@ int main(int argCount, char *argument[]) {
             }
             std::cout << answer.substr(0, answer.length() - 3);
           }
+          
+          auto end = std::chrono::high_resolution_clock::now();
+
+          if ((argCount >= 4 && std::string(argument[3]) == "-t"))
+            std::cout << "\nTime taken: "
+                      << std::chrono::duration_cast<std::chrono::microseconds>(
+                             end - start)
+                                 .count() /
+                             1000000.0
+                      << " seconds.\n";
         }
       }
     }

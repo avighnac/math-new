@@ -1,12 +1,15 @@
 #ifndef isPrime_h_
 #define isPrime_h_
 
-bool isPrime (int x)
+bool isPrime (long long x)
 {
-    int i = 1;
-    int counter = 0;
+  if (!(x & 1))
+    return false;
 
-    while (i < x  + 1) {
+    long long i = 1;
+    long long counter = 0;
+
+    while (i <= x) {
         if (isDivisible(x, i) == 1) {
                 counter++;
           if (counter > 2)
@@ -15,14 +18,13 @@ bool isPrime (int x)
         i++;
     }
 
-    if (counter == 2) {
-        return true;
-    } else {
-        return false;
-    }
+    return counter == 2;
 }
 
 bool isPrime(std::string x) {
+  if (!((x[x.length() - 1] - 48) & 1))
+    return false;
+
   if (algebric_num::smaller_than(
           algebric_num::algebric_number(x),
           algebric_num::algebric_number("9223372036854775807")))
@@ -32,7 +34,8 @@ bool isPrime(std::string x) {
   std::string counter = "0";
 
   while (algebric_num::smaller_than(algebric_num::algebric_number(i),
-                      algebric_num::algebric_number(add(x, "1")))) {
+                                    algebric_num::algebric_number(x))
+                 || i == x) {
     if (isDivisible(x, i) == true) {
       counter = add(counter, "1");
       if (algebric_num::greater_than(algebric_num::algebric_number(counter), algebric_num::algebric_number("2")))
@@ -41,11 +44,7 @@ bool isPrime(std::string x) {
     i = add(i, "1");
   }
 
-  if (counter == "2") {
-    return true;
-  } else {
-    return false;
-  }
+  return counter == "2";
 }
 
 #endif

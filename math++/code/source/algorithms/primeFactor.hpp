@@ -31,8 +31,15 @@ std::vector<algebric_num::algebric_number> prime_factor(std::string num) {
     }
 
     auto x = algebric_num::algebric_number(add(highest.constantPart, "1"));
-    while (!isPrime(x.constantPart))
-      x = algebric_num::algebric_number(add(x.constantPart, "1"));
+    bool incAmount = (!((x.constantPart[x.constantPart.length() - 1] - 48) & 1));
+    while (!isPrime(x.constantPart)) {
+      if (incAmount) {
+        x = algebric_num::algebric_number(add(x.constantPart, "1"));
+        incAmount = false;
+      }
+      else 
+        x = algebric_num::algebric_number(add(x.constantPart, "2"));
+    }
     if (modulus(num, x.constantPart) == "0")
       primes.push_back(x);
     highest = x;
