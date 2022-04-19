@@ -290,30 +290,31 @@ bool choiceHandler(std::string choice) {
   if (choice == "isPrime") {
     bool passed = true;
     auto start = std::chrono::high_resolution_clock::now();
-    std::cout << "Testing isPrime.h (std::string, std::string overload against long long, long long overload).\n";
+    std::cout << "Testing isPrime.h (std::string, std::string overload against "
+                 "long long, long long overload).\n";
     for (auto i = 0; i < 100000; i++) {
-      if (isPrime(i) == isPrime(std::to_string(i))) {
-          std::cout << "\33[2K\r"
-                    << color("  Test " + std::to_string(i + 1) +
-                                 " passed. [" + std::to_string(i + 1) +
-                                 "/" + "100000" + "]",
-                             "Green")
-                    << std::flush;
-        }
-      else {
+      if (isPrime(i) == isPrime(std::to_string(i), true)) {
         std::cout << "\33[2K\r"
-                  << color("  Test " + std::to_string(i + 1) +
-                               " failed. [" + std::to_string(i + 1) +
-                               "/" + "100000" + "]",
+                  << color("  Test " + std::to_string(i + 1) + " passed. [" +
+                               std::to_string(i + 1) + "/" + "100000" + "]",
+                           "Green")
+                  << std::flush;
+      } else {
+        std::cout << "\33[2K\r"
+                  << color("  Test " + std::to_string(i + 1) + " failed. [" +
+                               std::to_string(i + 1) + "/" + "100000" + "]",
                            "Red")
                   << std::flush;
         std::cout << " a.k.a "
                   << color("isPrime(\"" + std::to_string(i) + "\", \"" + "\")",
                            "Red")
                   << "\n";
-        std::cout << "    →  Expected: " << color((isPrime(i) ? "true" : "false"), "Green");
+        std::cout << "    →  Expected: "
+                  << color((isPrime(i) ? "true" : "false"), "Green");
         std::cout << "\n    →  Actual: "
-                  << color((isPrime(std::to_string(i)) ? "true" : "false"), "Red")
+                  << color(
+                         (isPrime(std::to_string(i), true) ? "true" : "false"),
+                         "Red")
                   << '\n';
         passed = false;
         break;
