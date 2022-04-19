@@ -192,7 +192,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.2.1";
+    std::string version = "1.2.2";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -217,7 +217,7 @@ int main(int argCount, char *argument[]) {
 
     if (function == "version") {
       std::cout << "math++ version: " << version
-                << " (released on 13-04-2022)\n";
+                << " (released on 19-04-2022)\n";
       std::cout << "Tip: run math++ check_update to check if you have the "
                    "latest version of math++.\n";
     }
