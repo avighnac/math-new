@@ -3,17 +3,12 @@
 
 bool isDivisible(int divident, int divisor)
 {
-    if (divident % divisor == 0)
-        return true;
-    else
-        return false;
+  return (divident % divisor == 0);
 }
 
-bool isDivisible(std::string divident, std::string divisor) {
-  if (modulus(divident, divisor) == "0")
-    return true;
-  else
-    return false;
+bool isDivisible(std::string divident, std::string divisor)
+{
+  return (modulus(divident, divisor) == "0");
 }
 
 #endif

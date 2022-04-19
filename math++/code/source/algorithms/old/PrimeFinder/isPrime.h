@@ -10,8 +10,8 @@ bool isPrime (long long x)
     long long counter = 0;
 
     while (i <= x) {
-        if (isDivisible(x, i) == 1) {
-                counter++;
+      if (x % i == 0) {
+        counter++;
           if (counter > 2)
             return false;
         }
@@ -36,7 +36,7 @@ bool isPrime(std::string x) {
   while (algebric_num::smaller_than(algebric_num::algebric_number(i),
                                     algebric_num::algebric_number(x))
                  || i == x) {
-    if (isDivisible(x, i) == true) {
+    if (modulus(x, i) == "0") {
       counter = add(counter, "1");
       if (algebric_num::greater_than(algebric_num::algebric_number(counter), algebric_num::algebric_number("2")))
         return false;

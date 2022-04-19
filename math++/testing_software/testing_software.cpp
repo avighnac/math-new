@@ -9,6 +9,7 @@
 #include "../code/source/algorithms/Factorization/ax2bxc.hpp"
 #include "../code/source/algorithms/integer_square_root.hpp"
 #include "../code/source/algorithms/modulus.hpp"
+#include "../code/source/algorithms/old/PrimeFinder/isPrime.h"
 
 bool choiceHandler(std::string choice) {
   if (choice == "add") {
@@ -236,7 +237,7 @@ bool choiceHandler(std::string choice) {
   if (choice == "modulus") {
     bool passed = true;
     std::string totalTests = "10000";
-    int currentTest;
+    int currentTest = 0;
     std::cout << "Testing modulus.hpp.\n";
     auto start = std::chrono::high_resolution_clock::now();
     for (auto i = 1; i < 101; i++) {
@@ -286,6 +287,49 @@ bool choiceHandler(std::string choice) {
               << color("ms.", "Magenta");
     return passed;
   }
+  if (choice == "isPrime") {
+    bool passed = true;
+    auto start = std::chrono::high_resolution_clock::now();
+    std::cout << "Testing isPrime.h (std::string, std::string overload against long long, long long overload).\n";
+    for (auto i = 0; i < 100000; i++) {
+      if (isPrime(i) == isPrime(std::to_string(i))) {
+          std::cout << "\33[2K\r"
+                    << color("  Test " + std::to_string(i + 1) +
+                                 " passed. [" + std::to_string(i + 1) +
+                                 "/" + "100000" + "]",
+                             "Green")
+                    << std::flush;
+        }
+      else {
+        std::cout << "\33[2K\r"
+                  << color("  Test " + std::to_string(i + 1) +
+                               " failed. [" + std::to_string(i + 1) +
+                               "/" + "100000" + "]",
+                           "Red")
+                  << std::flush;
+        std::cout << " a.k.a "
+                  << color("isPrime(\"" + std::to_string(i) + "\", \"" + "\")",
+                           "Red")
+                  << "\n";
+        std::cout << "    →  Expected: " << color((isPrime(i) ? "true" : "false"), "Green");
+        std::cout << "\n    →  Actual: "
+                  << color((isPrime(std::to_string(i)) ? "true" : "false"), "Red")
+                  << '\n';
+        passed = false;
+        break;
+      }
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "\n  Time taken: "
+              << color(
+                     std::to_string(
+                         std::chrono::duration_cast<std::chrono::milliseconds>(
+                             end - start)
+                             .count()),
+                     "Magenta")
+              << color("ms.", "Magenta");
+    return passed;
+  }
   return false;
 }
 
@@ -308,9 +352,11 @@ int main(int argc, char *argv[]) {
     bool factorize = choiceHandler("factorize");
     std::cout << "\n\n";
     bool modulus = choiceHandler("modulus");
+    std::cout << (char)10 << (char)10;
+    bool isPrime = choiceHandler("isPrime");
 
     std::cout << "\n\nSummary: ";
-    if (add && sqrt && factorize && modulus) {
+    if (add && sqrt && factorize && modulus && isPrime) {
       std::cout << color("Passed all tests.\n", "Green");
       return 0;
     } else {
