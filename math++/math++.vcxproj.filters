@@ -30,9 +30,6 @@
     <ClCompile Include="math++.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="testing_software\testing_software.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore">
