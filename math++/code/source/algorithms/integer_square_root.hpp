@@ -92,23 +92,6 @@ bool greater_than(const std::string &a1, const std::string &b1) {
   return !smaller_than(a1, b1);
 }
 
-/* int box_filler(std::string &a, std::string &b) {
-    remove_trailing_zeroes(a);
-    remove_trailing_zeroes(b);
-
-    int i = 0;
-    std::string str;
-
-    while (true) {
-        if (!smaller_than(multiply((a + std::to_string(i)), std::to_string(i)),
-b)) { break;
-        }
-        i++;
-    }
-
-    return i-1;
-} */
-
 int box_filler(std::string &a, std::string &b,
                std::string &preLSColumnMultiplicationOut) {
   remove_trailing_zeroes(a);

@@ -25,7 +25,7 @@ private:
 
 public:
   std::string constantPart;
-  std::map<char, int> variablePart;
+  std::map<char, float> variablePart;
 
   explicit algebric_number(std::string);
   void print_number();
@@ -181,8 +181,8 @@ void erase_algebric_number(
   algebricTerms = answer;
 }
 
-std::string
-convert_to_readable(const std::vector<algebric_num::algebric_number> &algebricTerms) {
+std::string convert_to_readable(
+    const std::vector<algebric_num::algebric_number> &algebricTerms) {
   std::string answer;
   int counter = 0;
   for (auto &i : algebricTerms) {
@@ -265,6 +265,7 @@ std::vector<algebric_number> get_terms(std::string expression,
   }
   return nums;
 }
+
 algebric_number asquare(algebric_number number) {
   algebric_number answer(multiply(number.constantPart, number.constantPart));
   for (auto &i : number.variablePart)

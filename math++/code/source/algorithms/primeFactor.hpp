@@ -8,6 +8,13 @@
 
 namespace prime_factor {
 std::vector<algebric_num::algebric_number> prime_factor(std::string num) {
+
+  if (algebric_num::smaller_than(algebric_num::algebric_number(num), algebric_num::algebric_number("0"))) {
+    auto answer = prime_factor(multiply(num, "-1"));
+    answer.emplace_back("-1");
+    return answer;
+  }
+
   if (isPrime(num))
     return { algebric_num::algebric_number(num) };
   if (num == "1")

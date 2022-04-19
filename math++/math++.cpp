@@ -688,7 +688,7 @@ int main(int argCount, char *argument[]) {
               else
                 answer += i.first + " * ";
             }
-            std::cout << answer.substr(0, answer.length() - 3);
+            std::cout << answer.substr(0, answer.length() - 3) << '\n';
           }
           
           auto end = std::chrono::high_resolution_clock::now();
