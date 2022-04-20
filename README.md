@@ -2,11 +2,11 @@
 
 <div align="center">
  <p>... is a command-line tool which aims to be able to solve mathematics, from addition to square roots.</p>
-  <a href="https://github.com/avighnac/math_new/releases">
-    <img src="https://img.shields.io/github/v/release/avighnac/math_new?include_prereleases&label=Latest%20Release" />
+  <a href="https://github.com/avighnac/math-new/releases">
+    <img src="https://img.shields.io/github/v/release/avighnac/math-new?include_prereleases&label=Latest%20Release" />
   </a>
-  <a href="https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml">
-    <img src="https://github.com/avighnac/math_new/actions/workflows/mathpp-tests.yml/badge.svg?branch=main" />
+  <a href="https://github.com/avighnac/math-new/actions/workflows/mathpp-tests.yml">
+    <img src="https://github.com/avighnac/math-new/actions/workflows/mathpp-tests.yml/badge.svg?branch=main" />
   </a>
 </div>
 
@@ -27,7 +27,7 @@
 ## Installation
 
 * Linux
-  * To install math++ on Linux, simply run this command in a terminal shell: `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math_new/releases/download/v1.2.2/math++_linux-1_2_2.out --no-check-certificate; sudo chmod +x /usr/bin/math++`
+  * To install math++ on Linux, simply run this command in a terminal shell: `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math-new/releases/download/v1.2.2/math++_linux-1_2_2.out --no-check-certificate; sudo chmod +x /usr/bin/math++`
   * Type 'math++' in any Linux CLI to run the program.
 * Windows
   * Download the latest release, rename the .exe to "math++.exe" and move it to the System32 folder.
