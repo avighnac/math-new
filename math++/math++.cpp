@@ -104,8 +104,7 @@ int main(int argCount, char *argument[]) {
         }
         std::string addition = "0";
         for (int i = 0; i < arr_size / 2; i++) {
-          addition = add(
-              addition, add(to_add[i], to_add[i + 1]));
+          addition = add(addition, add(to_add[i], to_add[i + 1]));
         }
         if (arr_size % 2 != 0)
           addition = add(addition, to_add[arr_size - 1]);
@@ -132,7 +131,7 @@ int main(int argCount, char *argument[]) {
       }
     }
 
-    if (function == "help") {
+    if (function == "help" || function == "help_detailed") {
       std::vector<std::string> functions = {
           "Add",
           "Subtract",
@@ -146,6 +145,7 @@ int main(int argCount, char *argument[]) {
           "Factorize",
           "Evaluate",
           "Decimal to Fraction",
+          "Trignometric Functions",
       };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
@@ -170,22 +170,27 @@ int main(int argCount, char *argument[]) {
           "simplification (complication).",
           "Evaluate a mathematical expression.",
           "Converts a decimal number to a fraction.",
+          "Find the sine, cosine, and tangent of an angle.",
       };
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
                    "math++ credits.\nFUNCTIONS:\n";
 
       for (auto i = 0; i < functions.size(); i++) {
-        if (is_windows()) {
-          std::cout << "     -";
-        } else
-          std::cout << "     •";
-        std::cout << functions[i] << "- " << function_definitions[i] << "\n";
+        (is_windows()) ? std::cout << "     -" : std::cout << "     •";
+        std::cout << functions[i];
+        if (function == "help_detailed")
+          std::cout << " - " << function_definitions[i];
+        std::cout << char(10);
       }
 
-      std::cout
-          << "\nNote: For help "
-             "with any individual function run math++ [function] help.\n\n";
+      std::cout << "\nNote: For help "
+                   "with any individual function run math++ [function] "
+                   "help.\n";
+      if (function == "help")
+        std::cout << "For a more detailed version of this message, run math++ "
+                     "help_detailed.";
+      std::cout << '\n';
     }
 
     if (function == "credits") {
@@ -250,8 +255,7 @@ int main(int argCount, char *argument[]) {
           std::string factorial = "1";
           long long number = std::stoll(argument3);
           for (long long i = 1; i < number + 1; i++)
-            factorial =
-                multiply(factorial, std::to_string(i));
+            factorial = multiply(factorial, std::to_string(i));
           std::cout << factorial << "\n";
         }
       }
@@ -443,7 +447,7 @@ int main(int argCount, char *argument[]) {
 
         if (multiply(b, "1") != "0")
           std::cout << a << '/' << b << " = "
-                  << color(divide(a, b, accuracy), "Green") << '\n';
+                    << color(divide(a, b, accuracy), "Green") << '\n';
         else
           std::cout << a << '/' << b << " is undefined.\n";
       } else if (argCount == 3) {
@@ -620,8 +624,8 @@ int main(int argCount, char *argument[]) {
 
     if (function == "is_prime") {
       if (argCount >= 3) {
-        std::cout << "is_prime(" << argument[2]
-                  << ") = " << (isPrime(std::string(argument[2])) ? "true" : "false")
+        std::cout << "is_prime(" << argument[2] << ") = "
+                  << (isPrime(std::string(argument[2])) ? "true" : "false")
                   << '\n';
       }
     }
@@ -651,11 +655,10 @@ int main(int argCount, char *argument[]) {
                algebric_num::asquare(terms[1]).variablePart) &&
               terms[2].variablePart.empty()) {
             type = "ax2bxc";
-            
+
           } else if (terms.size() == 1 && terms[0].variablePart.empty()) {
             type = "primeFactor";
-          }
-          else {
+          } else {
             TODO;
             std::cout << "Tip: You can still try factorizing another type of "
                          "expression.\n";
@@ -680,17 +683,20 @@ int main(int argCount, char *argument[]) {
               if (printable.find(i.constantPart) == printable.end())
                 printable.insert({i.constantPart, "1"});
               else
-                printable.find(i.constantPart)->second = add(printable.find(i.constantPart)->second, "1");
+                printable.find(i.constantPart)->second =
+                    add(printable.find(i.constantPart)->second, "1");
             }
             for (auto &i : printable) {
-              if (!algebric_num::smaller_than(algebric_num::algebric_number(i.second), algebric_num::algebric_number("2")))
+              if (!algebric_num::smaller_than(
+                      algebric_num::algebric_number(i.second),
+                      algebric_num::algebric_number("2")))
                 answer += i.first + "^" + i.second + " * ";
               else
                 answer += i.first + " * ";
             }
             std::cout << answer.substr(0, answer.length() - 3) << '\n';
           }
-          
+
           auto end = std::chrono::high_resolution_clock::now();
 
           if ((argCount >= 4 && std::string(argument[3]) == "-t"))
@@ -717,6 +723,39 @@ int main(int argCount, char *argument[]) {
         }
         auto answer = fraction_simplifier({decimal, denominator});
         std::cout << GREEN << answer.first << "/" << answer.second << RESET
+                  << '\n';
+      }
+    }
+    if (function == "sin" || function == "sine") {
+      if (argCount >= 3) {
+        std::cout << "sin(" << argument[2] << ") = "
+                  << std::sin(
+                         std::stod(std::string(argument[2])) *
+                         (argCount >= 4 && std::string(argument[3]) == "rad"
+                              ? -1
+                              : M_PI / 180))
+                  << '\n';
+      }
+    }
+    if (function == "cos" || function == "cosine") {
+      if (argCount >= 3) {
+        std::cout << "cos(" << argument[2] << ") = "
+                  << std::cos(
+                         std::stod(std::string(argument[2])) *
+                         (argCount >= 4 && std::string(argument[3]) == "rad"
+                              ? -1
+                              : M_PI / 180))
+                  << '\n';
+      }
+    }
+    if (function == "tan" || function == "tangent") {
+      if (argCount >= 3) {
+        std::cout << "tan(" << argument[2] << ") = "
+                  << std::tan(
+                         std::stod(std::string(argument[2])) *
+                         (argCount >= 4 && std::string(argument[3]) == "rad"
+                              ? -1
+                              : M_PI / 180))
                   << '\n';
       }
     }
