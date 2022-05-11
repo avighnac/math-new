@@ -1,6 +1,6 @@
 #define NOMINMAX
 #define CURL_STATICLIB
-#define M_PI 3.1415926
+#define M_PI 3.141592653589793238462643
 
 #include <chrono>
 #include <curl/curl.h>
@@ -618,17 +618,39 @@ int main(int argCount, char *argument[]) {
                              algebraic_num::get_terms(sumString), accuracy))
                       << '\n';
           } else if (type == "primeFactor") {
-            auto primeFactors = prime_factor::prime_factor(sumString);
-            std::map<std::string, std::string> printable;
-            std::string answer;
-            for (auto &i : primeFactors) {
-              if (printable.find(i.constantPart) == printable.end())
-                printable.insert({i.constantPart, "1"});
-              else
-                printable.find(i.constantPart)->second =
-                    add(printable.find(i.constantPart)->second, "1");
+            std::string decimal(sumString);
+            std::string denominator = "1";
+            while (decimal_point_exists(decimal)) {
+              decimal = shift_decimal_point(decimal, 1);
+              denominator += "0";
             }
-            for (auto &i : printable) {
+            auto simplified = fraction_simplifier({decimal, denominator});
+            auto primeFactorsNumerator =
+                prime_factor::prime_factor(simplified.first);
+            auto primeFactorsDenominator =
+                prime_factor::prime_factor(simplified.second);
+            std::map<std::string, std::string> printableNumerator;
+            std::map<std::string, std::string> printableDenominator;
+            std::string answer;
+            for (auto &i : primeFactorsNumerator) {
+              if (printableNumerator.find(i.constantPart) == printableNumerator.end())
+                printableNumerator.insert({i.constantPart, "1"});
+              else
+                printableNumerator.find(i.constantPart)->second =
+                    add(printableNumerator.find(i.constantPart)->second, "1");
+            }
+            for (auto &i : primeFactorsDenominator) {
+              if (printableDenominator.find(i.constantPart) ==
+                  printableDenominator.end())
+                printableDenominator.insert({i.constantPart, "1"});
+              else
+                printableDenominator.find(i.constantPart)->second =
+                    add(printableDenominator.find(i.constantPart)->second, "1");
+            }
+            bool DPE = decimal_point_exists(sumString);
+            if (DPE)
+              answer += "(";
+            for (auto &i : printableNumerator) {
               if (!algebraic_num::smaller_than(
                       algebraic_num::algebraic_number(i.second),
                       algebraic_num::algebraic_number("2")))
@@ -636,7 +658,21 @@ int main(int argCount, char *argument[]) {
               else
                 answer += i.first + " * ";
             }
-            std::cout << answer.substr(0, answer.length() - 3) << '\n';
+            answer = answer.substr(0, answer.length() - 3);
+            if (DPE) {
+              answer += ")/(";
+              for (auto &i : printableDenominator) {
+                if (!algebraic_num::smaller_than(
+                        algebraic_num::algebraic_number(i.second),
+                        algebraic_num::algebraic_number("2")))
+                  answer += i.first + "^" + i.second + " * ";
+                else
+                  answer += i.first + " * ";
+              }
+              answer = answer.substr(0, answer.length() - 3);
+              answer += ")";
+            }
+            std::cout << answer << '\n';
           }
 
           auto end = std::chrono::high_resolution_clock::now();
