@@ -319,7 +319,6 @@ int main(int argCount, char *argument[]) {
             }
           }
 
-          if (decimal_point_exists(argument[2])) { /* number */
             std::chrono::time_point<std::chrono::high_resolution_clock> start;
             std::chrono::time_point<std::chrono::high_resolution_clock> stop;
             if (show_time)
@@ -336,24 +335,6 @@ int main(int argCount, char *argument[]) {
                           100000.0;
               std::cout << "\nTime taken: " << time << " seconds. \n";
             }
-          } else {
-            std::chrono::time_point<std::chrono::high_resolution_clock> start;
-            std::chrono::time_point<std::chrono::high_resolution_clock> stop;
-            if (show_time)
-              start = std::chrono::high_resolution_clock::now();
-            std::string sqrt = square_root(argument[2], accuracy);
-            if (show_time)
-              stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << sqrt << "\n";
-
-            if (show_time) {
-              auto time = std::chrono::duration_cast<std::chrono::microseconds>(
-                              stop - start)
-                              .count() /
-                          1000000.0;
-              std::cout << "\nTime taken: " << time << " seconds. \n";
-            }
-          }
         } else {
           std::cout << "Syntax: math++ sqrt [number] [accuracy] [-t for "
                        "displaying time "
