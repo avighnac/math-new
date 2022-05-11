@@ -198,7 +198,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.2.2";
+    std::string version = "1.3.0";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
