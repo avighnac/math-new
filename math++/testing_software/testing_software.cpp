@@ -7,9 +7,10 @@
 
 #include "../../basic_math_operations/basic_math_operations.hpp"
 #include "../code/source/algorithms/Factorization/ax2bxc.hpp"
-#include "../code/source/algorithms/integer_square_root.hpp"
 #include "../code/source/algorithms/modulus.hpp"
 #include "../code/source/algorithms/old/PrimeFinder/isPrime.h"
+#include "../code/source/algorithms/square_root.hpp"
+
 
 bool choiceHandler(std::string choice) {
   if (choice == "add") {
@@ -145,14 +146,14 @@ bool choiceHandler(std::string choice) {
   if (choice == "sqrt") {
     bool passed = true;
     std::map<std::string, std::string> test_set_1;
-    std::cout << "Testing integer_square_root.hpp." << '\n';
-    std::cout << color("integer_square_root", "Yellow") << "(n = (\""
+    std::cout << "Testing square_root.hpp." << '\n';
+    std::cout << color("square_root", "Yellow") << "(n = (\""
               << color("0", "Magenta") << "\" → \"" << color("199", "Magenta")
               << "\"), " << color("25", "Magenta") << ")\n";
 #include "tests/sqrt/test_set_1"
     auto start = std::chrono::high_resolution_clock::now();
     for (auto i = 0; i < 200; i++) {
-      if (integer_square_root(std::to_string(i), 25) ==
+      if (square_root(std::to_string(i), 25) ==
           test_set_1.find(std::to_string(i))->second)
         std::cout << "\33[2K\r"
                   << color("  Test " + std::to_string(i + 1) + " passed. [" +
@@ -165,15 +166,14 @@ bool choiceHandler(std::string choice) {
                                std::to_string(i + 1) + "/" + "200]",
                            "Red");
         std::cout << " a.k.a "
-                  << color("integer_square_root(\"" + std::to_string(i) +
-                               "\", " + "25)",
+                  << color("square_root(\"" + std::to_string(i) + "\", " +
+                               "25)",
                            "Red")
                   << "\n";
         std::cout << "    →  Expected: "
                   << color(test_set_1.find(std::to_string(i))->second, "Green");
         std::cout << "\n    →  Actual: "
-                  << color(integer_square_root(std::to_string(i), 25), "Red")
-                  << '\n';
+                  << color(square_root(std::to_string(i), 25), "Red") << '\n';
         passed = false;
         break;
       }
