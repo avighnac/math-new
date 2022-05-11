@@ -1,5 +1,6 @@
 #define NOMINMAX
 #define CURL_STATICLIB
+#define M_PI 3.1415926
 
 #include <chrono>
 #include <curl/curl.h>
@@ -13,7 +14,7 @@
 #include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
 
-#include "code/source/algorithms/Factorization/algebric_number_class.hpp"
+#include "code/source/algorithms/Factorization/algebraic_number_class.hpp"
 #include "code/source/algorithms/Factorization/ax2bxc.hpp"
 
 #include "code/source/color.hpp"
@@ -593,8 +594,8 @@ int main(int argCount, char *argument[]) {
           replace_all(sum, "++", "+");
         }
 
-        std::vector<algebric_num::algebric_number> nums =
-            algebric_num::get_terms(sum, debugPrint);
+        std::vector<algebraic_num::algebraic_number> nums =
+            algebraic_num::get_terms(sum, debugPrint);
 
         if (debugPrint)
           std::cout << '\n';
@@ -602,22 +603,22 @@ int main(int argCount, char *argument[]) {
         for (auto i = 0; i < nums.size(); i++) { // Addition of like terms only
           for (auto j = i + 1; j < nums.size(); j++) {
             if (nums[i].variablePart == nums[j].variablePart) {
-              algebric_num::algebric_number toPB("0");
+              algebraic_num::algebraic_number toPB("0");
               toPB.constantPart =
                   add(nums[i].constantPart, nums[j].constantPart);
               if (toPB.constantPart != "0" && toPB.constantPart != "-0" &&
                   toPB.constantPart != "+0")
                 toPB.variablePart = nums[i].variablePart;
-              algebric_num::erase_algebric_number(nums, i);
+              algebraic_num::erase_algebraic_number(nums, i);
               j--;
-              algebric_num::erase_algebric_number(nums, j);
+              algebraic_num::erase_algebraic_number(nums, j);
               nums.push_back(toPB);
               j = i;
             }
           }
         }
 
-        std::cout << algebric_num::convert_to_readable(nums)
+        std::cout << algebraic_num::convert_to_readable(nums)
                   << '\n'; // Printing out readable version.
       }
     }
@@ -645,14 +646,14 @@ int main(int argCount, char *argument[]) {
           sumString.erase(std::remove(sumString.begin(), sumString.end(), ' '),
                           sumString.end()); // Remove spaces
 
-          std::vector<algebric_num::algebric_number> terms =
-              algebric_num::get_terms(sumString, debugPrint);
+          std::vector<algebraic_num::algebraic_number> terms =
+              algebraic_num::get_terms(sumString, debugPrint);
 
           std::string type;
 
           if (terms.size() == 3 &&
               (terms[0].variablePart ==
-               algebric_num::asquare(terms[1]).variablePart) &&
+               algebraic_num::asquare(terms[1]).variablePart) &&
               terms[2].variablePart.empty()) {
             type = "ax2bxc";
 
@@ -673,7 +674,7 @@ int main(int argCount, char *argument[]) {
             int accuracy = argCount == 5 ? std::stoi(argument[4]) : 8;
             std::cout << "Middle term split: "
                       << print_pair(split_middle_term_ax2bxc(
-                             algebric_num::get_terms(sumString), accuracy))
+                             algebraic_num::get_terms(sumString), accuracy))
                       << '\n';
           } else if (type == "primeFactor") {
             auto primeFactors = prime_factor::prime_factor(sumString);
@@ -687,9 +688,9 @@ int main(int argCount, char *argument[]) {
                     add(printable.find(i.constantPart)->second, "1");
             }
             for (auto &i : printable) {
-              if (!algebric_num::smaller_than(
-                      algebric_num::algebric_number(i.second),
-                      algebric_num::algebric_number("2")))
+              if (!algebraic_num::smaller_than(
+                      algebraic_num::algebraic_number(i.second),
+                      algebraic_num::algebraic_number("2")))
                 answer += i.first + "^" + i.second + " * ";
               else
                 answer += i.first + " * ";

@@ -4,7 +4,7 @@
 #include <vector>
 
 namespace std {
-std::string to_string(algebric_num::algebric_number num) {
+std::string to_string(algebraic_num::algebraic_number num) {
   return num.get_formatted_number();
 }
 template <typename T, typename U> std::string to_string(std::pair<T, U> p) {

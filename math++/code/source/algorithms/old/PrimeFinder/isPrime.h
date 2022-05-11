@@ -33,16 +33,16 @@ bool isPrime(std::string x, bool testing = false) {
     return false;
 
   if (!testing)
-    if (algebric_num::smaller_than(
-            algebric_num::algebric_number(x),
-            algebric_num::algebric_number("9223372036854775807")))
+    if (algebraic_num::smaller_than(
+            algebraic_num::algebraic_number(x),
+            algebraic_num::algebraic_number("9223372036854775807")))
       return isPrime(std::stoll(x));
 
   std::string i = "1";
   int counter = 0;
 
-  while (algebric_num::smaller_than(algebric_num::algebric_number(i),
-                                    algebric_num::algebric_number(x)) ||
+  while (algebraic_num::smaller_than(algebraic_num::algebraic_number(i),
+                                    algebraic_num::algebraic_number(x)) ||
          i == x) {
     if (modulus(x, i) == "0") {
       counter++;

@@ -175,7 +175,7 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\source\algorithms\Factorization\algebric_number_class.hpp" />
+    <ClInclude Include="code\source\algorithms\Factorization\algebraic_number_class.hpp" />
     <ClInclude Include="code\source\algorithms\Factorization\split_middle_term.hpp" />
     <ClInclude Include="code\source\algorithms\Factorization\ax2bxc.hpp" />
     <ClInclude Include="code\source\algorithms\get_terms.hpp" />

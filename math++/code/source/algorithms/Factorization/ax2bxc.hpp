@@ -52,13 +52,13 @@ std::string ax2bxc(std::string sum) {
   // Assigning terms to a, b, c
   a = term_to_number(terms[0]), c = term_to_number(terms[2]);
 
-  auto algebraicTerms = algebric_num::get_terms(sum);
+  auto algebraicTerms = algebraic_num::get_terms(sum);
   algebraicTerms[1].constantPart = "1";
-  std::string variable = algebric_num::convert_to_readable({algebraicTerms[1]});
+  std::string variable = algebraic_num::convert_to_readable({algebraicTerms[1]});
   variable.erase(std::remove(variable.begin(), variable.end(), ' '), variable.end());
 
   std::pair<long long, long long> secondTermSplit;
-  auto temp = split_middle_term_ax2bxc(algebric_num::get_terms(sum));
+  auto temp = split_middle_term_ax2bxc(algebraic_num::get_terms(sum));
   secondTermSplit.first = std::stoi(temp.first);
   secondTermSplit.second = std::stoi(temp.second);
 

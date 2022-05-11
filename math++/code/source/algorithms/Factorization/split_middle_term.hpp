@@ -3,10 +3,10 @@
 
 #include "../../../../../basic_math_operations/basic_math_operations.hpp"
 #include "../integer_square_root.hpp"
-#include "algebric_number_class.hpp"
+#include "algebraic_number_class.hpp"
 
 std::pair<std::string, std::string>
-split_middle_term_ax2bxc(std::vector<algebric_num::algebric_number> terms,
+split_middle_term_ax2bxc(std::vector<algebraic_num::algebraic_number> terms,
                          int accuracy = 8) {
   if (terms.size() > 3)
     throw std::runtime_error(
@@ -14,7 +14,7 @@ split_middle_term_ax2bxc(std::vector<algebric_num::algebric_number> terms,
         "expression provided "
         "cannot be factorized using this factorization type.");
 
-  std::vector<algebric_num::algebric_number> middleTerm;
+  std::vector<algebraic_num::algebraic_number> middleTerm;
   auto discriminant = integer_square_root(
       add(multiply(terms[1].constantPart, terms[1].constantPart),
           multiply("-4",

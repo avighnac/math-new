@@ -1,7 +1,40 @@
-#include "algebric_number_class.hpp"
+// Copyright 2022 avighnac
 
-namespace algebric_num {
-algebric_number::algebric_number(std::string term) {
+#pragma once
+
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "../../../../../basic_math_operations/basic_math_operations.hpp"
+
+namespace algebraic_num {
+struct variable {
+  std::string var;
+  int power = 1;
+};
+
+class algebraic_number {
+private:
+  size_t find_first_of(size_t, size_t, std::string, std::string);
+
+  //  Note that the number will be constantPart * variablePart
+  //  and not '+' as any + or - signs will split the term into
+  //  two.
+
+public:
+  std::string constantPart;
+  std::map<char, float> variablePart;
+
+  explicit algebraic_number(std::string);
+  void print_number();
+  std::string get_formatted_number();
+  std::string char_to_str(char);
+  ~algebraic_number();
+};
+
+algebraic_number::algebraic_number(std::string term) {
   //  10^2a^2b^2
   //  constant: 10^2
   //  variable: {{a, power: 2}, {b, power: 2}}
@@ -38,7 +71,7 @@ algebric_number::algebric_number(std::string term) {
       constantNonPowerPart.push_back(i);
       count++;
     }
-    bool negative;
+    bool negative = false;
     if (constantNonPowerPart[0] == '-') {
       constantNonPowerPart.erase(0, 1);
       negative = true;
@@ -51,11 +84,7 @@ algebric_number::algebric_number(std::string term) {
     if (std::stoll(constantPowerPart) >= 0)
       constantPart = finalAnswer;
     else
-      // constantPart = divide(1, finalAnswer);
-      // This line does not work as the divide() function does not support
-      // decimals yet.
-
-      constantPart = std::to_string(1.0 / std::stoll(finalAnswer));
+      constantPart = divide("1", finalAnswer, finalAnswer.length() * 3);
     if (negative)
       constantPart.insert(0, 1, '-');
   }
@@ -94,9 +123,9 @@ algebric_number::algebric_number(std::string term) {
   }
 }
 
-algebric_number::~algebric_number() {}
+algebraic_number::~algebraic_number() {}
 
-void algebric_number::print_number() {
+void algebraic_number::print_number() {
   std::cout << "Constant Part: " << constantPart << "\nVariables: {";
 
   std::string toPrint;
@@ -109,7 +138,7 @@ void algebric_number::print_number() {
   std::cout << toPrint << "}\n";
 }
 
-std::string algebric_number::get_formatted_number() {
+std::string algebraic_number::get_formatted_number() {
   std::string answer;
   answer += "{" + constantPart + ", {";
   for (auto &i : variablePart) {
@@ -122,7 +151,7 @@ std::string algebric_number::get_formatted_number() {
   return answer + "}}";
 }
 
-size_t algebric_number::find_first_of(size_t startPos, size_t endPos,
+size_t algebraic_number::find_first_of(size_t startPos, size_t endPos,
                                       std::string argument, std::string term) {
 
   if (argument == "letter") {
@@ -137,26 +166,26 @@ size_t algebric_number::find_first_of(size_t startPos, size_t endPos,
   return -1;
 }
 
-std::string algebric_number::char_to_str(char charac) {
+std::string algebraic_number::char_to_str(char charac) {
   std::string answer;
   answer.push_back(charac);
   return answer;
 }
 
-void erase_algebric_number(
-    std::vector<algebric_num::algebric_number> &algebricTerms, size_t index) {
-  std::vector<algebric_num::algebric_number> answer;
-  for (auto i = 0; i < algebricTerms.size(); i++)
+void erase_algebraic_number(
+    std::vector<algebraic_num::algebraic_number> &algebraicTerms, size_t index) {
+  std::vector<algebraic_num::algebraic_number> answer;
+  for (auto i = 0; i < algebraicTerms.size(); i++)
     if (i != index)
-      answer.push_back(algebricTerms[i]);
-  algebricTerms = answer;
+      answer.push_back(algebraicTerms[i]);
+  algebraicTerms = answer;
 }
 
-std::string
-convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
+std::string convert_to_readable(
+    const std::vector<algebraic_num::algebraic_number> &algebraicTerms) {
   std::string answer;
   int counter = 0;
-  for (auto &i : algebricTerms) {
+  for (auto &i : algebraicTerms) {
     if (i.constantPart[0] != '-')
       answer += "+ ";
     else
@@ -183,7 +212,7 @@ convert_to_readable(std::vector<algebric_num::algebric_number> &algebricTerms) {
   return answer;
 }
 
-std::vector<algebric_number> get_terms(std::string expression,
+std::vector<algebraic_number> get_terms(std::string expression,
                                        bool debugPrint = false) {
   expression.erase(std::remove(expression.begin(), expression.end(), ' '),
                    expression.end()); // Remove spaces
@@ -211,7 +240,7 @@ std::vector<algebric_number> get_terms(std::string expression,
   for (auto i = '0'; i <= '9'; i++)
     numbers.insert({i, i - 48});
 
-  std::vector<algebric_number> nums;
+  std::vector<algebraic_number> nums;
   int counter = 0;
   for (auto &i : terms) {
     counter++;
@@ -225,7 +254,7 @@ std::vector<algebric_number> get_terms(std::string expression,
     if (i[0] == '+')
       i = i.substr(1, i.length() - 1);
 
-    algebric_num::algebric_number toPB(i);
+    algebraic_num::algebraic_number toPB(i);
     if (debugPrint) {
       std::cout << counter << ".";
       for (auto i = 0; i < 5 - std::to_string(counter).length(); i++)
@@ -237,14 +266,53 @@ std::vector<algebric_number> get_terms(std::string expression,
   return nums;
 }
 
-std::vector<algebric_number> get_terms(std::string expression) {
-  return algebric_num::get_terms(expression, false);
-}
-
-algebric_number asquare(algebric_number number) {
-  algebric_number answer(multiply(number.constantPart, number.constantPart));
+algebraic_number asquare(algebraic_number number) {
+  algebraic_number answer(multiply(number.constantPart, number.constantPart));
   for (auto &i : number.variablePart)
     answer.variablePart.insert({i.first, i.second * 2});
   return answer;
 }
-} // namespace algebric_num
+
+static std::vector<int> turn_to_digits(const std::string &str_n) {
+  std::vector<int> answer;
+  for (auto i : str_n)
+    answer.push_back(i - 48);
+  return answer;
+}
+
+bool smaller_than(algebraic_number a1, algebraic_number b1) {
+  if (multiply(a1.constantPart, "1") == multiply(b1.constantPart, "1"))
+    return false;
+
+  std::string a = a1.constantPart;
+  std::string b = b1.constantPart;
+
+  std::reverse(a.begin(), a.end());
+  std::reverse(b.begin(), b.end());
+
+  std::vector<int> a_vec = turn_to_digits(a);
+  std::vector<int> b_vec = turn_to_digits(b);
+  if (a.length() > b.length())
+    for (auto i = 0; i < a.length() - b.length(); i++)
+      b_vec.push_back(0);
+  if (a.length() < b.length())
+    for (auto i = 0; i < b.length() - a.length(); i++)
+      a_vec.push_back(0);
+  a_vec = reverse_vec(a_vec);
+  b_vec = reverse_vec(b_vec);
+
+  for (int i = 0; i < a_vec.size(); i++) {
+    if (a_vec[i] > b_vec[i])
+      return false;
+    if (a_vec[i] < b_vec[i])
+      return true;
+  }
+
+  return true;
+}
+
+bool greater_than(algebraic_number a1, algebraic_number b1) {
+  return (multiply(a1.constantPart, "1") != multiply(b1.constantPart, "1")) &&
+         !smaller_than(a1, b1);
+}
+} // namespace algebraic_num
