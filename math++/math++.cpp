@@ -11,8 +11,8 @@
 #include "../basic_math_operations/basic_math_operations.hpp"
 
 #include "code/source/algorithms/Simple Interest/simple_interest.hpp"
-#include "code/source/algorithms/integer_square_root.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
+#include "code/source/algorithms/square_root.hpp"
 
 #include "code/source/algorithms/Factorization/algebraic_number_class.hpp"
 #include "code/source/algorithms/Factorization/ax2bxc.hpp"
@@ -319,51 +319,16 @@ int main(int argCount, char *argument[]) {
             }
           }
 
-          if (decimal_point_exists(argument[2])) {
+          if (decimal_point_exists(argument[2])) { /* number */
             std::chrono::time_point<std::chrono::high_resolution_clock> start;
             std::chrono::time_point<std::chrono::high_resolution_clock> stop;
             if (show_time)
               start = std::chrono::high_resolution_clock::now();
-            std::string number = argument[2];
-            size_t DPL = decimal_point_location(number);
-            size_t x = number.substr(DPL + 1, number.length()).length();
-            if (x & 1) {
-              x++;
-              number += "0";
-            }
 
-            std::string number_temp;
-            for (auto &i : number)
-              if (i != '.')
-                number_temp.push_back(i);
-            number = number_temp;
-
-            bool i = false;
-            std::string sqrt =
-                integer_square_root(number, accuracy - (x / 2), i);
-            if (!decimal_point_exists(sqrt))
-              sqrt += ".0";
-            size_t dec_loc = decimal_point_location(sqrt);
-            while (sqrt.substr(0, dec_loc).length() < (x / 2) + 1) {
-              sqrt = "0" + sqrt;
-              dec_loc++;
-            }
-            std::string sqrt_temp;
-            for (auto &i : sqrt)
-              if (i != '.')
-                sqrt_temp.push_back(i);
-            sqrt = sqrt_temp;
-            sqrt = sqrt.substr(0, dec_loc - (x / 2)) + "." +
-                   sqrt.substr(dec_loc - (x / 2), sqrt.length());
-
-            std::reverse(sqrt.begin(), sqrt.end());
-            sqrt.erase(0,
-                       std::min(sqrt.find_first_not_of('0'), sqrt.size() - 1));
-            std::reverse(sqrt.begin(), sqrt.end());
+            std::string sqrt = square_root(argument[2], accuracy);
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << sqrt << (i ? "i" : "")
-                      << "\n";
+            std::cout << GREEN << "±" << RESET << sqrt << "\n";
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(
                               stop - start)
@@ -376,15 +341,10 @@ int main(int argCount, char *argument[]) {
             std::chrono::time_point<std::chrono::high_resolution_clock> stop;
             if (show_time)
               start = std::chrono::high_resolution_clock::now();
-            bool i = false;
-            std::string square_root =
-                integer_square_root(argument[2], accuracy, i);
-            square_root.erase(0, std::min(square_root.find_first_not_of('0'),
-                                          square_root.size() - 1));
+            std::string sqrt = square_root(argument[2], accuracy);
             if (show_time)
               stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << square_root << (i ? "i" : "")
-                      << "\n";
+            std::cout << GREEN << "±" << RESET << sqrt << "\n";
 
             if (show_time) {
               auto time = std::chrono::duration_cast<std::chrono::microseconds>(

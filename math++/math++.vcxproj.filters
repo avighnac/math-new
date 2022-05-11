@@ -46,14 +46,14 @@
     <ClInclude Include="code\source\algorithms\Factorization\split_middle_term.hpp">
       <Filter>Factorization</Filter>
     </ClInclude>
-    <ClInclude Include="code\source\algorithms\integer_square_root.hpp">
-      <Filter>Header Files\Square Root</Filter>
-    </ClInclude>
     <ClInclude Include="code\source\algorithms\primeFactor.hpp">
       <Filter>Header Files\Prime Factor</Filter>
     </ClInclude>
     <ClInclude Include="code\source\algorithms\Factorization\algebraic_number_class.hpp">
       <Filter>Header Files\Algebraic Number</Filter>
+    </ClInclude>
+    <ClInclude Include="code\source\algorithms\square_root.hpp">
+      <Filter>Header Files\Square Root</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "../../../../../basic_math_operations/basic_math_operations.hpp"
-#include "../integer_square_root.hpp"
+#include "../square_root.hpp"
 #include "algebraic_number_class.hpp"
 
 std::pair<std::string, std::string>

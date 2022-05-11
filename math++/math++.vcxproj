@@ -179,8 +179,8 @@
     <ClInclude Include="code\source\algorithms\Factorization\split_middle_term.hpp" />
     <ClInclude Include="code\source\algorithms\Factorization\ax2bxc.hpp" />
     <ClInclude Include="code\source\algorithms\get_terms.hpp" />
-    <ClInclude Include="code\source\algorithms\integer_square_root.hpp" />
     <ClInclude Include="code\source\algorithms\primeFactor.hpp" />
+    <ClInclude Include="code\source\algorithms\square_root.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\version.txt" />

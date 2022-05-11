@@ -115,9 +115,10 @@ int box_filler(std::string &a, std::string &b,
 }
 } // namespace left_side_help
 
-std::string integer_square_root(std::string n, int accuracy, bool &i) {
+std::string integer_square_root(std::string n, int accuracy,
+                                bool &negative_square_root) {
   if (n[0] == '-') {
-    i = true;
+    negative_square_root = true;
     n = n.substr(1, n.length() - 1);
   }
 
@@ -166,4 +167,49 @@ std::string integer_square_root(std::string n, int accuracy, bool &i) {
 std::string integer_square_root(std::string n, int accuracy) {
   bool i;
   return integer_square_root(n, accuracy, i);
+}
+
+std::string square_root(std::string number, int accuracy) {
+  if (decimal_point_exists(number)) {
+    size_t DPL = decimal_point_location(number);
+    size_t x = number.substr(DPL + 1, number.length()).length();
+    if (x & 1) {
+      x++;
+      number += "0";
+    }
+
+    std::string number_temp;
+    for (auto &i : number)
+      if (i != '.')
+        number_temp.push_back(i);
+    number = number_temp;
+
+    bool i = false;
+    std::string sqrt = integer_square_root(number, accuracy - (x / 2), i);
+    if (!decimal_point_exists(sqrt))
+      sqrt += ".0";
+    size_t dec_loc = decimal_point_location(sqrt);
+    while (sqrt.substr(0, dec_loc).length() < (x / 2) + 1) {
+      sqrt = "0" + sqrt;
+      dec_loc++;
+    }
+    std::string sqrt_temp;
+    for (auto &i : sqrt)
+      if (i != '.')
+        sqrt_temp.push_back(i);
+    sqrt = sqrt_temp;
+    sqrt = sqrt.substr(0, dec_loc - (x / 2)) + "." +
+           sqrt.substr(dec_loc - (x / 2), sqrt.length());
+
+    std::reverse(sqrt.begin(), sqrt.end());
+    sqrt.erase(0, std::min(sqrt.find_first_not_of('0'), sqrt.size() - 1));
+    std::reverse(sqrt.begin(), sqrt.end());
+    return sqrt + (i ? "i" : "");
+  } else {
+    bool i = false;
+    std::string square_root = integer_square_root(number, accuracy, i);
+    square_root.erase(0, std::min(square_root.find_first_not_of('0'),
+                                  square_root.size() - 1));
+    return square_root + (i ? "i" : "");
+  }
 }
