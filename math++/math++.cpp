@@ -319,22 +319,22 @@ int main(int argCount, char *argument[]) {
             }
           }
 
-            std::chrono::time_point<std::chrono::high_resolution_clock> start;
-            std::chrono::time_point<std::chrono::high_resolution_clock> stop;
-            if (show_time)
-              start = std::chrono::high_resolution_clock::now();
+          std::chrono::time_point<std::chrono::high_resolution_clock> start;
+          std::chrono::time_point<std::chrono::high_resolution_clock> stop;
+          if (show_time)
+            start = std::chrono::high_resolution_clock::now();
 
-            std::string sqrt = square_root(argument[2], accuracy);
-            if (show_time)
-              stop = std::chrono::high_resolution_clock::now();
-            std::cout << GREEN << "±" << RESET << sqrt << "\n";
-            if (show_time) {
-              auto time = std::chrono::duration_cast<std::chrono::microseconds>(
-                              stop - start)
-                              .count() /
-                          100000.0;
-              std::cout << "\nTime taken: " << time << " seconds. \n";
-            }
+          std::string sqrt = square_root(argument[2], accuracy);
+          if (show_time)
+            stop = std::chrono::high_resolution_clock::now();
+          std::cout << GREEN << "±" << RESET << sqrt << "\n";
+          if (show_time) {
+            auto time = std::chrono::duration_cast<std::chrono::microseconds>(
+                            stop - start)
+                            .count() /
+                        100000.0;
+            std::cout << "\nTime taken: " << time << " seconds. \n";
+          }
         } else {
           std::cout << "Syntax: math++ sqrt [number] [accuracy] [-t for "
                        "displaying time "
@@ -633,7 +633,8 @@ int main(int argCount, char *argument[]) {
             std::map<std::string, std::string> printableDenominator;
             std::string answer;
             for (auto &i : primeFactorsNumerator) {
-              if (printableNumerator.find(i.constantPart) == printableNumerator.end())
+              if (printableNumerator.find(i.constantPart) ==
+                  printableNumerator.end())
                 printableNumerator.insert({i.constantPart, "1"});
               else
                 printableNumerator.find(i.constantPart)->second =
@@ -691,17 +692,63 @@ int main(int argCount, char *argument[]) {
         function == "decimal_to_fraction") {
       if (argCount == 2) {
         std::cout << "Syntax: math++ decimal_to_fraction [decimal_number]\n";
+        std::cout << "NOTE: To convert a non-terminating decimal number to a "
+                     "fraction, follow this format:\n  math++ "
+                     "decimal_to_fraction [whole_part].([recurring_part])r\n";
       }
       if (argCount >= 3) {
         std::string decimal(argument[2]);
-        std::string denominator = "1";
-        while (decimal_point_exists(decimal)) {
-          decimal = shift_decimal_point(decimal, 1);
-          denominator += "0";
+        if (decimal.find('r') == std::string::npos) {
+          std::string denominator = "1";
+          while (decimal_point_exists(decimal)) {
+            decimal = shift_decimal_point(decimal, 1);
+            denominator += "0";
+          }
+          auto answer = fraction_simplifier({decimal, denominator});
+          std::cout << GREEN << answer.first << "/" << answer.second << RESET
+                    << '\n';
+        } else {
+          // recurring decimal
+
+          size_t firstBracketPos = decimal.find('(');
+          size_t lastBracketPos = decimal.find(')');
+
+          if (firstBracketPos - lastBracketPos == 0) {
+            std::cout
+                << "NOTE: To convert a non-terminating decimal number to a "
+                   "fraction, follow this format:\n  math++ "
+                   "decimal_to_fraction [whole_part].([recurring_part])r\n";
+            return 0;
+          }
+
+          std::string denominatorMultiplier = "1";
+          while (decimal.find('(') - decimal.find('.') != 1) {
+            size_t decimal_point_loc = decimal_point_location(decimal);
+            std::swap(decimal[decimal_point_loc],
+                      decimal[decimal_point_loc + 1]);
+            denominatorMultiplier += "0";
+          }
+
+          firstBracketPos = decimal.find('(');
+          lastBracketPos = decimal.find(')');
+
+          long long length = lastBracketPos - firstBracketPos - 1;
+
+          std::string numerator =
+              subtract(decimal.substr(0, decimal.find('.')) +
+                           decimal.substr(firstBracketPos + 1,
+                                          lastBracketPos - 1 - firstBracketPos),
+                       decimal.substr(0, decimal.find('.')));
+          std::string denominator = "1";
+          for (long long i = 0; i < length; i++)
+            denominator += "0";
+          denominator = subtract(denominator, "1");
+          denominator = multiply(denominator, denominatorMultiplier);
+
+          auto answer = fraction_simplifier({numerator, denominator});
+          std::cout << GREEN << answer.first << "/" << answer.second << RESET
+                    << '\n';
         }
-        auto answer = fraction_simplifier({decimal, denominator});
-        std::cout << GREEN << answer.first << "/" << answer.second << RESET
-                  << '\n';
       }
     }
     if (function == "sin" || function == "sine") {
