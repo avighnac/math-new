@@ -13,9 +13,9 @@ static std::string remove_leading_zeroes(std::string str) {
 }
 
 static std::string
-quotientFinder(std::string dividend,
-               std::string divisor) { /*find highest number such that a*x <= b
-                                         with a and b provided*/
+quotientFinder(std::string dividend, std::string divisor,
+               std::map<std::string, std::string> &multiplicationTable) { /*find
+                    highest number such that a*x <= b with a and b provided*/
 
   std::string x = "0";        // Declaring x variable (from line 14 (a*x <= b))
   std::string xPrevious = ""; /* x_previous tracks the previous value of x
@@ -24,8 +24,9 @@ quotientFinder(std::string dividend,
 
   while (xPrevious != x) {
     xPrevious = x; // Simply setting x_previous
-    if (compare_string(dividend, (multiply(divisor, x))) ||
-        remove_leading_zeroes(dividend) == (multiply(divisor, x))) { /*
+    std::string multiplication = multiplicationTable.find(x)->second;
+    if (compare_string(dividend, multiplication) ||
+        remove_leading_zeroes(dividend) == multiplication) { /*
 
 100 (dividend) / 10 (divisor) = 10 (quotient)
 if dividend > divisor * x, x will be incremented.
@@ -57,14 +58,22 @@ std::string divide_whole(std::string dividend, std::string divisor,
   const size_t dividendLength = dividendDigits.length();
   dividend.clear();
 
+  std::map<std::string, std::string> multiplicationTable;
+
+  for (auto i = 0; i <= 10; i++) {
+    multiplicationTable.insert(
+        {std::to_string(i), multiply(std::to_string(i), divisor)});
+  }
+
   for (int i = 0; i < dividendLength; i++) {
 
     dividend += dividendDigits.substr(0, 1);
     dividendDigits.erase(0, 1);
 
     std::string partAns = quotientFinder(
-        dividend, divisor); // Find the quotient to only the particular part it
-                            // has worked on. (Refer to code on top).
+        dividend, divisor,
+        multiplicationTable); // Find the quotient to only the particular part
+                              // it has worked on. (Refer to code on top).
     quotient += partAns;
     dividend = subtract(dividend, (multiply(partAns, divisor)));
     modulusOut = dividend;
@@ -103,6 +112,13 @@ std::string divide(std::string dividend, std::string divisor, int accuracy) {
   dividend.clear();
   divisor = multiply("1", divisor); // Remove redundant zeroes.
 
+  std::map<std::string, std::string> multiplicationTable;
+
+  for (auto i = 0; i <= 10; i++) {
+    multiplicationTable.insert(
+        {std::to_string(i), multiply(std::to_string(i), divisor)});
+  }
+
   for (auto i = 0; i < accuracy; i++) {
 
     if (dividendDigits.empty()) {
@@ -116,7 +132,8 @@ std::string divide(std::string dividend, std::string divisor, int accuracy) {
       dividendDigits.erase(0, 1);
     }
 
-    std::string partAns = quotientFinder(dividend, divisor);
+    std::string partAns =
+        quotientFinder(dividend, divisor, multiplicationTable);
     quotient += partAns;
 
     dividend = subtract(dividend, (multiply(partAns, divisor)));

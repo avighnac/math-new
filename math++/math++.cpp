@@ -572,6 +572,19 @@ int main(int argCount, char *argument[]) {
       }
     }
 
+    if (function == "generate_multiplication_table" || function == "gmt") {
+      if (argCount >= 3) {
+        std::string number(argument[2]);
+
+        for (auto i = 0; i <= 9; i++) {
+          std::cout << number << " x " << i << " = "
+                    << multiply(number, std::to_string(i)) << '\n';
+        }
+      } else {
+        std::cout << "Error: missing parameter: [number]\n";
+      }
+    }
+
     if (function == "factorize") {
       if (argCount >= 3) {
         if (std::string(argument[2]) == "help")
