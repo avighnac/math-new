@@ -23,6 +23,7 @@
 
 #include "code/includes/arr_to_string.hpp"
 
+#include "code/source/algorithms/arithmeticEvaluate.hpp"
 #include "code/source/algorithms/primeFactor.hpp"
 
 // External Image Library
@@ -42,17 +43,6 @@ bool is_windows() {
   return true;
 #endif
   return false;
-}
-
-void replace_all(std::string &str, const std::string &from,
-                 const std::string &to) {
-  if (from.empty())
-    return;
-  size_t start_pos = 0;
-  while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-    str.replace(start_pos, from.length(), to);
-    start_pos += to.length();
-  }
 }
 
 std::string latest_version;
@@ -145,6 +135,7 @@ int main(int argCount, char *argument[]) {
           "Factorial",
           "Factorize",
           "Evaluate",
+          "Algebraic Evaluate (experimental)",
           "Decimal to Fraction",
           "Trignometric Functions",
       };
@@ -170,6 +161,7 @@ int main(int argCount, char *argument[]) {
           "usually smaller or simpler objects of the same kind. Opposite of "
           "simplification (complication).",
           "Evaluate a mathematical expression.",
+          "Evaluate an algebraic mathematical expression.",
           "Converts a decimal number to a fraction.",
           "Find the sine, cosine, and tangent of an angle.",
       };
@@ -513,13 +505,14 @@ int main(int argCount, char *argument[]) {
       }
     }
 
-    if (function == "evaluate") {
+    if (function == "algebraic_evaluate") {
 
       bool debugPrint =
           (argCount >= 4 && std::string(argument[3]) == "-debugPrint");
 
       if (argCount == 2)
-        std::cout << "Syntax: math++ evaluate [mathematical_expression]\n";
+        std::cout
+            << "Syntax: math++ algebraic_evaluate [mathematical_expression]\n";
       if (argCount >= 3) {
         std::string sum = argument[2];
 
@@ -561,6 +554,20 @@ int main(int argCount, char *argument[]) {
 
         std::cout << algebraic_num::convert_to_readable(nums)
                   << '\n'; // Printing out readable version.
+      }
+    }
+
+    if (function == "evaluate") {
+      if (argCount == 2)
+        std::cout << "Syntax: math++ evaluate [mathematical_expression] "
+                     "[optional: division_accuracy]\n";
+      if (argCount >= 3) {
+        int accuracy = 25;
+        if (argCount >= 4) {
+          accuracy = std::stoi(argument[3]);
+        }
+
+        std::cout << arithmeticEvaluate(argument[2], accuracy) << '\n';
       }
     }
 
