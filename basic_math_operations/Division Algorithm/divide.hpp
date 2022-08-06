@@ -89,6 +89,21 @@ std::string divide_whole(const std::string &dividend,
 }
 
 std::string divide(std::string dividend, std::string divisor, int accuracy) {
+  // Get rid of spaces, leading signs, etc ...
+  dividend = multiply(dividend, "1");
+  divisor = multiply(divisor, "1");
+
+  // To deal with negative division
+  if (dividend[0] == '-' && divisor[0] == '-') {
+    return divide(multiply(dividend, "-1"), multiply(divisor, "-1"), accuracy);
+  }
+  if (dividend[0] == '-' && divisor[0] != '-') {
+    return multiply("-1", divide(multiply(dividend, "-1"), divisor, accuracy));
+  }
+  if (dividend[0] != '-' && divisor[0] == '-') {
+    return multiply("-1", divide(dividend, multiply(divisor, "-1"), accuracy));
+  }
+
   std::string multipleDividend = "1", multipleDivisor = "1";
   // Convert decimals to normal numbers
   while (decimal_point_exists(dividend)) {
