@@ -165,8 +165,7 @@ int main(int argCount, char *argument[]) {
           "Evaluate an algebraic mathematical expression.",
           "Converts a decimal number to a fraction.",
           "Find the sine, cosine, and tangent of an angle.",
-          "Find the square of a complex number. [re] [im without i]"
-      };
+          "Find the square of a complex number. [re] [im without i]"};
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
                    "math++ credits.\nFUNCTIONS:\n";
