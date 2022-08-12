@@ -214,8 +214,8 @@ std::string square_root(std::string number, int accuracy) {
   }
 }
 
-std::pair<std::string, std::string> square_root_complex(std::string re, std::string im, int accuracy) {
-  std::cout << "sqrt(" << re << " + " << im << "i)\n";
+std::pair<std::string, std::string>
+square_root_complex(std::string re, std::string im, int accuracy) {
   std::string p =
       square_root(add(multiply(re, re), multiply(im, im)), accuracy);
   return {divide(im, square_root(multiply("2", subtract(p, re)), accuracy),
