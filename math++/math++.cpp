@@ -138,6 +138,7 @@ int main(int argCount, char *argument[]) {
           "Algebraic Evaluate (experimental)",
           "Decimal to Fraction",
           "Trignometric Functions",
+          "Square Root Complex",
       };
       std::vector<std::string> function_definitions = {
           "Uses an addition algorithm "
@@ -164,6 +165,7 @@ int main(int argCount, char *argument[]) {
           "Evaluate an algebraic mathematical expression.",
           "Converts a decimal number to a fraction.",
           "Find the sine, cosine, and tangent of an angle.",
+          "Find the square of a complex number. [re] [im without i]"
       };
       std::cout << "\nMath++ is a free and open-source tool created by "
                    "avighnac to solve math! For a full list of credits run "
@@ -292,6 +294,18 @@ int main(int argCount, char *argument[]) {
             fraction_simplifier({numerator, denominator});
 
         std::cout << answer.first << "/" << answer.second << "\n";
+      }
+    }
+
+    if (function == "sqrt_complex") {
+      int accuracy = (argCount >= 5) ? std::stoi(argument[4]) : 18;
+      if (argCount >= 4) {
+        if (multiply(argument[3], "1") == "0") {
+          std::cout << square_root(argument[2], accuracy);
+        } else {
+          auto p = square_root_complex(argument[2], argument[3], accuracy);
+          std::cout << p.first << " + " << p.second << "i\n";
+        }
       }
     }
 
