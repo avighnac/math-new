@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <chrono>
+#include <string>
 
 #include "../../../../basic_math_operations/basic_math_operations.hpp"
 
@@ -50,26 +50,49 @@ std::string power(const std::string &a, long long b) {
   return answer;
 }
 
-inline std::string absolute(std::string s) { return (s[0] == '-') ? s.substr(1, s.length()) : s; }
+inline std::string absolute(std::string s) {
+  return (s[0] == '-') ? s.substr(1, s.length()) : s;
+}
 
-std::string nroot(std::string number, std::string root, long long accuracy) {
-  std::string answer = number;
-  for (auto i = 0; i < accuracy; i++) {
+std::string numerical_round(std::string number, int decimalPlaces) {
+  if (!decimal_point_exists(number) ||
+      number.length() - 1 - decimal_point_location(number) < decimalPlaces) {
+    return number;
+  }
+  return number.substr(0, decimal_point_location(number)) +
+         number.substr(decimal_point_location(number), decimalPlaces + 1);
+}
+
+std::string nroot(std::string number, std::string root,
+                  long long numDecimalPlaces) {
+  std::string answer = (numDecimalPlaces > 3) ? nroot(number, root, 3)
+                                              : number; // decent approximation
+  std::string prevAnswer = "lol"; // in honours of the great prakarsh
+  long long i = 0;
+  while (prevAnswer != answer) {
     auto start = std::chrono::high_resolution_clock::now();
     auto x =
         add(multiply((subtract(root, "1")), power(answer, std::stoll(root))),
             number);
-    answer = divide(x,
-        multiply(root, power(answer, std::stoll(subtract(root, "1")))),
+    prevAnswer = answer;
+    answer = divide(
+        x, multiply(root, power(answer, std::stoll(subtract(root, "1")))),
         x.length() + 1);
+    // round to prevent exp. time growth
+    answer = numerical_round(answer, numDecimalPlaces);
     auto end = std::chrono::high_resolution_clock::now();
 
-    std::cout << i << ": "
+    if (i != 0) {
+      std::cout << "\33[2K\r";
+    }
+    std::cout << "Run #" << i << ": " << answer << " ("
               << std::chrono::duration_cast<std::chrono::milliseconds>(end -
                                                                        start)
                          .count() /
                      1000.0
-              << " seconds." << std::endl; 
+              << " s)" << std::flush;
+    i++;
   }
+  std::cout << "\33[2K\r";
   return answer;
 }

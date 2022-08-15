@@ -234,9 +234,19 @@ int main(int argCount, char *argument[]) {
     }
 
     if (function == "nroot") {
-      if (argCount >= 5) {
+      if (argCount >= 3) {
+        if (std::string(argument[2]) == "help") {
+          std::cout << "Syntax: math++ nroot [x] [n] [numDecimalPlaces] to "
+                       "calculate x^(1/n).\n";
+          return 0;
+        }
+      }
+      if (argCount >= 4) {
+        long long numDecimalPlaces =
+            (argCount >= 5) ? std::stoll(argument[4]) : 18;
         std::cout << nroot(std::string(argument[2]), std::string(argument[3]),
-                           std::stoll(std::string(argument[4])));
+                           numDecimalPlaces)
+                  << '\n';
       }
     }
 
