@@ -9,3 +9,5 @@
 #include "Division Algorithm/divide.hpp"
 #include "Multiplication Algorithm/multiply.hpp"
 #include "Subtraction Algorithm/subtract.hpp"
+
+#include "inc.hpp"

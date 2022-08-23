@@ -42,14 +42,14 @@ bool isPrime(std::string x, bool testing = false) {
   int counter = 0;
 
   while (algebraic_num::smaller_than(algebraic_num::algebraic_number(i),
-                                    algebraic_num::algebraic_number(x)) ||
+                                     algebraic_num::algebraic_number(x)) ||
          i == x) {
     if (modulus(x, i) == "0") {
       counter++;
       if (counter > 2)
         return false;
     }
-    i = add(i, "1");
+    i = inc(i);
   }
 
   return counter == 2;
