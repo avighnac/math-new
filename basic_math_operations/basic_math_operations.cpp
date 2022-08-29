@@ -7,6 +7,7 @@
 
 #include "Addition Algorithm/add.hpp"
 #include "Division Algorithm/divide.hpp"
+#include "Division Algorithm/fdivide.hpp"
 #include "Multiplication Algorithm/multiply.hpp"
 #include "Subtraction Algorithm/subtract.hpp"
 

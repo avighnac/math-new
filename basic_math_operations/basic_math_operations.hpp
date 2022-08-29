@@ -10,6 +10,7 @@ std::string subtract_whole(std::string, std::string);
 std::string multiply(std::string, std::string);
 std::string divide(std::string, std::string, int);
 std::string divide_whole(std::string, std::string, std::string &);
+std::string fdivide(std::string, std::string, int &, int &);
 
 std::vector<int> digitize(std::string);
 std::vector<int> split_into_digits(std::string);

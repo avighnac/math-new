@@ -128,6 +128,7 @@ int main(int argCount, char *argument[]) {
           "Subtract",
           "Multiply",
           "Divide",
+          "Fancy Divide (fdivide)",
           "Square Root",
           "Nth Root (nroot) (experimental)",
           "Fraction Simplifier",
@@ -147,6 +148,7 @@ int main(int argCount, char *argument[]) {
           "Same as addition, but for subtraction!",
           "Multiply two or more numbers at once.",
           "Divide two numbers.",
+          "Divide two numbers, and get your answer as a repeating decimal.",
           "The "
           "square root of a number is a number which when multiplied, gives "
           "you the original number back.",
@@ -191,7 +193,7 @@ int main(int argCount, char *argument[]) {
       TODO;
     }
 
-    std::string version = "1.3.1";
+    std::string version = "1.4.0";
 
     if (function == "check_update") {
       CURL *curl = curl_easy_init();
@@ -389,6 +391,36 @@ int main(int argCount, char *argument[]) {
       }
     }
 
+    if (function == "fdivide" || function == "fancy_divide") {
+      if (argCount == 2) {
+        std::cout << "Syntax: math++ fdivide [num1] [num2]. Returns the result "
+                     "of the division as a repeating decimal.\n";
+      }
+      if (argCount >= 4) {
+        int r1, r2;
+        auto answer =
+            fdivide(std::string(argument[2]), std::string(argument[3]), r1, r2);
+        std::string toPrint;
+        bool inDecimals = false;
+        int currentDecimalPoint = 0;
+        for (auto i = 0; i < answer.length(); i++) {
+          if (inDecimals) {
+            currentDecimalPoint++;
+            if (currentDecimalPoint == r1)
+              toPrint += "(";
+            if (currentDecimalPoint == r2) {
+              toPrint += ")r";
+              break;
+            }
+          } else if (answer[i] == '.')
+            inDecimals = true;
+          toPrint.push_back(answer[i]);
+        }
+
+        std::cout << color(toPrint, "Green") << '\n';
+      }
+    }
+
     if (function == "divide") {
       if (argCount == 2) {
         std::cout << "a/b\n"
@@ -420,7 +452,7 @@ int main(int argCount, char *argument[]) {
                                 std::string(argument[3]).length() * 3);
         if (argCount > 4)
           accuracy = std::stoll(std::string(argument[4]));
-        if (std::string(argument[3]) == "0") {
+        if (multiply("1", std::string(argument[3])) == "0") {
           std::cout << std::string(argument[2]) << "/"
                     << std::string(argument[3]) << " is undefined.\n";
         } else {

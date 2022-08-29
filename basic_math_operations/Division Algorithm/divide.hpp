@@ -60,10 +60,9 @@ std::string divide_whole(std::string dividend, std::string divisor,
 
   std::map<std::string, std::string> multiplicationTable;
 
-  for (auto i = 0; i <= 10; i++) {
+  for (auto i = 0; i <= 10; i++)
     multiplicationTable.insert(
         {std::to_string(i), multiply(std::to_string(i), divisor)});
-  }
 
   for (int i = 0; i < dividendLength; i++) {
 
