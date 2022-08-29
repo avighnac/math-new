@@ -417,7 +417,10 @@ int main(int argCount, char *argument[]) {
           toPrint.push_back(answer[i]);
         }
 
-        std::cout << color(toPrint, "Green") << '\n';
+        std::cout << color(toPrint, "Green")
+                  << color(" (period " + std::to_string(r2 - r1) + ")",
+                           "Magenta")
+                  << '\n';
       }
     }
 
