@@ -27,7 +27,7 @@
 ## Installation
 
 * Linux
-  * To install math++ on Linux, simply run this command in a terminal shell: `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math-new/releases/download/v1.3.1/math++_linux-1_3_1.out --no-check-certificate; sudo chmod +x /usr/bin/math++`
+  * To install math++ on Linux, simply run this command in a terminal shell: `sudo wget -O /usr/bin/math++ https://github.com/avighnac/math-new/releases/download/v1.4.0/math++_linux-1_4_0.out --no-check-certificate; sudo chmod +x /usr/bin/math++`
   * Type 'math++' in any Linux CLI to run the program.
 * Windows
   * Download the latest release, rename the .exe to "math++.exe" and move it to the System32 folder.
