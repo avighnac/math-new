@@ -3,6 +3,8 @@
 #include "../Subtraction Algorithm/subtract.hpp"
 #include "../shift_decimal_point.hpp"
 #include <algorithm>
+#include <cstdlib>
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -31,6 +33,8 @@ std::vector<int> digitize(std::string str_n) {
 
 #ifndef _add_
 #define _add_
+
+#if defined(_WIN32)
 static std::string add_whole(const std::string &a1, const std::string &b1) {
   std::string a = a1;
   std::string b = b1;
@@ -65,6 +69,22 @@ static std::string add_whole(const std::string &a1, const std::string &b1) {
 
   return answer;
 }
+#else
+extern "C" void _add_whole(const char *a, const char *b, char *res);
+static std::string add_whole(const std::string &a1, const std::string &b1) {
+  char *a = (char *)malloc(a1.length() + 1);
+  strcpy(a, a1.c_str());
+  char *b = (char *)malloc(b1.length() + 1);
+  strcpy(b, b1.c_str());
+  char *res = (char *)malloc(std::max(a1.length(), b1.length()) + 5);
+  _add_whole(a, b, res);
+  std::string answer(res);
+  free(a);
+  free(b);
+  free(res);
+  return answer;
+}
+#endif
 
 std::string add(std::string a, std::string b) {
   if (a.empty())

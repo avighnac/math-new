@@ -6,11 +6,24 @@ project(math++)
 # add the executable
 add_executable(${PROJECT_NAME} math++/math++.cpp)
 
-add_library(
-    basic_math_operations
-    basic_math_operations/basic_math_operations.hpp
-    basic_math_operations/basic_math_operations.cpp
-)
+enable_language(ASM_NASM)
+
+if (UNIX)
+    add_library(
+        basic_math_operations
+        basic_math_operations/basic_math_operations.hpp
+        basic_math_operations/basic_math_operations.cpp
+        basic_math_operations/Addition\ Algorithm/add.asm
+    )
+endif (UNIX)
+
+if (WIN32)
+    add_library(
+        basic_math_operations
+        basic_math_operations/basic_math_operations.hpp
+        basic_math_operations/basic_math_operations.cpp
+    )
+endif (WIN32)
 
 target_link_libraries(math++ curl)
 target_link_libraries(math++ basic_math_operations)
