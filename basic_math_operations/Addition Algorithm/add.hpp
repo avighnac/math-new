@@ -71,13 +71,17 @@ static std::string add_whole(const std::string &a1, const std::string &b1) {
 }
 #else
 extern "C" void _add_whole(const char *a, const char *b, char *res);
+extern "C" void _add_whole_same_length(const char *a, const char *b, char *res);
 static std::string add_whole(const std::string &a1, const std::string &b1) {
   char *a = (char *)malloc(a1.length() + 1);
   strcpy(a, a1.c_str());
   char *b = (char *)malloc(b1.length() + 1);
   strcpy(b, b1.c_str());
   char *res = (char *)malloc(std::max(a1.length(), b1.length()) + 5);
-  _add_whole(a, b, res);
+  if (a1.length() == b1.length())
+    _add_whole_same_length(a, b, res);
+  else
+    _add_whole(a, b, res);
   std::string answer(res);
   free(a);
   free(b);
