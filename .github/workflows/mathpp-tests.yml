@@ -24,7 +24,22 @@ jobs:
         language: [ 'cpp' ]
 
     steps:
-    - name: Checkout repository
+    - name: Set up NASM
+      uses: ilammy/setup-nasm@v1.3.0
+    - name: Checkout repo.
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+        fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+    - run: |
+        cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B build -G "Visual Studio 17 2022" -T host=x86 -A x64
+        cmake --build build --config Release --target escaping_death -j 10 --
+    - name: Declare github short hash.
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    - name: Run math++ tests.
       uses: actions/checkout@v2
         
     - run: |
