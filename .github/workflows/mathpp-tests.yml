@@ -28,6 +28,7 @@ jobs:
       uses: actions/checkout@v2
         
     - run: |
-       g++ math++/testing_software/testing_software.cpp basic_math_operations/basic_math_operations.cpp -O3 -o testing_software.out
+       nasm -f elf64 "basic_math_operations/Addition Algorithm/add.asm" -o add.o
+       g++ math++/testing_software/testing_software.cpp basic_math_operations/basic_math_operations.cpp add.o -O3 -o testing_software.out
        chmod +x testing_software.out
        ./testing_software.out
