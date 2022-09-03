@@ -31,9 +31,6 @@ jobs:
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
         fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
-    - run: |
-        cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -B build -G "Visual Studio 17 2022" -T host=x86 -A x64
-        cmake --build build --config Release --target escaping_death -j 10 --
     - name: Declare github short hash.
       id: vars
       shell: bash
@@ -41,7 +38,6 @@ jobs:
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Run math++ tests.
       uses: actions/checkout@v2
-        
     - run: |
        nasm -f elf64 "basic_math_operations/Addition Algorithm/add.asm" -o add.o
        g++ math++/testing_software/testing_software.cpp basic_math_operations/basic_math_operations.cpp add.o -O3 -o testing_software.out
