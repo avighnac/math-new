@@ -1,7 +1,9 @@
 #pragma once
 
+#include "../basic_math_operations.hpp"
 #include "../shift_decimal_point.hpp"
-#include "add_copy.hpp"
+#include <algorithm>
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -10,10 +12,7 @@
 #ifndef _str_contains_
 #define _str_contains_
 static bool str_contains(const std::string &str, char charac) {
-  for (auto &i : str)
-    if (i == charac)
-      return true;
-  return false;
+  return str.find(charac) != std::string::npos;
 }
 #endif
 
@@ -25,10 +24,8 @@ std::vector<int> split_into_digits(std::string str) {
 }
 
 std::vector<int> reverse_vec(std::vector<int> vec) {
-  std::vector<int> answer;
-  for (int i = vec.size() - 1; i > -1; i--)
-    answer.push_back(vec[i]);
-  return answer;
+  std::reverse(vec.begin(), vec.end());
+  return vec;
 }
 #ifndef _reverse_string_
 #define _reverse_string_
@@ -70,8 +67,8 @@ static void reverse_in_place(std::string &s) {
     std::swap(s[i], s[j]);
 }
 
+#if defined(_WIN32)
 std::string subtract_whole(std::string a, std::string b) {
-
   if (a.empty())
     a = "0";
   if (b.empty())
@@ -131,6 +128,54 @@ std::string subtract_whole(std::string a, std::string b) {
   remove_leading_zeroes_inplace(result);
   return result;
 }
+#else
+extern "C" void _subtract_whole_same_length(const char *a, const char *b,
+                                            char *res);
+std::string subtract_whole(std::string a, std::string b) {
+  if (a.empty() && b.empty())
+    return "0";
+  if (a.empty()) {
+    if (b[0] != '-')
+      return '-' + b;
+    else
+      return b;
+  }
+  if (b.empty())
+    return a;
+  if (a[0] == '+')
+    a = a.substr(1, a.length());
+  if (b[0] == '+')
+    b = b.substr(1, b.length());
+
+  if (a[0] == '-' && b[0] != '-') {
+    return '-' + add_whole(a.substr(1, a.length()), b.substr(1, b.length()));
+  }
+  if (a[0] == '-' && b[0] == '-') {
+    return '-' +
+           subtract_whole(a.substr(1, a.length()), b.substr(1, b.length()));
+  }
+  if (a[0] != '-' && b[0] == '-') {
+    return add_whole(a, b.substr(1, b.length()));
+  }
+
+  if (a.length() < b.length())
+    a = std::string(b.length() - a.length(), '0') + a;
+  if (b.length() < a.length())
+    b = std::string(a.length() - b.length(), '0') + b;
+
+  char *ca = (char *)malloc(a.length() + 1);
+  strcpy(ca, a.c_str());
+  char *cb = (char *)malloc(b.length() + 1);
+  strcpy(cb, b.c_str());
+  char *res = (char *)malloc(std::max(a.length(), b.length()) + 5);
+  _subtract_whole_same_length(ca, cb, res);
+  std::string answer(res);
+  free(ca);
+  free(cb);
+  free(res);
+  return answer;
+}
+#endif
 
 std::string subtract(std::string a, std::string b) {
   if (!(str_contains(a, '.') || str_contains(b, '.'))) {
