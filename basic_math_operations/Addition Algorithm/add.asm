@@ -3,6 +3,20 @@ extern _assembly_strlen
 section .text
 global   _add_whole_same_length
 _add_whole_same_length:
+  ; Input:
+  ;   - char *a -> rdi
+  ;   - char *b -> rsi
+  ;   - char *res -> rdx
+
+  ; Registers used:
+  ;   - rax
+  ;   - rcx
+  ;   - r8
+  ;   - r9
+  ;   - r10
+  ;   - r11
+  ;   - r12
+
   push   r12
   call   _assembly_strlen
   lea    rcx, [rax - 1]
@@ -52,6 +66,22 @@ _add_whole_same_length_loop_2:
   ret
 global _add_whole
 _add_whole:
+  ; Input:
+  ;   - char *a -> rdi
+  ;   - char *b -> rsi
+  ;   - char *res -> rdx
+
+  ; Registers used:
+  ;   - rax
+  ;   - rcx
+  ;   - r8
+  ;   - r9
+  ;   - r10
+  ;   - r11
+  ;   - r12
+  ;   - r13
+  ;   - r14
+  
   push   r12
   push   r13
   push   r14

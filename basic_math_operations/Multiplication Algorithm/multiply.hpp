@@ -58,7 +58,7 @@ static std::string add(const std::string &a1, const std::string &b1) {
 
 #ifndef _multiply_
 #define _multiply_
-static std::string multiply_whole(std::string a, std::string b) {
+std::string multiply_whole(std::string a, std::string b) {
   std::vector<int> a_vec = digitize(a);
   std::vector<int> b_vec = digitize(b);
 

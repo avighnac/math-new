@@ -35,7 +35,7 @@ std::vector<int> digitize(std::string str_n) {
 #define _add_
 
 #if defined(_WIN32)
-static std::string add_whole(const std::string &a1, const std::string &b1) {
+std::string add_whole(const std::string &a1, const std::string &b1) {
   std::string a = a1;
   std::string b = b1;
   if (a1 == "")
@@ -72,7 +72,7 @@ static std::string add_whole(const std::string &a1, const std::string &b1) {
 #else
 extern "C" void _add_whole(const char *a, const char *b, char *res);
 extern "C" void _add_whole_same_length(const char *a, const char *b, char *res);
-static std::string add_whole(const std::string &a1, const std::string &b1) {
+std::string add_whole(const std::string &a1, const std::string &b1) {
   char *a = (char *)malloc(a1.length() + 1);
   strcpy(a, a1.c_str());
   char *b = (char *)malloc(b1.length() + 1);

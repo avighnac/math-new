@@ -2,6 +2,18 @@ extern _assembly_strlen
 
 global _subtract_whole_same_length
 _subtract_whole_same_length:
+  ; Input:
+  ;   - char *a -> rdi
+  ;   - char *b -> rsi
+  ;   - char *res -> rdx, will contain a - b
+
+  ; Registers used:
+  ;   - rax
+  ;   - rcx
+  ;   - r8
+  ;   - r9
+  ;   - r10
+
   call   _assembly_strlen
   xor    cl, cl
   lea    r8, [rax - 1]
