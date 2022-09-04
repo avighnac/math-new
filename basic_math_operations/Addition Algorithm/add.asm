@@ -1,10 +1,17 @@
-extern _assembly_strlen
-
 section .text
+_strlen:
+  xor    rcx, rcx
+  mov    rax, -1
+_strlen_loop:
+  inc    rax
+  mov    cl, byte[rdi + rax]
+  cmp    cl, 0
+  jnz    _strlen_loop
+  ret
 global   _add_whole_same_length
 _add_whole_same_length:
   push   r12
-  call   _assembly_strlen
+  call   _strlen
   lea    rcx, [rax - 1]
   xor    r11, r11
   xor    r10b, r10b
@@ -55,11 +62,11 @@ _add_whole:
   push   r12
   push   r13
   push   r14
-  call   _assembly_strlen
+  call   _strlen
   push   rax
   push   rdi
   mov    rdi, rsi
-  call   _assembly_strlen
+  call   _strlen
   mov    r8, rax
   pop    rdi
   pop    rax
