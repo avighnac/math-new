@@ -5,7 +5,7 @@
 #include <vector>
 
 std::string add(std::string, std::string);
-std::string add_whole(std::string, std::string);
+std::string add_whole(const std::string &, const std::string &);
 std::string subtract(std::string, std::string);
 std::string subtract_whole(std::string, std::string);
 std::string multiply(std::string, std::string);
