@@ -14,6 +14,7 @@ if (UNIX)
         basic_math_operations/_assembly_strlen.asm
         basic_math_operations/Addition\ Algorithm/add.asm
         basic_math_operations/Subtraction\ Algorithm/subtract.asm
+        basic_math_operations/Multiplication\ Algorithm/multiply.asm
         basic_math_operations/basic_math_operations.hpp
         basic_math_operations/basic_math_operations.cpp
     )

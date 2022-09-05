@@ -2,6 +2,9 @@
 
 #include "../Addition Algorithm/add.hpp"
 #include "../shift_decimal_point.hpp"
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -58,6 +61,7 @@ static std::string add(const std::string &a1, const std::string &b1) {
 
 #ifndef _multiply_
 #define _multiply_
+#if defined(_WIN32)
 std::string multiply_whole(std::string a, std::string b) {
   std::vector<int> a_vec = digitize(a);
   std::vector<int> b_vec = digitize(b);
@@ -101,6 +105,27 @@ std::string multiply_whole(std::string a, std::string b) {
 
   return answer;
 }
+#else
+extern "C" void _multiply_whole(const char *a, const char *b, char *res,
+                                char *buf1, char *buf2);
+std::string multiply_whole(std::string a, std::string b) {
+  char *res = (char *)malloc(a.length() + b.length() + 1);
+  char *buf1 = (char *)malloc(a.length() + b.length() + 1);
+  char *buf2 = (char *)malloc(a.length() + b.length() + 1);
+  for (size_t i = 0; i < a.length() + b.length() + 1; i++) {
+    res[i] = 0;
+    buf1[i] = 0;
+    buf2[i] = 0;
+  }
+  _multiply_whole(a.c_str(), b.c_str(), res, buf1, buf2);
+  free(buf1);
+  free(buf2);
+  std::string answer(res);
+  free(res);
+  remove_leading_zeroes_inplace(answer);
+  return answer;
+}
+#endif
 
 std::string multiply(std::string a, std::string b) {
   if (a.empty())
