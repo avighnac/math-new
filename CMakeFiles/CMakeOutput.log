@@ -1,0 +1,14 @@
+The system is: Linux - 5.10.16.3-microsoft-standard-WSL2 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/mnt/c/Users/avigh/Desktop/math-new/CMakeFiles/3.16.3/CompilerIdC/a.out"
+

@@ -131,6 +131,7 @@ std::string subtract_whole(std::string a, std::string b) {
 #else
 extern "C" void _subtract_whole_same_length(const char *a, const char *b,
                                             char *res);
+extern "C" void _subtract_whole(const char *a, const char *b, char *res);
 std::string subtract_whole(std::string a, std::string b) {
   if (a.empty())
     a = "0";
@@ -163,17 +164,15 @@ std::string subtract_whole(std::string a, std::string b) {
     b = b.substr(1, b.length());
   }
 
-  if (a.length() < b.length())
-    a = std::string(b.length() - a.length(), '0') + a;
-  if (b.length() < a.length())
-    b = std::string(a.length() - b.length(), '0') + b;
-
   char *ca = (char *)malloc(a.length() + 1);
   strcpy(ca, a.c_str());
   char *cb = (char *)malloc(b.length() + 1);
   strcpy(cb, b.c_str());
   char *res = (char *)malloc(std::max(a.length(), b.length()) + 5);
-  _subtract_whole_same_length(ca, cb, res);
+  if (a.length() == b.length())
+    _subtract_whole_same_length(ca, cb, res);
+  else
+    _subtract_whole(ca, cb, res);
   std::string answer(res);
   free(ca);
   free(cb);
