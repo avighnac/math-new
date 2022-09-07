@@ -15,6 +15,7 @@ _subtract_whole_same_length:
   ;   - r8
   ;   - r9
   ;   - r10
+  ;   - r11
 
   call   _assembly_strlen
   xor    cl, cl
@@ -64,17 +65,27 @@ _after_subtract_whole_same_length_if_2:
   test   cl, cl
   jz     _subtract_whole_same_length_return
   mov    byte [rdx + rax + 1], 0
-  mov    r10b, 106
-  sub    r10b, byte [rdx + rax - 1]
-  mov    byte [rdx + rax], r10b
-  lea    r8, [rax - 2]
+  lea    r8, [rax - 1]
+  xor    cl, cl
 _subtract_whole_same_length_loop_3:
-  mov    r10b, 105
-  sub    r10b, byte [rdx + r8]
+  mov    r10b, byte [rdx + r8]
+  cmp    r10b, 48
+  jg     _subtract_whole_same_length_else_2
+  test   cl, cl
+  jz     _after_subtract_whole_same_length_else_2
+  mov    r10b, 57
+  jmp    _after_subtract_whole_same_length_else_2
+_subtract_whole_same_length_else_2:
+  mov    r11b, 106
+  sub    r11b, cl
+  sub    r11b, r10b
+  mov    r10b, r11b
+  mov    cl, 1
+_after_subtract_whole_same_length_else_2:
   mov    byte [rdx + r8 + 1], r10b
+  mov    r9, r8
   dec    r8
-  lea    r9, [r8 + 1]
-  cmp    r9, 0
+  test   r9, r9
   jg     _subtract_whole_same_length_loop_3
   mov    byte [rdx], 2DH
 _subtract_whole_same_length_return: ret
@@ -166,13 +177,23 @@ _after_subtract_whole_if_3:
   test   cl, cl
   jz     _subtract_whole_pop_and_ret
   mov    byte [rdx + rax + 1], 0
-  mov    r10b, 106
-  sub    r10b, byte [rdx + rax - 1]
-  mov    byte [rdx + rax], r10b
-  lea    r8, [rax - 2]
+  lea    r8, [rax - 1]
+  xor    cl, cl
 _subtract_whole_loop_3:
-  mov    r10b, 105
-  sub    r10b, byte [rdx + r8]
+  mov    r10b, byte [rdx + r8]
+  cmp    r10b, 48
+  jg     _subtract_whole_else_2
+  test   cl, cl
+  jz     _after_subtract_whole_else_2
+  mov    r10b, 57
+  jmp    _after_subtract_whole_else_2
+_subtract_whole_else_2:
+  mov    r12b, 106
+  sub    r12b, cl
+  sub    r12b, r10b
+  mov    r10b, r12b
+  mov    cl, 1
+_after_subtract_whole_else_2:
   mov    byte [rdx + r8 + 1], r10b
   mov    r9, r8
   dec    r8
