@@ -153,7 +153,6 @@ _divide_whole_loop_6:
   lea   r12, [rax + 2]
   cmp   r10, r12
   js    _divide_whole_loop_6
-_br1:
   push  r15
   push  rdi
   push  rsi
@@ -177,7 +176,6 @@ _br1:
   pop   rax
   lea   rdx, [rcx * 2]
   add   rdx, r8
-_br2:
   call  _subtract_whole
   pop   rcx
   pop   r8
@@ -213,7 +211,6 @@ _divide_whole_loop_7:
   js    _divide_whole_loop_7
   pop   r15
   lea   r12, [rcx * 2]
-_b1:
   cmp   byte [r8 + r12], 2DH
   jz    _after_divide_whole_loop_5
   mov   byte [r8 + r15 + 2], r9b
