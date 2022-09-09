@@ -4,6 +4,7 @@
 #include "../Multiplication Algorithm/multiply.hpp"
 #include "../Subtraction Algorithm/subtract.hpp"
 #include "compare_string.hpp"
+#include <cstdlib>
 #include <map>
 #include <string>
 
@@ -26,19 +27,19 @@ quotientFinder(std::string dividend, std::string divisor,
     xPrevious = x; // Simply setting x_previous
     std::string multiplication = multiplicationTable.find(x)->second;
     if (compare_string(dividend, multiplication) ||
-        remove_leading_zeroes(dividend) == multiplication) { /*
-
-100 (dividend) / 10 (divisor) = 10 (quotient)
-if dividend > divisor * x, x will be incremented.
-For example:
-100 > 10 * 0 ∴ x++
-100 > 10 * 1 ∴ x++
-100 > 10 * 2 ∴ x++
-...
-100 > 10 * 9 ∴ x++
-100 > 10 * 10 is FALSE and x is not incremented. x previous will be equal to x
-now and the loop will break.
-*/
+        remove_leading_zeroes(dividend) == multiplication) {
+      /*
+      100 (dividend) / 10 (divisor) = 10 (quotient)
+      if dividend > divisor * x, x will be incremented.
+      For example:
+      100 > 10 * 0 ∴ x++
+      100 > 10 * 1 ∴ x++
+      100 > 10 * 2 ∴ x++
+      ...
+      100 > 10 * 9 ∴ x++
+      100 > 10 * 10 is FALSE and x is not incremented. x previous will be equal
+      to x now and the loop will break.
+      */
       x = add(x, "1");
     }
   }
@@ -48,6 +49,7 @@ now and the loop will break.
       "1"); // Finally, return x - 1 because x starts off as 1 at declaration.
 }
 
+#if defined(_WIN32)
 std::string divide_whole(std::string dividend, std::string divisor,
                          std::string &modulusOut) {
 
@@ -80,6 +82,28 @@ std::string divide_whole(std::string dividend, std::string divisor,
 
   return remove_leading_zeroes(quotient);
 }
+#else
+extern "C" char *_divide_whole(const char *numerator, const char *denominator,
+                               char *res, size_t bufferSize, char *buffer);
+std::string divide_whole(std::string numerator, std::string denominator,
+                         std::string &modulusOut) {
+  char *res = (char *)calloc(numerator.length() + denominator.length() + 2,
+                             1); // Can potentially allocate less
+  size_t bufferSize = numerator.length() + denominator.length() + 2;
+  char *buffer =
+      (char *)calloc(5 * bufferSize + (denominator.length() + 2) * 10 + 3, 1);
+  char *pointerToModulo = _divide_whole(numerator.c_str(), denominator.c_str(),
+                                        res, bufferSize, buffer);
+  std::string answer(res);
+  std::string modulo(pointerToModulo);
+  free(res);
+  free(buffer);
+  remove_leading_zeroes_inplace(answer);
+  remove_leading_zeroes_inplace(modulo);
+  modulusOut = modulo;
+  return answer;
+}
+#endif
 
 std::string divide_whole(const std::string &dividend,
                          const std::string &divisor) {

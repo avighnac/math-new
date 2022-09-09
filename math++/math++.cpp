@@ -129,6 +129,7 @@ int main(int argCount, char *argument[]) {
           "Multiply",
           "Divide",
           "Fancy Divide (fdivide)",
+          "Modular Division (mdivide)",
           "Square Root",
           "Nth Root (nroot) (experimental)",
           "Fraction Simplifier",
@@ -149,6 +150,7 @@ int main(int argCount, char *argument[]) {
           "Multiply two or more numbers at once.",
           "Divide two numbers.",
           "Divide two numbers, and get your answer as a repeating decimal.",
+          "Divide two numbers with a quotient and a remainder.",
           "The "
           "square root of a number is a number which when multiplied, gives "
           "you the original number back.",
@@ -421,6 +423,19 @@ int main(int argCount, char *argument[]) {
                   << color(" (period " + std::to_string(r2 - r1) + ")",
                            "Magenta")
                   << '\n';
+      }
+    }
+
+    if (function == "mdivide") {
+      if (argCount == 2) {
+        std::cout << "Syntax: math++ mdivide [num1] [num2]. Outputs a quotient "
+                     "and a remainder.\n";
+      }
+      if (argCount >= 4) {
+        std::string modulo;
+        std::string answer = divide_whole(argument[2], argument[3], modulo);
+        std::cout << "Quotient = " << color(answer, "Green")
+                  << ", and remainder = " << color(modulo, "Green") << '\n';
       }
     }
 
