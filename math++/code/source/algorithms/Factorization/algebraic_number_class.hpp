@@ -79,7 +79,7 @@ algebraic_number::algebraic_number(std::string term) {
     std::string constantPowerPart =
         constantString.substr(count + 1, constantString.length() - count + 1);
     std::string finalAnswer = "1";
-    for (auto i = 0; i < std::abs(std::stoll(constantPowerPart)); i++)
+    for (auto i = 0; i < abs(std::stoll(constantPowerPart)); i++)
       finalAnswer = multiply(finalAnswer, constantNonPowerPart);
     if (std::stoll(constantPowerPart) >= 0)
       constantPart = finalAnswer;
@@ -152,7 +152,7 @@ std::string algebraic_number::get_formatted_number() {
 }
 
 size_t algebraic_number::find_first_of(size_t startPos, size_t endPos,
-                                       std::string argument, std::string term) {
+                                      std::string argument, std::string term) {
 
   if (argument == "letter") {
     for (auto i = startPos; i <= endPos; i++) {
@@ -173,8 +173,7 @@ std::string algebraic_number::char_to_str(char charac) {
 }
 
 void erase_algebraic_number(
-    std::vector<algebraic_num::algebraic_number> &algebraicTerms,
-    size_t index) {
+    std::vector<algebraic_num::algebraic_number> &algebraicTerms, size_t index) {
   std::vector<algebraic_num::algebraic_number> answer;
   for (auto i = 0; i < algebraicTerms.size(); i++)
     if (i != index)
@@ -214,7 +213,7 @@ std::string convert_to_readable(
 }
 
 std::vector<algebraic_number> get_terms(std::string expression,
-                                        bool debugPrint = false) {
+                                       bool debugPrint = false) {
   expression.erase(std::remove(expression.begin(), expression.end(), ' '),
                    expression.end()); // Remove spaces
   if (!(expression.length() == 0)) {
@@ -284,7 +283,32 @@ static std::vector<int> turn_to_digits(const std::string &str_n) {
 bool smaller_than(algebraic_number a1, algebraic_number b1) {
   if (multiply(a1.constantPart, "1") == multiply(b1.constantPart, "1"))
     return false;
-  return subtract(a1.constantPart, b1.constantPart)[0] == '-';
+
+  std::string a = a1.constantPart;
+  std::string b = b1.constantPart;
+
+  std::reverse(a.begin(), a.end());
+  std::reverse(b.begin(), b.end());
+
+  std::vector<int> a_vec = turn_to_digits(a);
+  std::vector<int> b_vec = turn_to_digits(b);
+  if (a.length() > b.length())
+    for (auto i = 0; i < a.length() - b.length(); i++)
+      b_vec.push_back(0);
+  if (a.length() < b.length())
+    for (auto i = 0; i < b.length() - a.length(); i++)
+      a_vec.push_back(0);
+  a_vec = reverse_vec(a_vec);
+  b_vec = reverse_vec(b_vec);
+
+  for (int i = 0; i < a_vec.size(); i++) {
+    if (a_vec[i] > b_vec[i])
+      return false;
+    if (a_vec[i] < b_vec[i])
+      return true;
+  }
+
+  return true;
 }
 
 bool greater_than(algebraic_number a1, algebraic_number b1) {

@@ -1,4 +1,6 @@
-#include "../basic_math_operations.hpp"
+#include "../basic_math_operations/basic_math_operations.hpp"
+// #include "libs/CImg/CImg.h"
+// #include "old_bmo.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>

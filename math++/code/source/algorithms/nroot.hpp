@@ -14,9 +14,31 @@ std::vector<int> turn_to_digits(const std::string &str_n) {
 
 bool smaller_than_equal(const std::string &a1,
                         const std::string &b1) { // if a <= b return true;
-  if (multiply(a1, "1") == multiply(b1, "1"))
-    return true;
-  return subtract(a1, b1)[0] == '-';
+  std::string a = a1;
+  std::string b = b1;
+
+  std::reverse(a.begin(), a.end());
+  std::reverse(b.begin(), b.end());
+
+  std::vector<int> a_vec = turn_to_digits(a);
+  std::vector<int> b_vec = turn_to_digits(b);
+  if (a.length() > b.length())
+    for (auto i = 0; i < a.length() - b.length(); i++)
+      b_vec.push_back(0);
+  if (a.length() < b.length())
+    for (auto i = 0; i < b.length() - a.length(); i++)
+      a_vec.push_back(0);
+  a_vec = reverse_vec(a_vec);
+  b_vec = reverse_vec(b_vec);
+
+  for (int i = 0; i < a_vec.size(); i++) {
+    if (a_vec[i] > b_vec[i])
+      return false;
+    if (a_vec[i] < b_vec[i])
+      return true;
+  }
+
+  return true;
 }
 
 #include "old/PrimeFactor/PrimeFactor.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -76,8 +75,8 @@ bool smaller_than(const std::string &a1,
   if (a.length() < b.length())
     for (auto i = 0; i < b.length() - a.length(); i++)
       a_vec.push_back(0);
-  std::reverse(a_vec.begin(), a_vec.end());
-  std::reverse(b_vec.begin(), b_vec.end());
+  a_vec = reverse_vec(a_vec);
+  b_vec = reverse_vec(b_vec);
 
   for (int i = 0; i < a_vec.size(); i++) {
     if (a_vec[i] > b_vec[i])
