@@ -1,0 +1,50 @@
+name: "Math++ Stats"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '18 13 * * 6'
+
+jobs:
+  analyze:
+    name: Math++ Stats
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp' ]
+
+    steps:
+    - name: Set up NASM
+      uses: ilammy/setup-nasm@v1.3.0
+    - name: Checkout repo.
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+        fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+    - name: Declare github short hash.
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    - name: Run math++ tests.
+      uses: actions/checkout@v2
+    - run: |
+       nasm -f elf64 "basic_math_operations/Addition Algorithm/add.asm" -o add.o
+       nasm -f elf64 "basic_math_operations/Subtraction Algorithm/subtract.asm" -o subtract.o
+       nasm -f elf64 "basic_math_operations/Multiplication Algorithm/multiply.asm" -o multiply.o
+       nasm -f elf64 "basic_math_operations/Division Algorithm/divide.asm" -o divide.o
+       nasm -f elf64 "basic_math_operations/_assembly_strlen.asm" -o _assembly_strlen.o
+       nasm -f elf64 "basic_math_operations/_remove_leading_zeroes.asm" -o _remove_leading_zeroes.o
+       g++ basic_math_operations/basic_math_operations_stats/stats.cpp basic_math_operations/basic_math_operations.cpp add.o subtract.o multiply.o divide.o _assembly_strlen.o _remove_leading_zeroes.o -O3 -o stats.out
+       chmod +x stats.out
+       ./stats.out
