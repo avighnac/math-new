@@ -10,6 +10,11 @@
 
 #include "../basic_math_operations/basic_math_operations.hpp"
 
+bool decimal_point_exists(const std::string &);
+size_t decimal_point_location(const std::string &);
+void remove_leading_decimals(std::string &);
+std::string shift_decimal_point(std::string, int);
+
 #include "code/source/algorithms/Simple Interest/simple_interest.hpp"
 #include "code/source/algorithms/simplify_fractions.hpp"
 #include "code/source/algorithms/square_root.hpp"
@@ -713,7 +718,7 @@ int main(int argCount, char *argument[]) {
           } else if (type == "primeFactor") {
             std::string decimal(sumString);
             std::string denominator = "1";
-            while (decimal_point_exists(decimal)) {
+            while (decimal.find('.') != std::string::npos) {
               decimal = shift_decimal_point(decimal, 1);
               denominator += "0";
             }
