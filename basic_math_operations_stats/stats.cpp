@@ -16,27 +16,62 @@ int random_number(int start, int end) {
   return (dist(rng));
 }
 
-class result {
-public:
-  std::string numerator, denominator;
-  std::string quotient, remainder;
-  result(std::string n, std::string d, std::string q, std::string r) {
-    numerator = n;
-    denominator = d;
-    quotient = q;
-    remainder = r;
-  }
-  result() {
-    quotient = "NaN";
-    remainder = "NaN";
-  }
-};
+#define print_res(name)                                                        \
+  std::cout << "name: " << name << "\n";                                       \
+  for (auto i = 0; i < times.size(); i++)                                      \
+    std::cout << i + 1 << ": " << times[i] << '\n';                            \
+  std::cout << "end\n";                                                        \
+  times.clear();
 
 int main() {
-  std::vector<double> divideTimes;
-  std::vector<result> results;
+  std::cout << "Starting tests...\n";
+  std::vector<double> times;
   for (auto i = 1; i <= 5000; i++) {
-    std::cout << "Performing test " << i << ".\n";
+    std::string num1, num2;
+    for (auto j = 0; j < i; j++) {
+      num1.push_back(random_number(0, 9) + 48);
+      num2.push_back(random_number(0, 9) + 48);
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    std::string answer = add_whole(num1, num2);
+    auto end = std::chrono::high_resolution_clock::now();
+    times.push_back(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count());
+  }
+  print_res("add_whole");
+  for (auto i = 1; i <= 5000; i++) {
+    std::string num1, num2;
+    for (auto j = 0; j < i; j++) {
+      num1.push_back(random_number(0, 9) + 48);
+      num2.push_back(random_number(0, 9) + 48);
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    std::string answer = subtract_whole(num1, num2);
+    auto end = std::chrono::high_resolution_clock::now();
+    times.push_back(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count());
+  }
+  print_res("subtract_whole");
+  for (auto i = 1; i <= 5000; i++) {
+    std::string num1, num2;
+    for (auto j = 0; j < i; j++) {
+      num1.push_back(random_number(0, 9) + 48);
+      num2.push_back(random_number(0, 9) + 48);
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    std::string answer = multiply_whole(num1, num2);
+    auto end = std::chrono::high_resolution_clock::now();
+    times.push_back(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count());
+  }
+  print_res("multiply_whole");
+  for (auto i = 1; i <= 5000; i++) {
     std::string numerator, denominator;
     for (auto j = 0; j < i; j++) {
       numerator.push_back(random_number(0, 9) + 48);
@@ -45,36 +80,17 @@ int main() {
 
     while (std::string(i, '0') == denominator) {
       denominator.clear();
-      for (auto j = 0; j < i; j++) {
+      for (auto j = 0; j < i; j++)
         denominator.push_back(random_number(0, 9) + 48);
-      }
     }
 
     std::string modulo;
     auto start = std::chrono::high_resolution_clock::now();
     std::string quotient = divide_whole(numerator, denominator, modulo);
     auto end = std::chrono::high_resolution_clock::now();
-    divideTimes.push_back(
+    times.push_back(
         std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
             .count());
-    results.emplace_back(numerator, denominator, quotient, modulo);
   }
-
-//   int height = (int)std::floor(
-//       *std::max_element(divideTimes.begin(), divideTimes.end()));
-//   cimg_library::CImg<unsigned char> image(divideTimes.size() + 1, height + 1, 1,
-//                                           3, 0);
-//
-//   for (auto i = 0; i < divideTimes.size(); i++) {
-//     for (auto j = 0; j <= divideTimes[i]; j++) {
-//       image(i, height - j, 0, 0) = 0;
-//       image(i, height - j, 0, 1) = 255;
-//       image(i, height - j, 0, 2) = 0;
-//     }
-//   }
-
-  for (auto i = 0; i < divideTimes.size(); i++)
-    std::cout << i + 1 << ": " << divideTimes[i] << '\n';
-
-  // image.save("divideResults.bmp");
+  print_res("divide_whole");
 }

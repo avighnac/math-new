@@ -36,7 +36,7 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-    - name: Run math++ tests.
+    - name: Run math++ stats.
       uses: actions/checkout@v2
     - run: |
        nasm -f elf64 "basic_math_operations/Addition Algorithm/add.asm" -o add.o
