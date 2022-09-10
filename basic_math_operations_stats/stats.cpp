@@ -38,9 +38,10 @@ int main() {
     auto end = std::chrono::high_resolution_clock::now();
     times.push_back(
         std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count());
+            .count() /
+        10);
   }
-  print_res("add_whole");
+  print_res("add_whole shake");
   for (auto i = 1; i <= 5000; i++) {
     std::string num1, num2;
     for (auto j = 0; j < i; j++) {
@@ -53,9 +54,10 @@ int main() {
     auto end = std::chrono::high_resolution_clock::now();
     times.push_back(
         std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count());
+            .count() /
+        10);
   }
-  print_res("subtract_whole");
+  print_res("subtract_whole shake");
   for (auto i = 1; i <= 5000; i++) {
     std::string num1, num2;
     for (auto j = 0; j < i; j++) {
@@ -67,10 +69,10 @@ int main() {
     std::string answer = multiply_whole(num1, num2);
     auto end = std::chrono::high_resolution_clock::now();
     times.push_back(
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
             .count());
   }
-  print_res("multiply_whole");
+  print_res("multiply_whole milliseconds");
   for (auto i = 1; i <= 5000; i++) {
     std::string numerator, denominator;
     for (auto j = 0; j < i; j++) {
@@ -92,5 +94,5 @@ int main() {
         std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
             .count());
   }
-  print_res("divide_whole");
+  print_res("divide_whole milliseconds");
 }
